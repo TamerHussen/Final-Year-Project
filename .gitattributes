@@ -1,2 +1,8 @@
 # Auto detect text files and perform LF normalization
 * text=auto
+
+# Large binary files should use Git LFS
+*.dll filter=lfs diff=lfs merge=lfs
+*.lib filter=lfs diff=lfs merge=lfs
+*.pyd filter=lfs diff=lfs merge=lfs
+*.onnx filter=lfs diff=lfs merge=lfs
