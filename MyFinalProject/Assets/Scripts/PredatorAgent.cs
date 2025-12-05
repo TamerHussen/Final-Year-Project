@@ -1,131 +1,164 @@
 ﻿using UnityEngine;
 using Unity.MLAgents;
-using Unity.MLAgents.Actuators;
 using Unity.MLAgents.Sensors;
+using Unity.MLAgents.Actuators;
 
-[RequireComponent(typeof(Rigidbody))]
 public class PredatorAgent : Agent
 {
-    [Header("Target")]
-    public Transform player;           // The prey
-    public float catchDistance = 1.5f; // How close counts as catching
+    [Header("References")]
+    public Transform player;
+    public Rigidbody rb;
 
-    [Header("Movement")]
-    public float moveSpeed = 10f;
-    public float rotateSpeed = 180f;
+    [Header("Movement Settings")]
+    public float moveForce = 25f;
+    public float turnSpeed = 120f;
 
-    private Rigidbody rb;
-    private float timeSinceLastSeen = 0f;
-    private float episodeTimer = 0f;
-    public float maxEpisodeTime = 30f;
+    [Header("Vision Settings")]
+    public float rayDistance = 15f;
+    public LayerMask visionMask; // walls + player + obstacles
 
-    void Start()
-    {
-        rb = GetComponent<Rigidbody>();
-    }
+    private float lastDistanceToPlayer;
+    private bool lastSeen = false;
+    private float timeSinceSeen = 0f;
 
     public override void OnEpisodeBegin()
     {
-        // Reset internal state
         rb.linearVelocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
 
-        timeSinceLastSeen = 0f;
-        episodeTimer = 0f;
+        lastSeen = false;
+        timeSinceSeen = 0;
 
-        // Reset predator position
-        transform.localPosition = new Vector3(
-            Random.Range(-5f, 5f),
-            1f,
-            Random.Range(-5f, 5f)
-        );
-
-        // Optionally reset player here if needed
+        if (player != null)
+            lastDistanceToPlayer = Vector3.Distance(transform.position, player.position);
     }
 
-    // OBSERVATIONS
+    // ------------------------------------------------------------
+    //  Collect Observations
+    // ------------------------------------------------------------
     public override void CollectObservations(VectorSensor sensor)
     {
-        Vector3 toPlayer = player.position - transform.position;
-        float distance = toPlayer.magnitude;
+        if (player == null)
+        {
+            sensor.AddObservation(0);
+            return;
+        }
 
-        bool isPlayerVisible = HasLineOfSight();
+        // Distance + direction to player
+        float dist = Vector3.Distance(transform.position, player.position);
+        Vector3 direction = (player.position - transform.position).normalized;
 
-        // Observations
-        sensor.AddObservation(distance);
-        sensor.AddObservation(toPlayer.normalized);
+        sensor.AddObservation(dist);
+        sensor.AddObservation(direction);
 
+        // Agent movement
         sensor.AddObservation(rb.linearVelocity);
 
-        sensor.AddObservation(isPlayerVisible ? 1f : 0f);
-        sensor.AddObservation(timeSinceLastSeen);
+        // Line of sight
+        bool visible = CheckLineOfSight();
+        sensor.AddObservation(visible ? 1 : 0);
+        sensor.AddObservation(timeSinceSeen);
+
+        // Add Raycasts
+        AddRaycastObservations(sensor);
     }
 
-    bool HasLineOfSight()
+    void AddRaycastObservations(VectorSensor sensor)
     {
-        Vector3 dir = (player.position - transform.position).normalized;
-
-        if (Physics.Raycast(transform.position, dir, out RaycastHit hit, 50f))
+        Vector3[] rays =
         {
-            return hit.transform == player;
+            transform.forward,
+            Quaternion.Euler(0,-25,0) * transform.forward,
+            Quaternion.Euler(0,25,0) * transform.forward,
+            Quaternion.Euler(0,-50,0) * transform.forward,
+            Quaternion.Euler(0,50,0) * transform.forward
+        };
+
+        foreach (var dir in rays)
+        {
+            if (Physics.Raycast(transform.position, dir, out RaycastHit hit, rayDistance, visionMask))
+            {
+                // Distance normalized
+                sensor.AddObservation(hit.distance / rayDistance);
+
+                // Hit type
+                if (hit.collider.CompareTag("Player"))
+                    sensor.AddObservation(2); // player
+                else
+                    sensor.AddObservation(1); // wall/obstacle
+            }
+            else
+            {
+                sensor.AddObservation(1f); // no hit
+                sensor.AddObservation(0);  // nothing
+            }
+        }
+    }
+
+    bool CheckLineOfSight()
+    {
+        if (Physics.Raycast(transform.position, (player.position - transform.position),
+            out RaycastHit hit, rayDistance, visionMask))
+        {
+            return hit.collider.CompareTag("Player");
         }
         return false;
     }
 
-    // ACTIONS → MOVEMENT
+    // ------------------------------------------------------------
+    // Movement + Full Reward System
+    // ------------------------------------------------------------
     public override void OnActionReceived(ActionBuffers actions)
     {
-        float forward = actions.ContinuousActions[0]; // -1 to 1
-        float strafe = actions.ContinuousActions[1]; // -1 to 1
-        float turn = actions.ContinuousActions[2]; // -1 to 1
+        float forward = actions.ContinuousActions[0]; // move forward/back
+        float strafe = actions.ContinuousActions[1]; // move left/right
+        float turn = actions.ContinuousActions[2]; // rotate
 
-        // Apply movement
-        Vector3 move = (transform.forward * forward + transform.right * strafe) * moveSpeed;
-        rb.AddForce(move, ForceMode.Acceleration);
+        // ★ Movement
+        Vector3 force = transform.forward * forward + transform.right * strafe;
+        rb.AddForce(force * moveForce);
 
-        // Apply turning
-        transform.Rotate(Vector3.up * turn * rotateSpeed * Time.deltaTime);
+        transform.Rotate(0, turn * turnSpeed * Time.fixedDeltaTime, 0);
 
-        // Rewards ---------------------------------------------------
-        Vector3 toPlayer = player.position - transform.position;
-        float distance = toPlayer.magnitude;
+        // --------- ⭐ REWARD SYSTEM ---------
 
         // Small time penalty
         AddReward(-0.0005f);
 
-        // Reward for closing distance
-        AddReward(-(distance * 0.01f));
+        float currentDist = Vector3.Distance(transform.position, player.position);
 
-        // Distance bonus if predator sees the player
-        if (HasLineOfSight())
-            AddReward(+0.002f);
-        else
-            timeSinceLastSeen += Time.deltaTime;
+        // Reward getting closer
+        float distDelta = (lastDistanceToPlayer - currentDist) * 0.01f;
+        AddReward(distDelta);
 
-        // Catching logic
-        if (distance < catchDistance)
+        lastDistanceToPlayer = currentDist;
+
+        // Vision reward
+        bool visible = CheckLineOfSight();
+
+        if (visible)
         {
-            AddReward(+1f);
-            EndEpisode();
+            AddReward(+0.001f); // maintain LOS
+            lastSeen = true;
+            timeSinceSeen = 0f;
         }
-
-        // Episode time
-        episodeTimer += Time.deltaTime;
-        if (episodeTimer >= maxEpisodeTime)
+        else
         {
-            AddReward(-1f);
-            EndEpisode();
+            if (lastSeen)
+                AddReward(-0.002f); // lost target
+
+            lastSeen = false;
+            timeSinceSeen += Time.deltaTime;
         }
     }
 
-    // HEURISTIC for testing without training
-    public override void Heuristic(in ActionBuffers actionsOut)
+    // Trigger when catching the prey
+    private void OnTriggerEnter(Collider other)
     {
-        var c = actionsOut.ContinuousActions;
-
-        c[0] = Input.GetAxis("Vertical");       // forward/back
-        c[1] = Input.GetAxis("Horizontal");     // strafe
-        c[2] = Input.GetKey(KeyCode.Q) ? -1 :
-               Input.GetKey(KeyCode.E) ? 1 : 0; // turn left/right
+        if (other.CompareTag("Player"))
+        {
+            AddReward(+1.0f);  // success catch
+            EndEpisode();
+        }
     }
 }
