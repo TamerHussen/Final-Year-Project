@@ -7,7 +7,7 @@ call D:\GithubProjects\Final-Year-Project\MyFinalProject\mlagents_env\Scripts\ac
 REM === 2. Change directory to your Unity project ===
 cd /d D:\GithubProjects\Final-Year-Project\MyFinalProject
 
-REM === 3. Start training with force overwrite ===
-mlagents-learn Config\predator.yaml --run-id=PredatorRun1 --no-graphics --force
+REM === 3. Resume training ===
+mlagents-learn Config\predator.yaml --run-id=PredatorRun1 --resume --no-graphics
 
 pause
