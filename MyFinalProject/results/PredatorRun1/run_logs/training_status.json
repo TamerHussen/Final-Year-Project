@@ -2,58 +2,58 @@
     "Predator": {
         "checkpoints": [
             {
-                "steps": 499968,
-                "file_path": "results\\PredatorRun1\\Predator\\Predator-499968.onnx",
+                "steps": 3499776,
+                "file_path": "results\\PredatorRun1\\Predator\\Predator-3499776.onnx",
                 "reward": null,
-                "creation_time": 1764937687.2193463,
+                "creation_time": 1764964792.778364,
                 "auxillary_file_paths": [
-                    "results\\PredatorRun1\\Predator\\Predator-499968.pt"
+                    "results\\PredatorRun1\\Predator\\Predator-3499776.pt"
                 ]
             },
             {
-                "steps": 999936,
-                "file_path": "results\\PredatorRun1\\Predator\\Predator-999936.onnx",
+                "steps": 3999744,
+                "file_path": "results\\PredatorRun1\\Predator\\Predator-3999744.onnx",
                 "reward": null,
-                "creation_time": 1764939788.312479,
+                "creation_time": 1764967902.1354468,
                 "auxillary_file_paths": [
-                    "results\\PredatorRun1\\Predator\\Predator-999936.pt"
+                    "results\\PredatorRun1\\Predator\\Predator-3999744.pt"
                 ]
             },
             {
-                "steps": 1499904,
-                "file_path": "results\\PredatorRun1\\Predator\\Predator-1499904.onnx",
+                "steps": 4499968,
+                "file_path": "results\\PredatorRun1\\Predator\\Predator-4499968.onnx",
                 "reward": null,
-                "creation_time": 1764942601.9085972,
+                "creation_time": 1764970729.0322278,
                 "auxillary_file_paths": [
-                    "results\\PredatorRun1\\Predator\\Predator-1499904.pt"
+                    "results\\PredatorRun1\\Predator\\Predator-4499968.pt"
                 ]
             },
             {
-                "steps": 1500032,
-                "file_path": "results\\PredatorRun1\\Predator\\Predator-1500032.onnx",
+                "steps": 4999936,
+                "file_path": "results\\PredatorRun1\\Predator\\Predator-4999936.onnx",
                 "reward": null,
-                "creation_time": 1764942601.9503415,
+                "creation_time": 1764973647.6351278,
                 "auxillary_file_paths": [
-                    "results\\PredatorRun1\\Predator\\Predator-1500032.pt"
+                    "results\\PredatorRun1\\Predator\\Predator-4999936.pt"
                 ]
             },
             {
-                "steps": 1500032,
-                "file_path": "results\\PredatorRun1\\Predator\\Predator-1500032.onnx",
+                "steps": 5000192,
+                "file_path": "results\\PredatorRun1\\Predator\\Predator-5000192.onnx",
                 "reward": null,
-                "creation_time": 1764942973.999061,
+                "creation_time": 1764973647.7911022,
                 "auxillary_file_paths": [
-                    "results\\PredatorRun1\\Predator\\Predator-1500032.pt"
+                    "results\\PredatorRun1\\Predator\\Predator-5000192.pt"
                 ]
             }
         ],
         "final_checkpoint": {
-            "steps": 1500032,
+            "steps": 5000192,
             "file_path": "results\\PredatorRun1\\Predator.onnx",
             "reward": null,
-            "creation_time": 1764942973.999061,
+            "creation_time": 1764973647.7911022,
             "auxillary_file_paths": [
-                "results\\PredatorRun1\\Predator\\Predator-1500032.pt"
+                "results\\PredatorRun1\\Predator\\Predator-5000192.pt"
             ]
         }
     },
