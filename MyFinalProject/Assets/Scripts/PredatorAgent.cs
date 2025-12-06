@@ -130,7 +130,6 @@ public class PredatorAgent : Agent
         // Reward getting closer
         float distDelta = (lastDistanceToPlayer - currentDist) * 0.01f;
         AddReward(distDelta);
-
         lastDistanceToPlayer = currentDist;
 
         // Vision reward
@@ -150,6 +149,18 @@ public class PredatorAgent : Agent
             lastSeen = false;
             timeSinceSeen += Time.deltaTime;
         }
+        if (StepCount >= MaxStep)
+        {
+            AddReward(-0.5f); // penalty for failing to catch player in time
+            EndEpisode();
+        }
+        if (Vector3.Distance(transform.position, player.position) < 1f)
+        {
+            AddReward(1.0f); // reward for catching player
+            EndEpisode();
+        }
+
+
     }
 
     // Trigger when catching the prey
