@@ -117,8 +117,8 @@ namespace TobyFredson
 				matsGlobalController.Clear();
 				registeredRenderers.Clear();
 
-				var renderers = FindObjectsOfType<Renderer>();
-				int batchSize = 100;
+                var renderers = FindObjectsByType<Renderer>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+                int batchSize = 100;
 				for (int i = 0; i < renderers.Length; i += batchSize)
 				{
 					int end = Mathf.Min(i + batchSize, renderers.Length);

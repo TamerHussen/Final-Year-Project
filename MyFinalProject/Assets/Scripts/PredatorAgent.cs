@@ -21,6 +21,12 @@ public class PredatorAgent : Agent
     private bool lastSeen = false;
     private float timeSinceSeen = 0f;
 
+    void Awake()
+    {
+        if (player == null)
+            player = GameObject.FindWithTag("Player")?.transform;
+    }
+
     public override void OnEpisodeBegin()
     {
         rb.linearVelocity = Vector3.zero;
@@ -40,7 +46,8 @@ public class PredatorAgent : Agent
     {
         if (player == null)
         {
-            sensor.AddObservation(0);
+            for (int i = 0; i < 19; i++)
+                sensor.AddObservation(0);
             return;
         }
 
