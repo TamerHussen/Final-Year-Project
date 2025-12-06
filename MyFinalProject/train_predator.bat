@@ -8,6 +8,6 @@ REM === 2. Change directory to your Unity project ===
 cd /d D:\GithubProjects\Final-Year-Project\MyFinalProject
 
 REM === 3. Start training with force overwrite ===
-mlagents-learn Config\predator.yaml --run-id=PredatorRun1 --no-graphics --force
+mlagents-learn Config\predator.yaml --run-id=PredatorRun1 --results-dir=D:\MLAgentsResults --no-graphics --force
 
 pause
