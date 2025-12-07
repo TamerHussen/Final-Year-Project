@@ -21,6 +21,6 @@ behaviors:
         gamma: 0.99
         strength: 1.0
 
-    max_steps: 500000
+    max_steps: 1500000
     time_horizon: 256
     summary_freq: 20000

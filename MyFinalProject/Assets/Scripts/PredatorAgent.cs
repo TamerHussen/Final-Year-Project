@@ -15,7 +15,7 @@ public class PredatorAgent : Agent
 
     [Header("Vision Settings")]
     public float rayDistance = 15f;
-    public LayerMask visionMask; // walls + player + obstacles
+    public LayerMask visionMask; // walls, player, obstacles
 
     private float lastDistanceToPlayer;
     private bool lastSeen = false;
@@ -29,8 +29,14 @@ public class PredatorAgent : Agent
         lastSeen = false;
         timeSinceSeen = 0;
 
-        if (player != null)
-            lastDistanceToPlayer = Vector3.Distance(transform.position, player.position);
+        // randomises respawn for better ml agen learning
+        Vector3 PredatorPos = new Vector3(Random.Range(-8f, 8f), 0.5f, Random.Range(-8f,8f));
+        Vector3 PlayerPos = new Vector3(Random.Range(-8f, 8f), 0.5f, Random.Range(-8f, 8f));
+
+        transform.position = PredatorPos;
+        player.position = PlayerPos;
+
+        lastDistanceToPlayer = Vector3.Distance(transform.position, player.position);
     }
 
     // ------------------------------------------------------------
@@ -52,6 +58,13 @@ public class PredatorAgent : Agent
 
         sensor.AddObservation(dist);
         sensor.AddObservation(direction);
+
+        // turning behaviour
+        Vector3 localDir = transform.InverseTransformDirection(direction);
+        sensor.AddObservation(localDir);
+
+        // Speed Observer
+        sensor.AddObservation(player.GetComponent<Rigidbody>().linearVelocity.magnitude);
 
         // Agent movement
         sensor.AddObservation(rb.linearVelocity);
@@ -117,7 +130,7 @@ public class PredatorAgent : Agent
         float strafe = actions.ContinuousActions[1]; // move left/right
         float turn = actions.ContinuousActions[2]; // rotate
 
-        // ★ Movement
+        // Movement
         Vector3 force = transform.forward * forward + transform.right * strafe;
         rb.AddForce(force * moveForce);
 
@@ -126,7 +139,7 @@ public class PredatorAgent : Agent
         // --------- ⭐ REWARD SYSTEM ---------
 
         // Small time penalty
-        AddReward(-0.05f);
+        AddReward(-0.001f);
 
         float currentDist = Vector3.Distance(transform.position, player.position);
 
