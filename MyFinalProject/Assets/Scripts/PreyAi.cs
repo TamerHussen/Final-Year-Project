@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class PreyAi : MonoBehaviour
 {
-    public float moveSpeed = 3f;
+    public float moveSpeed = 1.5f;
     public float turnSpeed = 120f;
     public float changeDirectionInterval = 2f;
     public CharacterController controller;

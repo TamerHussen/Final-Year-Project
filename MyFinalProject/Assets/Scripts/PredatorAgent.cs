@@ -10,8 +10,8 @@ public class PredatorAgent : Agent
     public Rigidbody rb;
 
     [Header("Movement Settings")]
-    public float moveForce = 15f;
-    public float turnSpeed = 90f;
+    public float moveForce = 50f;
+    public float turnSpeed = 180f;
 
     [Header("Vision Settings")]
     public float rayDistance = 15f;
