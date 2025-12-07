@@ -123,11 +123,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1108205595071255827}
   - component: {fileID: 1021870324193481915}
-  - component: {fileID: 6228324854496594343}
   - component: {fileID: 4584579775078337863}
   - component: {fileID: 4908088892887919949}
   - component: {fileID: 5213550672313973455}
-  - component: {fileID: 7904505533354351769}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Enemy
@@ -182,22 +180,6 @@ MonoBehaviour:
   m_UseChildActuators: 1
   m_DeterministicInference: 0
   m_ObservableAttributeHandling: 0
---- !u!114 &6228324854496594343
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3605024518256784535}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 88b6042bc9a5d4aa58d931eae49442e5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.ML-Agents::Unity.MLAgents.Agent
-  agentParameters:
-    maxStep: 0
-  hasUpgradedFromAgentParameters: 1
-  MaxStep: 500000
 --- !u!114 &4584579775078337863
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -223,7 +205,7 @@ Rigidbody:
   serializedVersion: 5
   m_Mass: 1
   m_LinearDamping: 0
-  m_AngularDamping: 0.05
+  m_AngularDamping: 5
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -237,9 +219,9 @@ Rigidbody:
   m_ImplicitTensor: 1
   m_UseGravity: 1
   m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
+  m_Interpolate: 1
+  m_Constraints: 80
+  m_CollisionDetection: 1
 --- !u!114 &5213550672313973455
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -255,35 +237,12 @@ MonoBehaviour:
   agentParameters:
     maxStep: 0
   hasUpgradedFromAgentParameters: 1
-  MaxStep: 500000
+  MaxStep: 5000
   player: {fileID: 445218847966011971, guid: 772b35ef65518bd4a8520a8e8c6e1fcb, type: 3}
   rb: {fileID: 4908088892887919949}
-  moveForce: 25
-  turnSpeed: 120
-  rayDistance: 15
+  moveForce: 50
+  turnSpeed: 180
+  rayDistance: 10
   visionMask:
     serializedVersion: 2
     m_Bits: 193
---- !u!136 &7904505533354351769
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3605024518256784535}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}

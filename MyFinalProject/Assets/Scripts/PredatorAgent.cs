@@ -10,8 +10,8 @@ public class PredatorAgent : Agent
     public Rigidbody rb;
 
     [Header("Movement Settings")]
-    public float moveForce = 25f;
-    public float turnSpeed = 120f;
+    public float moveForce = 50f;
+    public float turnSpeed = 180f;
 
     [Header("Vision Settings")]
     public float rayDistance = 15f;
@@ -20,12 +20,6 @@ public class PredatorAgent : Agent
     private float lastDistanceToPlayer;
     private bool lastSeen = false;
     private float timeSinceSeen = 0f;
-
-    void Awake()
-    {
-        if (player == null)
-            player = GameObject.FindWithTag("Player")?.transform;
-    }
 
     public override void OnEpisodeBegin()
     {
@@ -44,12 +38,13 @@ public class PredatorAgent : Agent
     // ------------------------------------------------------------
     public override void CollectObservations(VectorSensor sensor)
     {
-        if (player == null)
+        if (player == null || rb == null)
         {
             for (int i = 0; i < 19; i++)
-                sensor.AddObservation(0);
+                sensor.AddObservation(0f);
             return;
         }
+        Debug.Log("collection for agent" + gameObject.name);
 
         // Distance + direction to player
         float dist = Vector3.Distance(transform.position, player.position);
@@ -63,11 +58,12 @@ public class PredatorAgent : Agent
 
         // Line of sight
         bool visible = CheckLineOfSight();
-        sensor.AddObservation(visible ? 1 : 0);
+        sensor.AddObservation(visible ? 1f : 0f);
         sensor.AddObservation(timeSinceSeen);
 
         // Add Raycasts
         AddRaycastObservations(sensor);
+
     }
 
     void AddRaycastObservations(VectorSensor sensor)
@@ -90,14 +86,14 @@ public class PredatorAgent : Agent
 
                 // Hit type
                 if (hit.collider.CompareTag("Player"))
-                    sensor.AddObservation(2); // player
+                    sensor.AddObservation(2f); // player
                 else
-                    sensor.AddObservation(1); // wall/obstacle
+                    sensor.AddObservation(1f); // wall/obstacle
             }
             else
             {
                 sensor.AddObservation(1f); // no hit
-                sensor.AddObservation(0);  // nothing
+                sensor.AddObservation(0f);  // nothing
             }
         }
     }
@@ -130,13 +126,14 @@ public class PredatorAgent : Agent
         // --------- ⭐ REWARD SYSTEM ---------
 
         // Small time penalty
-        AddReward(-0.0005f);
+        AddReward(-0.05f);
 
         float currentDist = Vector3.Distance(transform.position, player.position);
 
         // Reward getting closer
-        float distDelta = (lastDistanceToPlayer - currentDist) * 0.01f;
-        AddReward(distDelta);
+        if (currentDist < lastDistanceToPlayer)
+            AddReward((lastDistanceToPlayer - currentDist) * 0.1f);
+
         lastDistanceToPlayer = currentDist;
 
         // Vision reward
@@ -144,14 +141,14 @@ public class PredatorAgent : Agent
 
         if (visible)
         {
-            AddReward(+0.001f); // maintain LOS
+            AddReward(0.02f); // maintain LOS
             lastSeen = true;
             timeSinceSeen = 0f;
         }
         else
         {
             if (lastSeen)
-                AddReward(-0.002f); // lost target
+                AddReward(-0.02f * Mathf.Min(timeSinceSeen, 3f)); // lost target
 
             lastSeen = false;
             timeSinceSeen += Time.deltaTime;
@@ -169,6 +166,16 @@ public class PredatorAgent : Agent
 
 
     }
+
+    
+    public override void Heuristic(in ActionBuffers actionsOut) // add model asset if starting without training to avoid error/
+    {
+        var continuousActionsOut = actionsOut.ContinuousActions;
+        continuousActionsOut[0] = 0f;
+        continuousActionsOut[1] = 0f;
+        continuousActionsOut[2] = 0f;
+    }
+
 
     // Trigger when catching the prey
     private void OnTriggerEnter(Collider other)
