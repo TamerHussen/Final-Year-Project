@@ -13,8 +13,8 @@ behaviors:
 
     network_settings:
       normalize: true
-      hidden_units: 256
-      num_layers: 2
+      hidden_units: 512
+      num_layers: 3
       memory:
         memory_size: 128
         sequence_length: 64
