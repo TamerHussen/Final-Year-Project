@@ -241,8 +241,8 @@ MonoBehaviour:
   MaxStep: 10000
   player: {fileID: 445218847966011971, guid: 772b35ef65518bd4a8520a8e8c6e1fcb, type: 3}
   rb: {fileID: 4908088892887919949}
-  moveForce: 15
-  turnSpeed: 90
+  moveForce: 50
+  turnSpeed: 180
   rayDistance: 10
   visionMask:
     serializedVersion: 2

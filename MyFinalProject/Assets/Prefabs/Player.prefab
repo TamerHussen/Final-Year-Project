@@ -344,7 +344,7 @@ MonoBehaviour:
   moveSpeed: 3
   turnSpeed: 120
   changeDirectionInterval: 2
-  controller: {fileID: 0}
+  controller: {fileID: 8179435976269048000}
 --- !u!1 &8902219593640443603
 GameObject:
   m_ObjectHideFlags: 0
