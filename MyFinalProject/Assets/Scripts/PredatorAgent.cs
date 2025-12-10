@@ -194,7 +194,6 @@ public class PredatorAgent : Agent
 
     }
 
-
     public override void Heuristic(in ActionBuffers actionsOut) // add model asset if starting without training to avoid error/
     {
         var continuousActionsOut = actionsOut.ContinuousActions;
@@ -212,5 +211,37 @@ public class PredatorAgent : Agent
             AddReward(+1.0f);  // success catch
             EndEpisode();
         }
+    }
+
+    private void OnDrawGizmos()
+    {
+        if (player == null) return;
+
+        // vision cone
+        Gizmos.color = new Color(1f, 0.5f, 0f, 0.25f); // transparent colour
+        Gizmos.DrawFrustum(transform.position, 60f, rayDistance, 0.1f, 1f);
+
+        // raycast direction
+        Gizmos.color = Color.yellow;
+        Vector3[] rays =
+        {
+            transform.forward,
+            Quaternion.Euler(0,-25,0) * transform.forward,
+            Quaternion.Euler(0,25,0) * transform.forward,
+            Quaternion.Euler(0,-50,0) * transform.forward,
+            Quaternion.Euler(0,50,0) * transform.forward
+
+        };
+
+        foreach (var dir in rays)
+            Gizmos.DrawRay(transform.position, dir * rayDistance);
+
+        // hearing radius
+        Gizmos.color = new Color(0f, 0f, 1f, 0.15f);
+        Gizmos.DrawWireSphere(transform.position, 12f);
+
+        // trail line
+        Gizmos.color = Color.green;
+        Gizmos.DrawLine(transform.position, TrailMarker.LastTrailPos);
     }
 }

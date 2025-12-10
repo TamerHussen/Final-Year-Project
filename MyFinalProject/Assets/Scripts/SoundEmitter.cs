@@ -10,4 +10,10 @@ public class SoundEmitter : MonoBehaviour
         LastSoundPos = pos;
         LastSoundVolume = volume;
     }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.blue;
+        Gizmos.DrawSphere(LastSoundPos, 0.3f);
+    }
 }

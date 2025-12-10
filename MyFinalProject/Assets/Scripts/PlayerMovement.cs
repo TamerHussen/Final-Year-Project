@@ -128,6 +128,19 @@ public class PlayerMovement : MonoBehaviour
         characterController.Move(moveDirection * Time.deltaTime);
 
         previousPosition = transform.position;
+
+        float movementSpeeed = characterController.velocity.magnitude; // footsteps equal sound
+
+        if (movementSpeeed > 0.5f) // walking sound
+        {
+            SoundEmitter.Emit(transform.position, movementSpeeed);
+        }
+
+        if (isSprinting && movementSpeeed > 1f) // louder sound when sprinting
+        {
+            SoundEmitter.Emit(transform.position, movementSpeeed * 1.5f);
+        }
+
     }
 
     // VIEW / CAMERA
