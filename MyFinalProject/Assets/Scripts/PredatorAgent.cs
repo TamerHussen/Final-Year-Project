@@ -114,6 +114,10 @@ public class PredatorAgent : Agent
                 // Hit type
                 if (hit.collider.CompareTag("Player"))
                     sensor.AddObservation(2f); // player
+                else if (hit.collider.CompareTag("SolidObj"))
+                    sensor.AddObservation(1.5f); // blocks vision or path
+                else if (hit.collider.CompareTag("SoftObj"))
+                    sensor.AddObservation(1.0f); // hiding spots
                 else
                     sensor.AddObservation(1f); // wall/obstacle
             }
@@ -222,25 +226,21 @@ public class PredatorAgent : Agent
         int segments = 16;
 
         Vector3 origin = transform.position;
-        Vector3 forward = transform.forward;
 
         // draws the circle at max distance
-        for (int i = 0; i < segments; i++)
+        for (int i = -segments / 2; i < segments / 2; i++)
         {
-            float angleA = (i / (float)segments) * 360;
-            float angleB = ((i + 1) / (float)segments) * 360;
+            float angleA = halfFov * (i / (float)segments);
+            float angleB = halfFov * ((i + 1) / (float)segments);
 
-            Quaternion rotA = Quaternion.AngleAxis(angleA, forward);
-            Quaternion rotB = Quaternion.AngleAxis(angleB, forward);
+            Vector3 dirA = Quaternion.Euler(0, angleA, 0 ) * transform.forward;
+            Vector3 dirB = Quaternion.Euler(0, angleB, 0) * transform.forward;
 
-            Vector3 dirA = (Quaternion.AngleAxis(halfFov, transform.right) * transform.forward);
-            Vector3 dirB = dirA;
+            Vector3 pointA = origin + dirA * rayDistance;
+            Vector3 pointB = origin + dirB * rayDistance;
 
-            Vector3 pointA = origin + rotA * dirA * rayDistance;
-            Vector3 pointB = origin + rotB * dirB * rayDistance;
-
-            Gizmos.DrawLine(pointA, pointB);
             Gizmos.DrawLine(origin, pointA);
+            Gizmos.DrawLine(pointA, pointB);
 
         }
     }

@@ -3277,6 +3277,10 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 1037723764}
+    - target: {fileID: 5213550672313973455, guid: cd7f4f1154117364693bad3800c3c6e2, type: 3}
+      propertyPath: rayDistance
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 6228324854496594343, guid: cd7f4f1154117364693bad3800c3c6e2, type: 3}
       propertyPath: m_Enabled
       value: 0
