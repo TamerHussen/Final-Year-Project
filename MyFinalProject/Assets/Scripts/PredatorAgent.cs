@@ -29,9 +29,10 @@ public class PredatorAgent : Agent
         lastSeen = false;
         timeSinceSeen = 0;
 
+
         // randomises respawn for better ml agen learning
-        Vector3 PredatorPos = new Vector3(Random.Range(-8f, 8f), 0.5f, Random.Range(-8f,8f));
-        Vector3 PlayerPos = new Vector3(Random.Range(-8f, 8f), 0.5f, Random.Range(-8f, 8f));
+        Vector3 PredatorPos = new Vector3(Random.Range(-8f, 8f), 1.5f, Random.Range(-8f, 8f));
+        Vector3 PlayerPos = new Vector3(Random.Range(-8f, 8f), 1.5f, Random.Range(-8f, 8f));
 
         transform.position = PredatorPos;
         player.position = PlayerPos;
@@ -50,7 +51,6 @@ public class PredatorAgent : Agent
                 sensor.AddObservation(0f);
             return;
         }
-        Debug.Log("collection for agent" + gameObject.name);
 
         // Distance + direction to player
         float dist = Vector3.Distance(transform.position, player.position);
@@ -64,15 +64,29 @@ public class PredatorAgent : Agent
         sensor.AddObservation(localDir);
 
         // Speed Observer
-        sensor.AddObservation(player.GetComponent<Rigidbody>().linearVelocity.magnitude);
+        sensor.AddObservation(player.GetComponent<CharacterController>().velocity.magnitude);
 
         // Agent movement
         sensor.AddObservation(rb.linearVelocity);
+
+        // Field of view angle
+        float angle = Vector3.Angle(transform.forward, (player.position - transform.position));
+        sensor.AddObservation(angle / 100f);
 
         // Line of sight
         bool visible = CheckLineOfSight();
         sensor.AddObservation(visible ? 1f : 0f);
         sensor.AddObservation(timeSinceSeen);
+
+        // Hearing
+        Vector3 soundDir = SoundEmitter.LastSoundPos - transform.position;
+        sensor.AddObservation(transform.InverseTransformDirection(soundDir.normalized));
+        sensor.AddObservation(SoundEmitter.LastSoundVolume);
+
+        // Scent Trail
+        Vector3 scentDir = TrailMarker.LastTrailPos - transform.position;
+        sensor.AddObservation(transform.InverseTransformDirection(scentDir.normalized));
+        sensor.AddObservation(Vector3.Distance(transform.position, TrailMarker.LastTrailPos) / 20f);
 
         // Add Raycasts
         AddRaycastObservations(sensor);
@@ -180,7 +194,7 @@ public class PredatorAgent : Agent
 
     }
 
-    
+
     public override void Heuristic(in ActionBuffers actionsOut) // add model asset if starting without training to avoid error/
     {
         var continuousActionsOut = actionsOut.ContinuousActions;
