@@ -153,7 +153,7 @@ public class PredatorAgent : Agent
         // --------- ⭐ REWARD SYSTEM ---------
 
         // Small time penalty
-        AddReward(-0.001f);
+        AddReward(-0.0002f);
 
         float currentDist = Vector3.Distance(transform.position, player.position);
 
@@ -168,7 +168,7 @@ public class PredatorAgent : Agent
 
         if (visible)
         {
-            AddReward(0.02f); // maintain LOS
+            AddReward(0.005f); // maintain LOS
             lastSeen = true;
             timeSinceSeen = 0f;
         }
@@ -182,7 +182,7 @@ public class PredatorAgent : Agent
         }
         if (StepCount >= MaxStep)
         {
-            AddReward(-0.5f); // penalty for failing to catch player in time
+            AddReward(-0.1f); // penalty for failing to catch player in time
             EndEpisode();
         }
         if (Vector3.Distance(transform.position, player.position) < 1f)
