@@ -86,7 +86,7 @@ public class PredatorAgent : Agent
         // Scent Trail
         Vector3 scentDir = TrailMarker.LastTrailPos - transform.position;
         sensor.AddObservation(transform.InverseTransformDirection(scentDir.normalized));
-        sensor.AddObservation(Vector3.Distance(transform.position, TrailMarker.LastTrailPos) / 20f);
+        sensor.AddObservation(Mathf.Clamp01(Vector3.Distance(transform.position, TrailMarker.LastTrailPos) / rayDistance));
 
         // Add Raycasts
         AddRaycastObservations(sensor);
