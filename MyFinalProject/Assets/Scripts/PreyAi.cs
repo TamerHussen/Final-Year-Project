@@ -37,6 +37,13 @@ public class PreyAi : MonoBehaviour
         Vector3 horizontalMove = transform.forward * moveSpeed;
         horizontalMove.y -= 9.81f * Time.deltaTime; // gravity
         controller.Move(horizontalMove * Time.deltaTime);
+
+        float speed = controller.velocity.magnitude;
+        if (speed > 0.3f)
+            SoundEmitter.Emit(transform.position, speed * 0.5f);
+
+        if (Random.value < 0.2f)
+            TrailMarker.LastTrailPos = transform.position;
     }
 
 
