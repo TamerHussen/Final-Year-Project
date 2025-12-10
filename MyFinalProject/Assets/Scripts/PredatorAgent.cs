@@ -213,13 +213,44 @@ public class PredatorAgent : Agent
         }
     }
 
+    private void DrawVisionCone()
+    {
+        Gizmos.color = new Color(1f, 0.5f, 0f, 0.25f); // transparent colour
+
+        float fov = 60f;
+        float halfFov = fov * 0.5f;
+        int segments = 16;
+
+        Vector3 origin = transform.position;
+        Vector3 forward = transform.forward;
+
+        // draws the circle at max distance
+        for (int i = 0; i < segments; i++)
+        {
+            float angleA = (i / (float)segments) * 360;
+            float angleB = ((i + 1) / (float)segments) * 360;
+
+            Quaternion rotA = Quaternion.AngleAxis(angleA, forward);
+            Quaternion rotB = Quaternion.AngleAxis(angleB, forward);
+
+            Vector3 dirA = (Quaternion.AngleAxis(halfFov, transform.right) * transform.forward);
+            Vector3 dirB = dirA;
+
+            Vector3 pointA = origin + rotA * dirA * rayDistance;
+            Vector3 pointB = origin + rotB * dirB * rayDistance;
+
+            Gizmos.DrawLine(pointA, pointB);
+            Gizmos.DrawLine(origin, pointA);
+
+        }
+    }
+
     private void OnDrawGizmos()
     {
         if (player == null) return;
 
         // vision cone
-        Gizmos.color = new Color(1f, 0.5f, 0f, 0.25f); // transparent colour
-        Gizmos.DrawFrustum(transform.position, 60f, rayDistance, 0.1f, 1f);
+        DrawVisionCone();
 
         // raycast direction
         Gizmos.color = Color.yellow;
