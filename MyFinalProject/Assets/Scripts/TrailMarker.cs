@@ -4,10 +4,17 @@ public class TrailMarker : MonoBehaviour
 {
     public static Vector3 LastTrailPos;
 
+    private float TrailTimer = 0f;
+    public float TrailInterval = 0.5f;
+
     private void Update()
     {
-        if (Random.value < 0.05f) // trail every 20 frames
+        TrailTimer += Time.deltaTime;
+        if (TrailTimer >= TrailInterval) // trail updates every interval
+        {
             LastTrailPos = transform.position;
+            TrailTimer = 0f;
+        }
     }
 
     private void OnDrawGizmos()

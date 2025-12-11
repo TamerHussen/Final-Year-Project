@@ -8,7 +8,7 @@ public class SoundEmitter : MonoBehaviour
     public static void Emit(Vector3 pos, float volume)
     {
         LastSoundPos = pos;
-        LastSoundVolume = volume;
+        LastSoundVolume = Mathf.Clamp01(volume);
     }
 
     private void OnDrawGizmos()
