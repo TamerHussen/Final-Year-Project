@@ -117,7 +117,10 @@ public class PlayerMovement : MonoBehaviour
         horizontalMovement *= speed;
 
         if (characterController.isGrounded)
+        {
             isGrounded = true;
+            moveDirection.y = -1f;
+        }
 
         moveDirection.x = horizontalMovement.x;
         moveDirection.z = horizontalMovement.z;
