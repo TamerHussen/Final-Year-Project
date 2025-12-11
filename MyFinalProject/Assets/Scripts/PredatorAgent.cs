@@ -1,7 +1,8 @@
-﻿using UnityEngine;
-using Unity.MLAgents;
-using Unity.MLAgents.Sensors;
+﻿using Unity.MLAgents;
 using Unity.MLAgents.Actuators;
+using Unity.MLAgents.Sensors;
+using Unity.VisualScripting.Dependencies.Sqlite;
+using UnityEngine;
 
 public class PredatorAgent : Agent
 {
@@ -18,7 +19,6 @@ public class PredatorAgent : Agent
     public LayerMask visionMask; // walls, player, obstacles
 
     private float lastDistanceToPlayer;
-    private bool lastSeen = false;
     private float timeSinceSeen = 0f;
 
     public override void OnEpisodeBegin()
@@ -26,7 +26,6 @@ public class PredatorAgent : Agent
         rb.linearVelocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
 
-        lastSeen = false;
         timeSinceSeen = 0;
 
 
@@ -45,48 +44,40 @@ public class PredatorAgent : Agent
     // ------------------------------------------------------------
     public override void CollectObservations(VectorSensor sensor)
     {
-        if (player == null || rb == null)
-        {
-            for (int i = 0; i < 19; i++)
-                sensor.AddObservation(0f);
-            return;
-        }
 
-        // Distance + direction to player
         float dist = Vector3.Distance(transform.position, player.position);
         Vector3 direction = (player.position - transform.position).normalized;
 
-        sensor.AddObservation(dist);
-        sensor.AddObservation(direction);
-
-        // turning behaviour
-        Vector3 localDir = transform.InverseTransformDirection(direction);
-        sensor.AddObservation(localDir);
-
-        // Speed Observer
-        sensor.AddObservation(player.GetComponent<CharacterController>().velocity.magnitude);
+        // Distance + direction to player
+        sensor.AddObservation(dist / 20f);
+        sensor.AddObservation(transform.InverseTransformDirection(direction));
 
         // Agent movement
-        sensor.AddObservation(rb.linearVelocity);
-
-        // Field of view angle
-        float angle = Vector3.Angle(transform.forward, (player.position - transform.position));
-        sensor.AddObservation(angle / 100f);
+        sensor.AddObservation(rb.linearVelocity / 10f);
 
         // Line of sight
         bool visible = CheckLineOfSight();
         sensor.AddObservation(visible ? 1f : 0f);
-        sensor.AddObservation(timeSinceSeen);
+
+        // time since seen
+        sensor.AddObservation(Mathf.Clamp01(timeSinceSeen / 5f));
 
         // Hearing
         Vector3 soundDir = SoundEmitter.LastSoundPos - transform.position;
-        sensor.AddObservation(transform.InverseTransformDirection(soundDir.normalized));
-        sensor.AddObservation(SoundEmitter.LastSoundVolume);
+        if (soundDir.sqrMagnitude < 0.01f)
+            sensor.AddObservation(Vector3.zero);
+        else
+            sensor.AddObservation(transform.InverseTransformDirection(soundDir.normalized));
+        sensor.AddObservation(Mathf.Clamp01(SoundEmitter.LastSoundVolume));
 
-        // Scent Trail
+        // Scent Trail        
         Vector3 scentDir = TrailMarker.LastTrailPos - transform.position;
-        sensor.AddObservation(transform.InverseTransformDirection(scentDir.normalized));
+        if (scentDir.sqrMagnitude < 0.01f)
+            sensor.AddObservation(Vector3.zero);
+        else
+            sensor.AddObservation(transform.InverseTransformDirection(scentDir.normalized));
         sensor.AddObservation(Mathf.Clamp01(Vector3.Distance(transform.position, TrailMarker.LastTrailPos) / rayDistance));
+
 
         // Add Raycasts
         AddRaycastObservations(sensor);
@@ -119,7 +110,7 @@ public class PredatorAgent : Agent
                 else if (hit.collider.CompareTag("SoftObj"))
                     sensor.AddObservation(1.0f); // hiding spots
                 else
-                    sensor.AddObservation(1f); // wall/obstacle
+                    sensor.AddObservation(0.5f);
             }
             else
             {
@@ -131,7 +122,7 @@ public class PredatorAgent : Agent
 
     bool CheckLineOfSight()
     {
-        if (Physics.Raycast(transform.position, (player.position - transform.position),
+        if (Physics.Raycast(transform.position, player.position - transform.position, 
             out RaycastHit hit, rayDistance, visionMask))
         {
             return hit.collider.CompareTag("Player");
@@ -149,52 +140,38 @@ public class PredatorAgent : Agent
         float turn = actions.ContinuousActions[2]; // rotate
 
         // Movement
-        Vector3 force = transform.forward * forward + transform.right * strafe;
-        rb.AddForce(force * moveForce);
+        rb.AddForce((transform.forward * forward + transform.right * strafe) * moveForce);
+        transform.Rotate(0, turn * turnSpeed * Time.fixedDeltaTime, 0f);
 
-        transform.Rotate(0, turn * turnSpeed * Time.fixedDeltaTime, 0);
-
-        // --------- ⭐ REWARD SYSTEM ---------
+        // --------- REWARD SYSTEM ---------
 
         // Small time penalty
         AddReward(-0.0002f);
 
-        float currentDist = Vector3.Distance(transform.position, player.position);
-
         // Reward getting closer
+        float currentDist = Vector3.Distance(transform.position, player.position);
         if (currentDist < lastDistanceToPlayer)
             AddReward((lastDistanceToPlayer - currentDist) * 0.1f);
 
         lastDistanceToPlayer = currentDist;
 
         // Vision reward
-        bool visible = CheckLineOfSight();
-
-        if (visible)
+        if (CheckLineOfSight())
         {
             AddReward(0.005f); // maintain LOS
-            lastSeen = true;
             timeSinceSeen = 0f;
         }
         else
         {
-            if (lastSeen)
-                AddReward(-0.02f * Mathf.Min(timeSinceSeen, 3f)); // lost target
-
-            lastSeen = false;
+            AddReward(-0.001f); // lost target
             timeSinceSeen += Time.deltaTime;
         }
+
         if (StepCount >= MaxStep)
         {
             AddReward(-0.1f); // penalty for failing to catch player in time
             EndEpisode();
         }
-        if (Vector3.Distance(transform.position, player.position) < 1f)
-        {
-            AddReward(1.0f); // reward for catching player
-            EndEpisode();
-        }
-
 
     }
 
@@ -212,7 +189,7 @@ public class PredatorAgent : Agent
     {
         if (other.CompareTag("Player"))
         {
-            AddReward(+1.0f);  // success catch
+            AddReward(1.0f);  // success catch
             EndEpisode();
         }
     }
@@ -233,7 +210,7 @@ public class PredatorAgent : Agent
             float angleA = halfFov * (i / (float)segments);
             float angleB = halfFov * ((i + 1) / (float)segments);
 
-            Vector3 dirA = Quaternion.Euler(0, angleA, 0 ) * transform.forward;
+            Vector3 dirA = Quaternion.Euler(0, angleA, 0) * transform.forward;
             Vector3 dirB = Quaternion.Euler(0, angleB, 0) * transform.forward;
 
             Vector3 pointA = origin + dirA * rayDistance;
