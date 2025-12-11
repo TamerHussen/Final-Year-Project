@@ -23,15 +23,20 @@ public class PredatorAgent : Agent
     private float lastDistanceToScent = Mathf.Infinity;
     private float timeSinceSeen = 0f;
 
+    // used for debug UI
+    public float TimeSinceSeen => timeSinceSeen;
+    public float LastDistanceToScent => lastDistanceToScent;
+    public float LastDistanceToPlater => lastDistanceToPlayer;
+
     public override void OnEpisodeBegin()
     {
         rb.linearVelocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
 
         timeSinceSeen = 0;
+        lastDistanceToScent = Mathf.Infinity;
 
-
-        // randomises respawn for better ml agen learning
+        // randomises respawn for better ml agent learning
         Vector3 PredatorPos = new Vector3(Random.Range(-8f, 8f), 1.5f, Random.Range(-8f, 8f));
         Vector3 PlayerPos = new Vector3(Random.Range(-8f, 8f), 1.5f, Random.Range(-8f, 8f));
 
@@ -66,7 +71,9 @@ public class PredatorAgent : Agent
         sensor.AddObservation(Mathf.Clamp01(timeSinceSeen / 5f));
 
         // Hearing
-        Vector3 soundDir = SoundEmitter.LastSoundPos - transform.position;
+        Vector3 soundDir = Vector3.zero;
+        float soundVol = 0f;
+        soundDir = SoundEmitter.LastSoundPos - transform.position;
         if (soundDir.sqrMagnitude < 0.01f)
             sensor.AddObservation(Vector3.zero);
         else
@@ -74,25 +81,36 @@ public class PredatorAgent : Agent
         sensor.AddObservation(Mathf.Clamp01(SoundEmitter.LastSoundVolume));
 
         // Scent Trail points
-        int count = preyTrail.TrailPoints.Count;
-
-        for (int i = 0; i < 3; i++)
+        if (preyTrail != null && preyTrail.TrailPoints != null)
         {
-            int index = count - 1 - i;
-            if (index < 0)
+            int count = preyTrail.TrailPoints.Count;
+
+            for (int i = 0; i < 3; i++)
+            {
+                int index = count - 1 - i;
+                if (index < 0)
+                {
+                    sensor.AddObservation(Vector3.zero);
+                    sensor.AddObservation(0f);
+                }
+                else
+                {
+                    Vector3 scentDir = preyTrail.TrailPoints[index] - transform.position;
+                    sensor.AddObservation(transform.InverseTransformDirection(scentDir.normalized));
+                    sensor.AddObservation(Mathf.Clamp01(scentDir.magnitude / rayDistance));
+                }
+
+            }
+        }
+        else
+        {
+            // fallback
+            for (int i = 0; i < 3; i++)
             {
                 sensor.AddObservation(Vector3.zero);
                 sensor.AddObservation(0f);
             }
-            else
-            {
-                Vector3 scentDir = preyTrail.TrailPoints[index] - transform.position;
-                sensor.AddObservation(transform.InverseTransformDirection(scentDir.normalized));
-                sensor.AddObservation(Mathf.Clamp01(scentDir.magnitude / rayDistance));
-            }
-
         }
-
 
         // Add Raycasts
         AddRaycastObservations(sensor);
@@ -135,10 +153,18 @@ public class PredatorAgent : Agent
         }
     }
 
+    // used for Debug ui
+    public bool HasLineOfSight()
+    {
+        return CheckLineOfSight();
+    }
+
     bool CheckLineOfSight()
     {
-        if (Physics.Raycast(transform.position, player.position - transform.position,
-            out RaycastHit hit, rayDistance, visionMask))
+        Vector3 dirToPlayer = player.position - transform.position;
+        if (dirToPlayer.sqrMagnitude < 0.00001f) return false;
+        Vector3 dirNorm = dirToPlayer.normalized;
+        if (Physics.Raycast(transform.position, dirNorm, out RaycastHit hit, rayDistance, visionMask))
         {
             return hit.collider.CompareTag("Player");
         }
@@ -193,7 +219,7 @@ public class PredatorAgent : Agent
         }
 
         // trail reward
-        if (!CheckLineOfSight() && preyTrail.TrailPoints.Count > 0)
+        if (!CheckLineOfSight() && preyTrail != null && preyTrail.TrailPoints.Count > 0)
         {
             Vector3 last = preyTrail.TrailPoints[preyTrail.TrailPoints.Count - 1];
             float dist = Vector3.Distance(transform.position, last);
@@ -282,6 +308,6 @@ public class PredatorAgent : Agent
         // trail line
         Gizmos.color = Color.green;
         if (preyTrail != null && preyTrail.TrailPoints.Count > 0)
-            Gizmos.DrawLine(transform.position, preyTrail.TrailPoints[^1]);
+            Gizmos.DrawLine(transform.position, preyTrail.TrailPoints[preyTrail.TrailPoints.Count - 1]);
     }
 }
