@@ -72,7 +72,6 @@ public class PredatorAgent : Agent
 
         // Hearing
         Vector3 soundDir = Vector3.zero;
-        float soundVol = 0f;
         soundDir = SoundEmitter.LastSoundPos - transform.position;
         if (soundDir.sqrMagnitude < 0.01f)
             sensor.AddObservation(Vector3.zero);
