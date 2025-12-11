@@ -44,15 +44,16 @@ public class PredatorAgent : Agent
     // ------------------------------------------------------------
     public override void CollectObservations(VectorSensor sensor)
     {
-
+        // Distance to player
         float dist = Vector3.Distance(transform.position, player.position);
-        Vector3 direction = (player.position - transform.position).normalized;
-
-        // Distance + direction to player
         sensor.AddObservation(dist / 20f);
+
+
+        // Direction to player
+        Vector3 direction = (player.position - transform.position).normalized;
         sensor.AddObservation(transform.InverseTransformDirection(direction));
 
-        // Agent movement
+        // Velocity
         sensor.AddObservation(rb.linearVelocity / 10f);
 
         // Line of sight
@@ -122,7 +123,7 @@ public class PredatorAgent : Agent
 
     bool CheckLineOfSight()
     {
-        if (Physics.Raycast(transform.position, player.position - transform.position, 
+        if (Physics.Raycast(transform.position, player.position - transform.position,
             out RaycastHit hit, rayDistance, visionMask))
         {
             return hit.collider.CompareTag("Player");
@@ -154,6 +155,10 @@ public class PredatorAgent : Agent
             AddReward((lastDistanceToPlayer - currentDist) * 0.1f);
 
         lastDistanceToPlayer = currentDist;
+
+        // reward for facing prey
+        Vector3 localDir = transform.InverseTransformDirection((player.position - transform.position).normalized);
+        AddReward((1f - Mathf.Abs(localDir.x)) * 0.002f);
 
         // Vision reward
         if (CheckLineOfSight())

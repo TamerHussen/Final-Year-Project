@@ -41,9 +41,6 @@ public class PreyAi : MonoBehaviour
         float speed = controller.velocity.magnitude;
         if (speed > 0.3f)
             SoundEmitter.Emit(transform.position, speed / 5f);
-
-        if (Random.value < 0.2f)
-            TrailMarker.LastTrailPos = transform.position;
     }
 
 
