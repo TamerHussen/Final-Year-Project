@@ -26,7 +26,7 @@ public class PredatorAgent : Agent
     // used for debug UI
     public float TimeSinceSeen => timeSinceSeen;
     public float LastDistanceToScent => lastDistanceToScent;
-    public float LastDistanceToPlater => lastDistanceToPlayer;
+    public float LastDistanceToPlayer => lastDistanceToPlayer;
 
     public override void OnEpisodeBegin()
     {
