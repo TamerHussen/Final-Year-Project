@@ -136,7 +136,7 @@ public class PlayerMovement : MonoBehaviour
 
             if (movementSpeeed > 0.5f) // walking sound
                 SoundEmitter.Emit(transform.position, movementSpeeed);
-            
+
 
             if (isSprinting && movementSpeeed > 1f) // louder sound when sprinting
                 SoundEmitter.Emit(transform.position, movementSpeeed * 1.5f);

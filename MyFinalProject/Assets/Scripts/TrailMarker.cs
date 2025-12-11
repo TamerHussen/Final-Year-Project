@@ -1,18 +1,22 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public class TrailMarker : MonoBehaviour
 {
-    public static Vector3 LastTrailPos;
+    public List<Vector3> TrailPoints = new List<Vector3>();
+    public int MaxTrailPoints = 20;
+    public float TrailInterval = 0.3f;
 
-    private float TrailTimer = 0f;
-    public float TrailInterval = 0.5f;
+    private float TrailTimer;
 
     private void Update()
     {
         TrailTimer += Time.deltaTime;
         if (TrailTimer >= TrailInterval) // trail updates every interval
         {
-            LastTrailPos = transform.position;
+            TrailPoints.Add(transform.position);
+            if (TrailPoints.Count > MaxTrailPoints)
+                TrailPoints.RemoveAt(0); // removes oldest point
             TrailTimer = 0f;
         }
     }
@@ -20,6 +24,13 @@ public class TrailMarker : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.green;
-        Gizmos.DrawSphere(LastTrailPos, 0.2f);
+
+        // makes the points
+        for (int i = 0; i < TrailPoints.Count; i++)
+            Gizmos.DrawSphere(TrailPoints[i], 0.15f);
+
+        // connects points
+        for (int i = 0; i < TrailPoints.Count - 1; i++)
+            Gizmos.DrawLine(TrailPoints[i], TrailPoints[i + 1]);
     }
 }
