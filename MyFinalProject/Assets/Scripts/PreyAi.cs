@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class PreyAi : MonoBehaviour
@@ -10,16 +11,45 @@ public class PreyAi : MonoBehaviour
     private Vector3 moveDirection;
     private float timer;
 
+    // simple gait state
+    private bool isCrouching = false;
+    private bool isSprinting = false;
+    private float gaitTimer = 0f;
+    public float gaitChangeInterval = 3f;
+
     void Start()
     {
         if (controller == null) controller = GetComponent<CharacterController>();
         ChooseNewDirection();
         timer = changeDirectionInterval;
+        gaitTimer = gaitChangeInterval * Random.value;
     }
 
     void Update()
     {
         timer -= Time.deltaTime;
+        gaitTimer -= Time.deltaTime;
+
+        if (gaitTimer <= 0f)
+        {
+            float r = Random.value;
+            if (r < 0.15f)
+            {
+                isCrouching = true;
+                isSprinting = false;
+            }
+            else if (r < 0.5f)
+            {
+                isCrouching = false;
+                isSprinting = false;
+            }
+            else
+            {
+                isCrouching = false;
+                isSprinting = true;
+            }
+            gaitTimer = gaitChangeInterval * (0.5f + Random.value);
+        }
         if (timer <= 0f)
         {
             ChooseNewDirection();
@@ -34,13 +64,36 @@ public class PreyAi : MonoBehaviour
             transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, turnSpeed * Time.deltaTime);
         }
 
-        Vector3 horizontalMove = transform.forward * moveSpeed;
+        float currentSpeed = moveSpeed;
+        if (isSprinting) currentSpeed *= 2.0f;
+        if (isCrouching) currentSpeed *= 0.5f;
+
+        Vector3 horizontalMove = transform.forward * currentSpeed;
         horizontalMove.y -= 9.81f * Time.deltaTime; // gravity
         controller.Move(horizontalMove * Time.deltaTime);
 
         float speed = controller.velocity.magnitude;
-        if (speed > 0.3f)
-            SoundEmitter.Emit(transform.position, speed / 5f);
+
+        if (!isCrouching)
+        {
+            if (isSprinting)
+            {
+                if (speed > 0.2f)
+                    SoundEmitter.Emit(transform.position, Mathf.Clamp01(speed / 4f * 1.5f));
+            }
+            else
+            {
+                if (speed > 0.1f)
+                    SoundEmitter.Emit(transform.position, Mathf.Clamp01(speed / 4f));
+            }
+        }
+        else
+        {
+            //crouch has chance to emit weak sound if moving
+            if (speed > 0.05f && Random.value < 0.02f)
+                SoundEmitter.Emit(transform.position, 0.05f);
+        }
+
     }
 
 
