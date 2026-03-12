@@ -1,8 +1,10 @@
-﻿using Unity.MLAgents;
+﻿using System.Runtime.CompilerServices;
+using Unity.MLAgents;
 using Unity.MLAgents.Actuators;
 using Unity.MLAgents.Sensors;
 using Unity.VisualScripting.Dependencies.Sqlite;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class PredatorAgent : Agent
 {
@@ -20,6 +22,10 @@ public class PredatorAgent : Agent
     [Header("Vision Settings")]
     public float rayDistance = 15f;
     public LayerMask visionMask; // walls, player, obstacles
+
+    [Header("Familiar Settings")]
+    public float timeBeforeSummon = 15f; // how long it cant see player before spawning familiars
+    private float familiarCooldown = 0f;
 
     private float lastDistanceToPlayer;
     private float lastDistanceToScent = Mathf.Infinity;
@@ -53,29 +59,30 @@ public class PredatorAgent : Agent
     // ------------------------------------------------------------
     public override void CollectObservations(VectorSensor sensor)
     {
-        // Distance to player
+        // Distance to player = 1 obs
         float dist = Vector3.Distance(transform.position, player.position);
         sensor.AddObservation(dist / 20f);
 
 
-        // Direction to player
+        // Direction to player = 3 obs
         Vector3 direction = (player.position - transform.position).normalized;
         sensor.AddObservation(transform.InverseTransformDirection(direction));
 
-        // Velocity
+        // Velocity = 3 obs
         sensor.AddObservation(rb.linearVelocity / 10f);
 
-        // Line of sight
+        // Line of sight = 1 obs
         bool visible = CheckLineOfSight();
         sensor.AddObservation(visible ? 1f : 0f);
 
-        // time since seen
+        // time since seen = 1 obs
         sensor.AddObservation(Mathf.Clamp01(timeSinceSeen / 5f));
 
-        sensor.AddObservation(playerMovement.isExposed ? 1f : 0f);
-        sensor.AddObservation(preyAi.isExposed ? 1f : 0f);
+        // hiding pentaly = 2 obs
+        sensor.AddObservation(playerMovement !=null && playerMovement.isExposed ? 1f : 0f);
+        sensor.AddObservation(preyAi != null && preyAi.isExposed ? 1f : 0f);
 
-        // Hearing
+        // Hearing = 4 obs
         Vector3 soundDir = Vector3.zero;
         soundDir = SoundEmitter.LastSoundPos - transform.position;
         if (soundDir.sqrMagnitude < 0.01f)
@@ -84,7 +91,7 @@ public class PredatorAgent : Agent
             sensor.AddObservation(transform.InverseTransformDirection(soundDir.normalized));
         sensor.AddObservation(Mathf.Clamp01(SoundEmitter.LastSoundVolume));
 
-        // Scent Trail points for predator
+        // Scent Trail points for predator = 12 obs
         if (preyTrail != null && preyTrail.MainTrail != null)
         {
             int count = preyTrail.MainTrail.Count;
@@ -115,7 +122,7 @@ public class PredatorAgent : Agent
                 sensor.AddObservation(0f);
             }
         }
-        // Scent Trail points for familiar
+        // Scent Trail points for familiar = 4 obs
         if (preyTrail != null && preyTrail.FamiliarTrail != null && preyTrail.FamiliarTrail.Count > 0)
         {
             Vector3 familiarPoint = preyTrail.FamiliarTrail[preyTrail.FamiliarTrail.Count - 1];
@@ -131,7 +138,7 @@ public class PredatorAgent : Agent
            sensor.AddObservation(0f);
         }
 
-        // Add Raycasts
+        // Add Raycasts = 25 obs
         AddRaycastObservations(sensor);
 
     }
@@ -157,12 +164,14 @@ public class PredatorAgent : Agent
                 sensor.AddObservation(hit.collider.CompareTag("Player") ? 1f : 0f);
                 sensor.AddObservation(hit.collider.CompareTag("SolidObj") ? 1f : 0f);
                 sensor.AddObservation(hit.collider.CompareTag("SoftObj") ? 1f : 0f);
-                sensor.AddObservation(!hit.collider.CompareTag("Player") && !hit.collider.CompareTag("SolidObj") && !hit.collider.CompareTag("SoftObj") ? 1f : 0f); // other
+
+                bool isOther = !hit.collider.CompareTag("Player") && !hit.collider.CompareTag("SolidObj") && !hit.collider.CompareTag("SoftObj");
+                sensor.AddObservation(isOther? 1f : 0f); // other
             }
             else
             {
                 sensor.AddObservation(1f); // max distance
-                sensor.AddObservation(0f);  // nothing hit
+                sensor.AddObservation(0f);  // 0 for tags = nothing hit
                 sensor.AddObservation(0f);
                 sensor.AddObservation(0f);
                 sensor.AddObservation(0f);
@@ -209,9 +218,9 @@ public class PredatorAgent : Agent
         // Reward getting closer
         float currentDist = Vector3.Distance(transform.position, player.position);
         if (currentDist < lastDistanceToPlayer)
-            AddReward(0.001f);
+            AddReward(0.001f); // moving closer
         if (currentDist > lastDistanceToPlayer)
-            AddReward(-0.001f);
+            AddReward(-0.001f); // moving further
 
         lastDistanceToPlayer = currentDist;
 
@@ -227,8 +236,16 @@ public class PredatorAgent : Agent
         }
         else
         {
-            AddReward(-0.001f); // lost target
             timeSinceSeen += Time.deltaTime;
+            
+            if (timeSinceSeen > timeBeforeSummon && Time.time > familiarCooldown)
+            {
+                if (preyTrail == null || preyTrail.MainTrail.Count == 0)
+                {
+                    SummonFamiliar();
+                    familiarCooldown = Time.time + 30f; // no spamming
+                }
+            }
         }
 
         if (StepCount >= MaxStep)
@@ -251,12 +268,18 @@ public class PredatorAgent : Agent
 
     }
 
+    private void SummonFamiliar()
+    {
+        Debug.Log("Predator lost scent. Summon Familiar/s to track the permanent trail.. ");
+            // going to add a prefab for the familiar here after making the familiar and its script
+    }
+
     public override void Heuristic(in ActionBuffers actionsOut) // add model asset if starting without training to avoid error/
     {
         var continuousActionsOut = actionsOut.ContinuousActions;
-        continuousActionsOut[0] = 0f;
-        continuousActionsOut[1] = 0f;
-        continuousActionsOut[2] = 0f;
+        continuousActionsOut[0] = Input.GetAxis("Vertical");
+        continuousActionsOut[2] = Input.GetAxis("Horizontal");
+        continuousActionsOut[1] = Input.GetAxis("Mouse X");
     }
 
 
