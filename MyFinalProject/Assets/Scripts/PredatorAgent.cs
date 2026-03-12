@@ -131,23 +131,21 @@ public class PredatorAgent : Agent
         {
             if (Physics.Raycast(transform.position, dir, out RaycastHit hit, rayDistance, visionMask))
             {
-                // Distance normalized
-                sensor.AddObservation(hit.distance / rayDistance);
+                sensor.AddObservation(hit.distance / rayDistance); // 1 obs
 
-                // Hit type
-                if (hit.collider.CompareTag("Player"))
-                    sensor.AddObservation(2f); // player
-                else if (hit.collider.CompareTag("SolidObj"))
-                    sensor.AddObservation(1.5f); // blocks vision or path
-                else if (hit.collider.CompareTag("SoftObj"))
-                    sensor.AddObservation(1.0f); // hiding spots
-                else
-                    sensor.AddObservation(0.5f);
+                // Hit types
+                sensor.AddObservation(hit.collider.CompareTag("Player") ? 1f : 0f);
+                sensor.AddObservation(hit.collider.CompareTag("SolidObj") ? 1f : 0f);
+                sensor.AddObservation(hit.collider.CompareTag("SoftObj") ? 1f : 0f);
+                sensor.AddObservation(!hit.collider.CompareTag("Player") && !hit.collider.CompareTag("SolidObj") && !hit.collider.CompareTag("SoftObj") ? 1f : 0f); // other
             }
             else
             {
-                sensor.AddObservation(1f); // no hit
-                sensor.AddObservation(0f);  // nothing
+                sensor.AddObservation(1f); // max distance
+                sensor.AddObservation(0f);  // nothing hit
+                sensor.AddObservation(0f);
+                sensor.AddObservation(0f);
+                sensor.AddObservation(0f);
             }
         }
     }
@@ -191,7 +189,9 @@ public class PredatorAgent : Agent
         // Reward getting closer
         float currentDist = Vector3.Distance(transform.position, player.position);
         if (currentDist < lastDistanceToPlayer)
-            AddReward((lastDistanceToPlayer - currentDist) * 0.1f);
+            AddReward(0.001f);
+        if (currentDist > lastDistanceToPlayer)
+            AddReward(-0.001f);
 
         lastDistanceToPlayer = currentDist;
 
