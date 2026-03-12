@@ -10,6 +10,8 @@ public class PredatorAgent : Agent
     public Transform player;
     public Rigidbody rb;
     public TrailMarker preyTrail;
+    public PlayerMovement playerMovement;
+    public PreyAi preyAi;
 
     [Header("Movement Settings")]
     public float moveForce = 50f;
@@ -69,6 +71,9 @@ public class PredatorAgent : Agent
 
         // time since seen
         sensor.AddObservation(Mathf.Clamp01(timeSinceSeen / 5f));
+
+        sensor.AddObservation(playerMovement.isExposed ? 1f : 0f);
+        sensor.AddObservation(preyAi.isExposed ? 1f : 0f);
 
         // Hearing
         Vector3 soundDir = Vector3.zero;
