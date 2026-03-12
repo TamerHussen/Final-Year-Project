@@ -163,7 +163,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Unity.ML-Agents::Unity.MLAgents.Policies.BehaviorParameters
   m_BrainParameters:
-    VectorObservationSize: 19
+    VectorObservationSize: 56
     NumStackedVectorObservations: 1
     m_ActionSpec:
       m_NumContinuousActions: 3
@@ -241,12 +241,16 @@ MonoBehaviour:
   MaxStep: 10000
   player: {fileID: 445218847966011971, guid: 772b35ef65518bd4a8520a8e8c6e1fcb, type: 3}
   rb: {fileID: 4908088892887919949}
+  preyTrail: {fileID: 0}
+  playerMovement: {fileID: 0}
+  preyAi: {fileID: 0}
   moveForce: 50
   turnSpeed: 180
   rayDistance: 10
   visionMask:
     serializedVersion: 2
-    m_Bits: 193
+    m_Bits: 192
+  timeBeforeSummon: 15
 --- !u!136 &6449488964762869080
 CapsuleCollider:
   m_ObjectHideFlags: 0
