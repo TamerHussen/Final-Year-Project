@@ -21,6 +21,11 @@ public class PlayerMovement : MonoBehaviour
     private float originalHeight = 2f;
     private float targetHeight;
 
+    [Header("Hidding System")]
+    public float hiddenTimer = 0f;
+    public bool isExposed = false;
+    public bool inSoftObj = false;
+
     private bool canStandUp = true;
     private bool isGrounded;
     private bool isSprinting;
@@ -54,9 +59,46 @@ public class PlayerMovement : MonoBehaviour
         HandleView();
         HandleMovement();
         HandleHeadTilt();
+        HandleHiddenTimer();
 
         if (characterController.height < originalHeight)
             CheckObstaclesAbove();
+    }
+
+    // HIDDING SYSTEM
+
+    void HandleHiddenTimer()
+    {
+        if (inSoftObj)
+        {
+            hiddenTimer += Time.deltaTime;
+            if (hiddenTimer > 10f)
+            {
+                isExposed = true;
+                // i might add debug or damage later
+            }
+        }
+        else
+        {
+            hiddenTimer = 0f;
+            isExposed = false;
+        }
+    }
+
+    void OnTriggerStay(Collider other)
+    {
+        if (other.CompareTag("SoftObj"))
+        {
+            inSoftObj = true;
+        }
+    }
+
+    void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("SoftObj"))
+        {
+            inSoftObj = false;
+        }
     }
 
     // INPUT SYSTEM CALLBACKS

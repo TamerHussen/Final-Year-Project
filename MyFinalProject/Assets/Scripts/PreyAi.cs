@@ -17,6 +17,10 @@ public class PreyAi : MonoBehaviour
     private float gaitTimer = 0f;
     public float gaitChangeInterval = 3f;
 
+    public float hiddenTimer = 0f;
+    public bool isExposed = false;
+    public bool inSoftObj = false;
+
     void Start()
     {
         if (controller == null) controller = GetComponent<CharacterController>();
@@ -27,6 +31,8 @@ public class PreyAi : MonoBehaviour
 
     void Update()
     {
+        HandleHiddenTimer();
+
         timer -= Time.deltaTime;
         gaitTimer -= Time.deltaTime;
 
@@ -94,6 +100,40 @@ public class PreyAi : MonoBehaviour
                 SoundEmitter.Emit(transform.position, 0.05f);
         }
 
+    }
+
+    void HandleHiddenTimer()
+    {
+        if (inSoftObj)
+        {
+            hiddenTimer += Time.deltaTime;
+            if (hiddenTimer > 10f)
+            {
+                isExposed = true;
+                // i might add debug or damage later
+            }
+        }
+        else
+        {
+            hiddenTimer = 0f;
+            isExposed = false;
+        }
+    }
+
+    void OnTriggerStay(Collider other)
+    {
+        if (other.CompareTag("SoftObj"))
+        {
+            inSoftObj = true;
+        }
+    }
+
+    void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("SoftObj"))
+        {
+            inSoftObj = false;
+        }
     }
 
 
