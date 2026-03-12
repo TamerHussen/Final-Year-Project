@@ -44,6 +44,11 @@ public class PredatorAgent : Agent
         timeSinceSeen = 0;
         lastDistanceToScent = Mathf.Infinity;
 
+        if (preyTrail != null)
+        {
+            preyTrail.ResetTrail();
+        }
+
         // randomises respawn for better ml agent learning
         Vector3 PredatorPos = new Vector3(Random.Range(-8f, 8f), 1.5f, Random.Range(-8f, 8f));
         Vector3 PlayerPos = new Vector3(Random.Range(-8f, 8f), 1.5f, Random.Range(-8f, 8f));
