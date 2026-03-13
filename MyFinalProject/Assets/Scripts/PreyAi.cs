@@ -3,6 +3,9 @@ using UnityEngine;
 
 public class PreyAi : MonoBehaviour
 {
+    public Transform predator;
+    public float fleeRadius = 15f;
+
     public float moveSpeed = 1.5f;
     public float turnSpeed = 120f;
     public float changeDirectionInterval = 2f;
@@ -33,6 +36,16 @@ public class PreyAi : MonoBehaviour
     {
         HandleHiddenTimer();
 
+        // flee logic so the training prey ai runs away from the ml agent
+        if (predator != null && Vector3.Distance(transform.position, predator.position) < fleeRadius)
+        {
+            Vector3 dirAwayFromPredator = (transform.position - predator.position).normalized;
+            dirAwayFromPredator.y = 0;
+            moveDirection = dirAwayFromPredator;
+            isSprinting = true;
+            isCrouching = false;
+        }
+
         timer -= Time.deltaTime;
         gaitTimer -= Time.deltaTime;
 
@@ -56,7 +69,8 @@ public class PreyAi : MonoBehaviour
             }
             gaitTimer = gaitChangeInterval * (0.5f + Random.value);
         }
-        if (timer <= 0f)
+
+        if (timer <= 0f && (predator == null || Vector3.Distance(transform.position, predator.position) >= fleeRadius))
         {
             ChooseNewDirection();
             timer = changeDirectionInterval;

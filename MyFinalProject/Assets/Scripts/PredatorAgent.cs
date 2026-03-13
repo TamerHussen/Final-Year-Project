@@ -44,17 +44,19 @@ public class PredatorAgent : Agent
         timeSinceSeen = 0;
         lastDistanceToScent = Mathf.Infinity;
 
-        if (preyTrail != null)
-        {
-            preyTrail.ResetTrail();
-        }
-
         // randomises respawn for better ml agent learning
         Vector3 PredatorPos = new Vector3(Random.Range(-8f, 8f), 1.5f, Random.Range(-8f, 8f));
         Vector3 PlayerPos = new Vector3(Random.Range(-8f, 8f), 1.5f, Random.Range(-8f, 8f));
 
         transform.position = PredatorPos;
         player.position = PlayerPos;
+
+        Physics.SyncTransforms();
+
+        if (preyTrail != null)
+        {
+            preyTrail.ResetTrail();
+        }
 
         lastDistanceToPlayer = Vector3.Distance(transform.position, player.position);
     }
@@ -207,13 +209,20 @@ public class PredatorAgent : Agent
     // ------------------------------------------------------------
     public override void OnActionReceived(ActionBuffers actions)
     {
-        float forward = actions.ContinuousActions[0]; // move forward/back
-        float strafe = actions.ContinuousActions[1]; // move left/right
+        float forward = Mathf.Clamp(actions.ContinuousActions[0], 0f, 1f); // move forward and backwards but stops it from moonwalking
+        float strafe = Mathf.Clamp(actions.ContinuousActions[1], -0.2f, 0.2f); // move left/right and limiting the strafing
         float turn = actions.ContinuousActions[2]; // rotate
 
         // Movement
         rb.AddForce((transform.forward * forward + transform.right * strafe) * moveForce);
         transform.Rotate(0, turn * turnSpeed * Time.fixedDeltaTime, 0f);
+
+        // no more zooming around
+        float maxSpeed = 8f;
+        if (rb.linearVelocity.magnitude > maxSpeed)
+        {
+            rb.linearVelocity = rb.linearVelocity.normalized * maxSpeed;
+        }
 
         // --------- REWARD SYSTEM ---------
 
@@ -228,10 +237,6 @@ public class PredatorAgent : Agent
             AddReward(-0.001f); // moving further
 
         lastDistanceToPlayer = currentDist;
-
-        // reward for facing prey
-        Vector3 localDir = transform.InverseTransformDirection((player.position - transform.position).normalized);
-        AddReward((1f - Mathf.Abs(localDir.x)) * 0.002f);
 
         // Vision reward
         if (CheckLineOfSight())
