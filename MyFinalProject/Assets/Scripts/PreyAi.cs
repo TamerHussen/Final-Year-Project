@@ -44,6 +44,19 @@ public class PreyAi : MonoBehaviour
             moveDirection = dirAwayFromPredator;
             isSprinting = true;
             isCrouching = false;
+
+            // let the prey ai to hide in bushes/ softobj
+            Collider[] nearbyObjects = Physics.OverlapSphere(transform.position, 8f); 
+            foreach (var obj in nearbyObjects)
+            {
+                if (obj.CompareTag("SoftObj"))
+                {
+                    Vector3 dirToHide = (obj.transform.position - transform.position).normalized;
+                    dirToHide.y = 0;
+                    moveDirection = (moveDirection + (dirToHide * 1.5f)).normalized;
+                    break;
+                }
+            } 
         }
 
         timer -= Time.deltaTime;
@@ -74,6 +87,16 @@ public class PreyAi : MonoBehaviour
         {
             ChooseNewDirection();
             timer = changeDirectionInterval;
+        }
+        // prevent sticking to the wall and solidobj
+        if (Physics.Raycast(transform.position, moveDirection, out RaycastHit wallHit, 3f))
+        {
+            if (wallHit.collider.CompareTag("SolidObj") || wallHit.collider.CompareTag("Walls"))
+            {
+                Vector3 avoidDir = wallHit.normal;
+                avoidDir.y = 0;
+                moveDirection = (moveDirection + (avoidDir*2f)).normalized;
+            }
         }
 
         Vector3 targetDir = moveDirection;

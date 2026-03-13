@@ -264,9 +264,28 @@ public class PredatorAgent : Agent
             EndEpisode();
         }
 
-        // trail reward
+        // cloud trail reward
         if (!CheckLineOfSight() && preyTrail != null && preyTrail.MainTrail.Count > 0)
         {
+            float closestDist = float.MaxValue;
+            foreach (Vector3 point in preyTrail.MainTrail)
+            {
+                float d = Vector3.Distance(transform.position, point);
+                if (d < closestDist)
+                {
+                    closestDist = d;
+                }
+            }
+
+            float scentRadius = 6f;
+
+            if(closestDist <  scentRadius)
+            {
+                float scentStrength = 1f - (closestDist / scentRadius);
+
+                AddReward(0.002f * scentStrength); // gives reward for stay in and getting closer to the scent
+            }
+
             Vector3 last = preyTrail.MainTrail[preyTrail.MainTrail.Count - 1];
             float dist = Vector3.Distance(transform.position, last);
 
@@ -275,6 +294,8 @@ public class PredatorAgent : Agent
 
             lastDistanceToScent = dist;
         }
+
+        ApplyProximityPenalty();
 
     }
 
@@ -300,6 +321,28 @@ public class PredatorAgent : Agent
         {
             AddReward(1.0f);  // success catch
             EndEpisode();
+        }
+    }
+
+    // pentality for hugging the obstacles like the walls or solid objects.
+    private void OnCollisionStay(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("SolidObj") || collision.gameObject.CompareTag("Walls"))
+        {
+            AddReward(-0.002f);
+        }
+    }
+
+    // the closer the ml agent is to the solid objects and walls the higher the penalty
+    private void ApplyProximityPenalty()
+    {
+        if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, 2.5f, visionMask))
+        {
+            if (hit.collider.CompareTag("SolidObj") || hit.collider.CompareTag("Walls"))
+            {
+                float closeness = 1f - (hit.distance / 2.5f);
+                AddReward(-0.005f * closeness);
+            }
         }
     }
 
@@ -339,7 +382,6 @@ public class PredatorAgent : Agent
         DrawVisionCone();
 
         // raycast direction
-        Gizmos.color = Color.yellow;
         Vector3[] rays =
         {
             transform.forward,
@@ -351,15 +393,45 @@ public class PredatorAgent : Agent
         };
 
         foreach (var dir in rays)
-            Gizmos.DrawRay(transform.position, dir * rayDistance);
+        {
+            if (Physics.Raycast(transform.position, dir, out RaycastHit hit, rayDistance, visionMask))
+            {
+                Gizmos.color = Color.red; // shows that an obstacle or the player is in the line of sight
+                Gizmos.DrawLine(transform.position, hit.point);
+                Gizmos.DrawSphere(hit.point, 0.2f);
+            }
+            else
+            {
+                Gizmos.color = Color.yellow; // shows the line of sight
+                Gizmos.DrawRay(transform.position, dir * rayDistance);
+            }
+        }
 
         // hearing radius
         Gizmos.color = new Color(0f, 0f, 1f, 0.15f);
         Gizmos.DrawWireSphere(transform.position, 12f);
 
-        // trail line
-        Gizmos.color = Color.green;
+        // cloud trail line
         if (preyTrail != null && preyTrail.MainTrail.Count > 0)
-            Gizmos.DrawLine(transform.position, preyTrail.MainTrail[preyTrail.MainTrail.Count - 1]);
+        {
+            Gizmos.color = Color.green;
+
+            float closestDist = float.MaxValue;
+            Vector3 closestPoint = transform.position;
+            foreach (Vector3 point in preyTrail.MainTrail)
+            {
+                float d = Vector3.Distance(transform.position, point);
+                if (d < closestDist)
+                {
+                    closestDist = d;
+                    closestPoint = point;
+                }
+            }
+
+            Gizmos.DrawLine(transform.position, closestPoint);
+
+            Gizmos.color = new Color(0f, 1f, 0f, 0.2f); // transparent radius around main trail points
+            Gizmos.DrawWireSphere(closestPoint, 6f);
+        }
     }
 }
