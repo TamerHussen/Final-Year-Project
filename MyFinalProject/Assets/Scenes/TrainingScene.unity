@@ -131,6 +131,7 @@ GameObject:
   - component: {fileID: 63506082}
   - component: {fileID: 63506081}
   - component: {fileID: 63506080}
+  - component: {fileID: 63506083}
   m_Layer: 6
   m_Name: Cube (1)
   m_TagString: SolidObj
@@ -230,6 +231,23 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 63506078}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &63506083
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 63506078}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e7a2d4e640033544af2a1fb8597d3f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ObstacleGizmos
+  gizmoColor: {r: 1, g: 0, b: 0, a: 0.3}
+  predatorPenaltyColor: {r: 1, g: 0.5, b: 0, a: 0.4}
+  preyAvoidanceColor: {r: 1, g: 1, b: 0, a: 0.4}
+  showAlways: 1
+  showAITriggerZones: 1
 --- !u!1 &69402886
 GameObject:
   m_ObjectHideFlags: 0
@@ -242,9 +260,10 @@ GameObject:
   - component: {fileID: 69402890}
   - component: {fileID: 69402889}
   - component: {fileID: 69402888}
+  - component: {fileID: 69402891}
   m_Layer: 6
   m_Name: wall (2)
-  m_TagString: Untagged
+  m_TagString: Walls
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -341,6 +360,23 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 69402886}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &69402891
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 69402886}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e7a2d4e640033544af2a1fb8597d3f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ObstacleGizmos
+  gizmoColor: {r: 1, g: 0, b: 0, a: 0.3}
+  predatorPenaltyColor: {r: 1, g: 0.5, b: 0, a: 0.4}
+  preyAvoidanceColor: {r: 1, g: 1, b: 0, a: 0.4}
+  showAlways: 1
+  showAITriggerZones: 1
 --- !u!1 &95155657
 GameObject:
   m_ObjectHideFlags: 0
@@ -353,6 +389,7 @@ GameObject:
   - component: {fileID: 95155661}
   - component: {fileID: 95155660}
   - component: {fileID: 95155659}
+  - component: {fileID: 95155662}
   m_Layer: 6
   m_Name: bush soft obj
   m_TagString: SoftObj
@@ -452,6 +489,23 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 95155657}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &95155662
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 95155657}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e7a2d4e640033544af2a1fb8597d3f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ObstacleGizmos
+  gizmoColor: {r: 0.30568865, g: 0.9339623, b: 0.20705767, a: 0.3}
+  predatorPenaltyColor: {r: 1, g: 0.5, b: 0, a: 0.4}
+  preyAvoidanceColor: {r: 1, g: 1, b: 0, a: 0.4}
+  showAlways: 1
+  showAITriggerZones: 0
 --- !u!1 &129124449
 GameObject:
   m_ObjectHideFlags: 0
@@ -464,6 +518,7 @@ GameObject:
   - component: {fileID: 129124453}
   - component: {fileID: 129124452}
   - component: {fileID: 129124451}
+  - component: {fileID: 129124454}
   m_Layer: 6
   m_Name: Cube (5)
   m_TagString: SolidObj
@@ -563,6 +618,23 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 129124449}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &129124454
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 129124449}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e7a2d4e640033544af2a1fb8597d3f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ObstacleGizmos
+  gizmoColor: {r: 1, g: 0, b: 0, a: 0.3}
+  predatorPenaltyColor: {r: 1, g: 0.5, b: 0, a: 0.4}
+  preyAvoidanceColor: {r: 1, g: 1, b: 0, a: 0.4}
+  showAlways: 1
+  showAITriggerZones: 1
 --- !u!1 &318471722
 GameObject:
   m_ObjectHideFlags: 0
@@ -575,6 +647,7 @@ GameObject:
   - component: {fileID: 318471726}
   - component: {fileID: 318471725}
   - component: {fileID: 318471724}
+  - component: {fileID: 318471727}
   m_Layer: 6
   m_Name: bush soft obj
   m_TagString: SoftObj
@@ -674,6 +747,23 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 318471722}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &318471727
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 318471722}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e7a2d4e640033544af2a1fb8597d3f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ObstacleGizmos
+  gizmoColor: {r: 0.30568865, g: 0.9339623, b: 0.20705767, a: 0.3}
+  predatorPenaltyColor: {r: 1, g: 0.5, b: 0, a: 0.4}
+  preyAvoidanceColor: {r: 1, g: 1, b: 0, a: 0.4}
+  showAlways: 1
+  showAITriggerZones: 0
 --- !u!1 &372094330
 GameObject:
   m_ObjectHideFlags: 0
@@ -686,6 +776,7 @@ GameObject:
   - component: {fileID: 372094334}
   - component: {fileID: 372094333}
   - component: {fileID: 372094332}
+  - component: {fileID: 372094335}
   m_Layer: 6
   m_Name: Cube (2)
   m_TagString: SolidObj
@@ -785,6 +876,23 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 372094330}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &372094335
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 372094330}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e7a2d4e640033544af2a1fb8597d3f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ObstacleGizmos
+  gizmoColor: {r: 1, g: 0, b: 0, a: 0.3}
+  predatorPenaltyColor: {r: 1, g: 0.5, b: 0, a: 0.4}
+  preyAvoidanceColor: {r: 1, g: 1, b: 0, a: 0.4}
+  showAlways: 1
+  showAITriggerZones: 1
 --- !u!1 &544804740
 GameObject:
   m_ObjectHideFlags: 0
@@ -797,6 +905,7 @@ GameObject:
   - component: {fileID: 544804744}
   - component: {fileID: 544804743}
   - component: {fileID: 544804742}
+  - component: {fileID: 544804745}
   m_Layer: 6
   m_Name: bush soft obj
   m_TagString: SoftObj
@@ -896,6 +1005,23 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 544804740}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &544804745
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 544804740}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e7a2d4e640033544af2a1fb8597d3f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ObstacleGizmos
+  gizmoColor: {r: 0.30568865, g: 0.9339623, b: 0.20705767, a: 0.3}
+  predatorPenaltyColor: {r: 1, g: 0.5, b: 0, a: 0.4}
+  preyAvoidanceColor: {r: 1, g: 1, b: 0, a: 0.4}
+  showAlways: 1
+  showAITriggerZones: 0
 --- !u!1 &548727412
 GameObject:
   m_ObjectHideFlags: 0
@@ -908,6 +1034,7 @@ GameObject:
   - component: {fileID: 548727416}
   - component: {fileID: 548727415}
   - component: {fileID: 548727414}
+  - component: {fileID: 548727417}
   m_Layer: 6
   m_Name: Cube (8)
   m_TagString: SolidObj
@@ -1007,6 +1134,23 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 548727412}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &548727417
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 548727412}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e7a2d4e640033544af2a1fb8597d3f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ObstacleGizmos
+  gizmoColor: {r: 1, g: 0, b: 0, a: 0.3}
+  predatorPenaltyColor: {r: 1, g: 0.5, b: 0, a: 0.4}
+  preyAvoidanceColor: {r: 1, g: 1, b: 0, a: 0.4}
+  showAlways: 1
+  showAITriggerZones: 1
 --- !u!1 &607883517
 GameObject:
   m_ObjectHideFlags: 0
@@ -1134,6 +1278,7 @@ GameObject:
   - component: {fileID: 695681312}
   - component: {fileID: 695681311}
   - component: {fileID: 695681310}
+  - component: {fileID: 695681313}
   m_Layer: 6
   m_Name: bush soft obj
   m_TagString: SoftObj
@@ -1233,6 +1378,23 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 695681308}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &695681313
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 695681308}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e7a2d4e640033544af2a1fb8597d3f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ObstacleGizmos
+  gizmoColor: {r: 0.30568865, g: 0.9339623, b: 0.20705767, a: 0.3}
+  predatorPenaltyColor: {r: 1, g: 0.5, b: 0, a: 0.4}
+  preyAvoidanceColor: {r: 1, g: 1, b: 0, a: 0.4}
+  showAlways: 1
+  showAITriggerZones: 0
 --- !u!1 &777513892
 GameObject:
   m_ObjectHideFlags: 0
@@ -1289,6 +1451,7 @@ GameObject:
   - component: {fileID: 957568123}
   - component: {fileID: 957568122}
   - component: {fileID: 957568121}
+  - component: {fileID: 957568124}
   m_Layer: 6
   m_Name: Cube (3)
   m_TagString: SolidObj
@@ -1388,6 +1551,23 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 957568119}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &957568124
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 957568119}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e7a2d4e640033544af2a1fb8597d3f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ObstacleGizmos
+  gizmoColor: {r: 1, g: 0, b: 0, a: 0.3}
+  predatorPenaltyColor: {r: 1, g: 0.5, b: 0, a: 0.4}
+  preyAvoidanceColor: {r: 1, g: 1, b: 0, a: 0.4}
+  showAlways: 1
+  showAITriggerZones: 1
 --- !u!1 &960274760
 GameObject:
   m_ObjectHideFlags: 0
@@ -1400,6 +1580,7 @@ GameObject:
   - component: {fileID: 960274764}
   - component: {fileID: 960274763}
   - component: {fileID: 960274762}
+  - component: {fileID: 960274765}
   m_Layer: 6
   m_Name: Cube (4)
   m_TagString: SolidObj
@@ -1499,6 +1680,23 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 960274760}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &960274765
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 960274760}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e7a2d4e640033544af2a1fb8597d3f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ObstacleGizmos
+  gizmoColor: {r: 1, g: 0, b: 0, a: 0.3}
+  predatorPenaltyColor: {r: 1, g: 0.5, b: 0, a: 0.4}
+  preyAvoidanceColor: {r: 1, g: 1, b: 0, a: 0.4}
+  showAlways: 1
+  showAITriggerZones: 1
 --- !u!1 &963424223
 GameObject:
   m_ObjectHideFlags: 0
@@ -1511,9 +1709,10 @@ GameObject:
   - component: {fileID: 963424227}
   - component: {fileID: 963424226}
   - component: {fileID: 963424225}
+  - component: {fileID: 963424228}
   m_Layer: 6
   m_Name: wall
-  m_TagString: Untagged
+  m_TagString: Walls
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1610,6 +1809,23 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963424223}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &963424228
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 963424223}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e7a2d4e640033544af2a1fb8597d3f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ObstacleGizmos
+  gizmoColor: {r: 1, g: 0, b: 0, a: 0.3}
+  predatorPenaltyColor: {r: 1, g: 0.5, b: 0, a: 0.4}
+  preyAvoidanceColor: {r: 1, g: 1, b: 0, a: 0.4}
+  showAlways: 1
+  showAITriggerZones: 1
 --- !u!4 &1037723764 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 445218847966011971, guid: 772b35ef65518bd4a8520a8e8c6e1fcb, type: 3}
@@ -1771,6 +1987,7 @@ GameObject:
   - component: {fileID: 1271261663}
   - component: {fileID: 1271261662}
   - component: {fileID: 1271261661}
+  - component: {fileID: 1271261664}
   m_Layer: 6
   m_Name: Cube (6)
   m_TagString: SolidObj
@@ -1870,6 +2087,23 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1271261659}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1271261664
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1271261659}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e7a2d4e640033544af2a1fb8597d3f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ObstacleGizmos
+  gizmoColor: {r: 1, g: 0, b: 0, a: 0.3}
+  predatorPenaltyColor: {r: 1, g: 0.5, b: 0, a: 0.4}
+  preyAvoidanceColor: {r: 1, g: 1, b: 0, a: 0.4}
+  showAlways: 1
+  showAITriggerZones: 1
 --- !u!1 &1528132776 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5294268591430342719, guid: 772b35ef65518bd4a8520a8e8c6e1fcb, type: 3}
@@ -2031,9 +2265,10 @@ GameObject:
   - component: {fileID: 1599012713}
   - component: {fileID: 1599012712}
   - component: {fileID: 1599012711}
+  - component: {fileID: 1599012714}
   m_Layer: 6
   m_Name: wall (1)
-  m_TagString: Untagged
+  m_TagString: Walls
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2130,6 +2365,23 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1599012709}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1599012714
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1599012709}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e7a2d4e640033544af2a1fb8597d3f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ObstacleGizmos
+  gizmoColor: {r: 1, g: 0, b: 0, a: 0.3}
+  predatorPenaltyColor: {r: 1, g: 0.5, b: 0, a: 0.4}
+  preyAvoidanceColor: {r: 1, g: 1, b: 0, a: 0.4}
+  showAlways: 1
+  showAITriggerZones: 1
 --- !u!1 &1654334869
 GameObject:
   m_ObjectHideFlags: 0
@@ -2142,6 +2394,7 @@ GameObject:
   - component: {fileID: 1654334873}
   - component: {fileID: 1654334872}
   - component: {fileID: 1654334871}
+  - component: {fileID: 1654334874}
   m_Layer: 6
   m_Name: bush soft obj
   m_TagString: SoftObj
@@ -2241,6 +2494,23 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1654334869}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1654334874
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1654334869}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e7a2d4e640033544af2a1fb8597d3f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ObstacleGizmos
+  gizmoColor: {r: 0.30568865, g: 0.9339623, b: 0.20705767, a: 0.3}
+  predatorPenaltyColor: {r: 1, g: 0.5, b: 0, a: 0.4}
+  preyAvoidanceColor: {r: 1, g: 1, b: 0, a: 0.4}
+  showAlways: 1
+  showAITriggerZones: 0
 --- !u!1001 &1913663886
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2332,9 +2602,10 @@ GameObject:
   - component: {fileID: 2057920707}
   - component: {fileID: 2057920706}
   - component: {fileID: 2057920705}
+  - component: {fileID: 2057920708}
   m_Layer: 6
   m_Name: wall (3)
-  m_TagString: Untagged
+  m_TagString: Walls
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2431,6 +2702,23 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2057920703}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &2057920708
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2057920703}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e7a2d4e640033544af2a1fb8597d3f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ObstacleGizmos
+  gizmoColor: {r: 1, g: 0, b: 0, a: 0.3}
+  predatorPenaltyColor: {r: 1, g: 0.5, b: 0, a: 0.4}
+  preyAvoidanceColor: {r: 1, g: 1, b: 0, a: 0.4}
+  showAlways: 1
+  showAITriggerZones: 1
 --- !u!1 &2118207957
 GameObject:
   m_ObjectHideFlags: 0
@@ -2443,6 +2731,7 @@ GameObject:
   - component: {fileID: 2118207961}
   - component: {fileID: 2118207960}
   - component: {fileID: 2118207959}
+  - component: {fileID: 2118207962}
   m_Layer: 6
   m_Name: Cube (7)
   m_TagString: SolidObj
@@ -2542,6 +2831,23 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2118207957}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &2118207962
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2118207957}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e7a2d4e640033544af2a1fb8597d3f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ObstacleGizmos
+  gizmoColor: {r: 1, g: 0, b: 0, a: 0.3}
+  predatorPenaltyColor: {r: 1, g: 0.5, b: 0, a: 0.4}
+  preyAvoidanceColor: {r: 1, g: 1, b: 0, a: 0.4}
+  showAlways: 1
+  showAITriggerZones: 1
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

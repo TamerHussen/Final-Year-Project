@@ -39,24 +39,42 @@ public class PreyAi : MonoBehaviour
         // flee logic so the training prey ai runs away from the ml agent
         if (predator != null && Vector3.Distance(transform.position, predator.position) < fleeRadius)
         {
+            float distToPred = Vector3.Distance(transform.position, predator.position);
+
+            // prey hides when predator isnt too close and isnt exposed
+            if (inSoftObj && distToPred > 6f && !isExposed)
+            {
+                moveDirection = Vector3.zero;
+                isSprinting = true;
+                isCrouching = false;
+            }
+            // runs when hiding for too long or predator too close
+            else 
+            { 
             Vector3 dirAwayFromPredator = (transform.position - predator.position).normalized;
             dirAwayFromPredator.y = 0;
             moveDirection = dirAwayFromPredator;
             isSprinting = true;
             isCrouching = false;
 
-            // let the prey ai to hide in bushes/ softobj
-            Collider[] nearbyObjects = Physics.OverlapSphere(transform.position, 8f); 
-            foreach (var obj in nearbyObjects)
-            {
-                if (obj.CompareTag("SoftObj"))
+                // looks for a new bush if it isnt already in one.
+                if (!inSoftObj)
                 {
-                    Vector3 dirToHide = (obj.transform.position - transform.position).normalized;
-                    dirToHide.y = 0;
-                    moveDirection = (moveDirection + (dirToHide * 1.5f)).normalized;
-                    break;
+                    // let the prey ai to hide in bushes/ softobj
+                    Collider[] nearbyObjects = Physics.OverlapSphere(transform.position, 8f);
+                    foreach (var obj in nearbyObjects)
+                    {
+                        if (obj.CompareTag("SoftObj"))
+                        {
+                            Vector3 dirToHide = (obj.transform.position - transform.position).normalized;
+                            dirToHide.y = 0;
+                            moveDirection = (moveDirection + (dirToHide * 1.5f)).normalized;
+                            break;
+                        }
+                    }
                 }
-            } 
+            }
+
         }
 
         timer -= Time.deltaTime;

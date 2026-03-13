@@ -295,6 +295,20 @@ public class PredatorAgent : Agent
             lastDistanceToScent = dist;
         }
 
+        // charge the bushes
+        bool preyExposed = (playerMovement != null && playerMovement.isExposed) || (preyAi !=null && preyAi.isExposed);
+        if(preyExposed)
+        {
+            Vector3 dirToPrey = (player.position - transform.position).normalized;
+            float facingPrey = Vector3.Dot(transform.forward, dirToPrey);
+
+            // rewarded for looking directly at the exposed bush
+            if(facingPrey > 0.8f)
+            {
+                AddReward(0.005f);
+            }
+        }
+
         ApplyProximityPenalty();
 
     }
