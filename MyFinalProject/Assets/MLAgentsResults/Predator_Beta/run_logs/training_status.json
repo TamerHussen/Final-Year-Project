@@ -1,0 +1,65 @@
+{
+    "Predator": {
+        "checkpoints": [
+            {
+                "steps": 15999976,
+                "file_path": "D:\\MLAgentsResults\\Predator_Beta\\Predator\\Predator-15999976.onnx",
+                "reward": 54.85323758920034,
+                "creation_time": 1775952570.6379695,
+                "auxillary_file_paths": [
+                    "D:\\MLAgentsResults\\Predator_Beta\\Predator\\Predator-15999976.pt"
+                ]
+            },
+            {
+                "steps": 16499904,
+                "file_path": "D:\\MLAgentsResults\\Predator_Beta\\Predator\\Predator-16499904.onnx",
+                "reward": null,
+                "creation_time": 1775955329.6772425,
+                "auxillary_file_paths": [
+                    "D:\\MLAgentsResults\\Predator_Beta\\Predator\\Predator-16499904.pt"
+                ]
+            },
+            {
+                "steps": 16999875,
+                "file_path": "D:\\MLAgentsResults\\Predator_Beta\\Predator\\Predator-16999875.onnx",
+                "reward": 50.48743385076523,
+                "creation_time": 1775957950.0947118,
+                "auxillary_file_paths": [
+                    "D:\\MLAgentsResults\\Predator_Beta\\Predator\\Predator-16999875.pt"
+                ]
+            },
+            {
+                "steps": 17499875,
+                "file_path": "D:\\MLAgentsResults\\Predator_Beta\\Predator\\Predator-17499875.onnx",
+                "reward": 49.87326395511627,
+                "creation_time": 1775960780.5334015,
+                "auxillary_file_paths": [
+                    "D:\\MLAgentsResults\\Predator_Beta\\Predator\\Predator-17499875.pt"
+                ]
+            },
+            {
+                "steps": 17940723,
+                "file_path": "D:\\MLAgentsResults\\Predator_Beta\\Predator\\Predator-17940723.onnx",
+                "reward": 48.64947783946991,
+                "creation_time": 1775963163.5713484,
+                "auxillary_file_paths": [
+                    "D:\\MLAgentsResults\\Predator_Beta\\Predator\\Predator-17940723.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 17940723,
+            "file_path": "D:\\MLAgentsResults\\Predator_Beta\\Predator.onnx",
+            "reward": 48.64947783946991,
+            "creation_time": 1775963163.5713484,
+            "auxillary_file_paths": [
+                "D:\\MLAgentsResults\\Predator_Beta\\Predator\\Predator-17940723.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "0.30.0",
+        "torch_version": "1.13.1+cpu"
+    }
+}

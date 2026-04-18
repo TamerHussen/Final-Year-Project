@@ -2,58 +2,58 @@
     "Predator": {
         "checkpoints": [
             {
-                "steps": 499884,
-                "file_path": "D:\\MLAgentsResults\\PredatorRun1\\Predator\\Predator-499884.onnx",
-                "reward": 4.13853145390749,
-                "creation_time": 1765486744.7642968,
+                "steps": 499935,
+                "file_path": "D:\\MLAgentsResults\\PredatorRun1\\Predator\\Predator-499935.onnx",
+                "reward": 3.046143839204753,
+                "creation_time": 1772172027.1374495,
                 "auxillary_file_paths": [
-                    "D:\\MLAgentsResults\\PredatorRun1\\Predator\\Predator-499884.pt"
+                    "D:\\MLAgentsResults\\PredatorRun1\\Predator\\Predator-499935.pt"
                 ]
             },
             {
-                "steps": 999988,
-                "file_path": "D:\\MLAgentsResults\\PredatorRun1\\Predator\\Predator-999988.onnx",
-                "reward": 6.204597145318985,
-                "creation_time": 1765488365.7405384,
+                "steps": 999998,
+                "file_path": "D:\\MLAgentsResults\\PredatorRun1\\Predator\\Predator-999998.onnx",
+                "reward": 2.2182368973722566,
+                "creation_time": 1772174011.9177544,
                 "auxillary_file_paths": [
-                    "D:\\MLAgentsResults\\PredatorRun1\\Predator\\Predator-999988.pt"
+                    "D:\\MLAgentsResults\\PredatorRun1\\Predator\\Predator-999998.pt"
                 ]
             },
             {
-                "steps": 1499945,
-                "file_path": "D:\\MLAgentsResults\\PredatorRun1\\Predator\\Predator-1499945.onnx",
-                "reward": 2.5580255031585692,
-                "creation_time": 1765489974.4747653,
+                "steps": 1499879,
+                "file_path": "D:\\MLAgentsResults\\PredatorRun1\\Predator\\Predator-1499879.onnx",
+                "reward": null,
+                "creation_time": 1772175908.7220042,
                 "auxillary_file_paths": [
-                    "D:\\MLAgentsResults\\PredatorRun1\\Predator\\Predator-1499945.pt"
+                    "D:\\MLAgentsResults\\PredatorRun1\\Predator\\Predator-1499879.pt"
                 ]
             },
             {
-                "steps": 1999889,
-                "file_path": "D:\\MLAgentsResults\\PredatorRun1\\Predator\\Predator-1999889.onnx",
-                "reward": 5.985975254327059,
-                "creation_time": 1765491576.2521236,
+                "steps": 1999880,
+                "file_path": "D:\\MLAgentsResults\\PredatorRun1\\Predator\\Predator-1999880.onnx",
+                "reward": 4.916911314609216,
+                "creation_time": 1772177784.0548627,
                 "auxillary_file_paths": [
-                    "D:\\MLAgentsResults\\PredatorRun1\\Predator\\Predator-1999889.pt"
+                    "D:\\MLAgentsResults\\PredatorRun1\\Predator\\Predator-1999880.pt"
                 ]
             },
             {
-                "steps": 2000017,
-                "file_path": "D:\\MLAgentsResults\\PredatorRun1\\Predator\\Predator-2000017.onnx",
-                "reward": 5.985975254327059,
-                "creation_time": 1765491576.3048315,
+                "steps": 2000008,
+                "file_path": "D:\\MLAgentsResults\\PredatorRun1\\Predator\\Predator-2000008.onnx",
+                "reward": 4.916911314609216,
+                "creation_time": 1772177784.1054604,
                 "auxillary_file_paths": [
-                    "D:\\MLAgentsResults\\PredatorRun1\\Predator\\Predator-2000017.pt"
+                    "D:\\MLAgentsResults\\PredatorRun1\\Predator\\Predator-2000008.pt"
                 ]
             }
         ],
         "final_checkpoint": {
-            "steps": 2000017,
+            "steps": 2000008,
             "file_path": "D:\\MLAgentsResults\\PredatorRun1\\Predator.onnx",
-            "reward": 5.985975254327059,
-            "creation_time": 1765491576.3048315,
+            "reward": 4.916911314609216,
+            "creation_time": 1772177784.1054604,
             "auxillary_file_paths": [
-                "D:\\MLAgentsResults\\PredatorRun1\\Predator\\Predator-2000017.pt"
+                "D:\\MLAgentsResults\\PredatorRun1\\Predator\\Predator-2000008.pt"
             ]
         }
     },

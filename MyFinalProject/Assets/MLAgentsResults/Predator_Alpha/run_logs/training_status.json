@@ -1,0 +1,65 @@
+{
+    "Predator": {
+        "checkpoints": [
+            {
+                "steps": 3499995,
+                "file_path": "D:\\GithubProjects\\Final-Year-Project\\MyFinalProject\\Assets\\MLAgentsResults\\Predator_Alpha\\Predator\\Predator-3499995.onnx",
+                "reward": null,
+                "creation_time": 1775772770.0173233,
+                "auxillary_file_paths": [
+                    "D:\\GithubProjects\\Final-Year-Project\\MyFinalProject\\Assets\\MLAgentsResults\\Predator_Alpha\\Predator\\Predator-3499995.pt"
+                ]
+            },
+            {
+                "steps": 3999980,
+                "file_path": "D:\\GithubProjects\\Final-Year-Project\\MyFinalProject\\Assets\\MLAgentsResults\\Predator_Alpha\\Predator\\Predator-3999980.onnx",
+                "reward": 47.20056766271591,
+                "creation_time": 1775775996.4110506,
+                "auxillary_file_paths": [
+                    "D:\\GithubProjects\\Final-Year-Project\\MyFinalProject\\Assets\\MLAgentsResults\\Predator_Alpha\\Predator\\Predator-3999980.pt"
+                ]
+            },
+            {
+                "steps": 4000108,
+                "file_path": "D:\\GithubProjects\\Final-Year-Project\\MyFinalProject\\Assets\\MLAgentsResults\\Predator_Alpha\\Predator\\Predator-4000108.onnx",
+                "reward": 47.20056766271591,
+                "creation_time": 1775775996.4799695,
+                "auxillary_file_paths": [
+                    "D:\\GithubProjects\\Final-Year-Project\\MyFinalProject\\Assets\\MLAgentsResults\\Predator_Alpha\\Predator\\Predator-4000108.pt"
+                ]
+            },
+            {
+                "steps": 4000108,
+                "file_path": "D:\\GithubProjects\\Final-Year-Project\\MyFinalProject\\Assets\\MLAgentsResults\\Predator_Alpha\\Predator\\Predator-4000108.onnx",
+                "reward": null,
+                "creation_time": 1775777692.6848738,
+                "auxillary_file_paths": [
+                    "D:\\GithubProjects\\Final-Year-Project\\MyFinalProject\\Assets\\MLAgentsResults\\Predator_Alpha\\Predator\\Predator-4000108.pt"
+                ]
+            },
+            {
+                "steps": 4247127,
+                "file_path": "D:\\GithubProjects\\Final-Year-Project\\MyFinalProject\\Assets\\MLAgentsResults\\Predator_Alpha\\Predator\\Predator-4247127.onnx",
+                "reward": null,
+                "creation_time": 1775779449.4511936,
+                "auxillary_file_paths": [
+                    "D:\\GithubProjects\\Final-Year-Project\\MyFinalProject\\Assets\\MLAgentsResults\\Predator_Alpha\\Predator\\Predator-4247127.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 4247127,
+            "file_path": "D:\\GithubProjects\\Final-Year-Project\\MyFinalProject\\Assets\\MLAgentsResults\\Predator_Alpha\\Predator.onnx",
+            "reward": null,
+            "creation_time": 1775779449.4511936,
+            "auxillary_file_paths": [
+                "D:\\GithubProjects\\Final-Year-Project\\MyFinalProject\\Assets\\MLAgentsResults\\Predator_Alpha\\Predator\\Predator-4247127.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "0.30.0",
+        "torch_version": "1.13.1+cpu"
+    }
+}

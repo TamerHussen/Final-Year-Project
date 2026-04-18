@@ -4,10 +4,13 @@
 TagManager:
   serializedVersion: 3
   tags:
-  - Enemy
   - SoftObj
   - SolidObj
   - Walls
+  - Familiar
+  - Animal
+  - Predator
+  - Enemy
   layers:
   - Default
   - TransparentFX
@@ -15,15 +18,15 @@ TagManager:
   - 
   - Water
   - UI
-  - Obstacles
   - Player
+  - Predator
+  - Obstacles
+  - Terrain
+  - Familiar
+  - Animal
   - 
   - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - PlayerHead
   - 
   - 
   - 

@@ -4,7 +4,17 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/MainMenu.unity
+    guid: 249cf3c17ee6a294f8b5384770e400ca
+  - enabled: 1
+    path: Assets/Scenes/LoadingScene.unity
+    guid: c63dd96c8d09d20489582f3d1fd4ab0a
+  - enabled: 1
+    path: Assets/Scenes/GameScene.unity
+    guid: 7cbeac58cb2edd843b1d13ad8c56b9ec
   m_configObjects:
+    com.unity.dt.app-ui: {fileID: 11400000, guid: 1b1c20d82303e4b5781c3ef50ac1449f, type: 2}
     com.unity.ml-agents.settings: {fileID: 11400000, guid: 66b005942ff271a4cbdea9991e7f2a92, type: 2}
   m_UseUCBPForAssetBundles: 0

@@ -8,23 +8,28 @@ public class TrailMarker : MonoBehaviour
 
     public int MaxMainTrailPoints = 50;
     public int MaxFamiliarTrailPoints = 1000; // added cap so it doesnt lag 
-    public float TrailInterval = 0.3f;
+    public float TrailInterval = 0.3f; // how often the trail node is droped
+
+    public bool isScentMasked = false; 
 
     private float TrailTimer;
 
     private void Update()
     {
         TrailTimer += Time.deltaTime;
-        if (TrailTimer >= TrailInterval) // trail updates every interval
+        if (TrailTimer >= TrailInterval && !isScentMasked) // trail updates every interval
         {
-            Vector3 pos = transform.position;
+            // spread logic
+            Vector3 randomOffset = new Vector3(Random.Range(-0.5f, 0.5f), 0, Random.Range(-0.5f, 0.5f));
+            Vector3 pos = transform.position + randomOffset;
 
             MainTrail.Add(pos);
             FamiliarTrail.Add(pos);
+
             if (MainTrail.Count > MaxMainTrailPoints)
                 MainTrail.RemoveAt(0); // removes oldest point
 
-            if (FamiliarTrail.Count > 0 && FamiliarTrail.Count > MaxFamiliarTrailPoints)
+            if (FamiliarTrail.Count > MaxFamiliarTrailPoints)
                 FamiliarTrail.RemoveAt(0); // removes oldest point slowly
 
             TrailTimer = 0f;
@@ -39,19 +44,15 @@ public class TrailMarker : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.blue;
-
         for (int i = 0; i < FamiliarTrail.Count; i++)
             Gizmos.DrawSphere(FamiliarTrail[i], 0.12f);
-
         for (int i = 0; i < FamiliarTrail.Count - 1; i++)
             Gizmos.DrawLine(FamiliarTrail[i], FamiliarTrail[i + 1]);
 
         Gizmos.color = Color.green;
-
         // makes the points
         for (int i = 0; i < MainTrail.Count; i++)
             Gizmos.DrawSphere(MainTrail[i], 0.12f);
-
         // connects points
         for (int i = 0; i < MainTrail.Count - 1; i++)
             Gizmos.DrawLine(MainTrail[i], MainTrail[i + 1]);
