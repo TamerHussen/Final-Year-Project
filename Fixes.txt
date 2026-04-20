@@ -1,8 +1,16 @@
 fog not working in build
 loading screen small in build
-sprinting and crouching not working in build. when changing controls it updates the controls but doesn't remove previous controls , so it keeps the updates and the previous controls so swaping the sprint and crouch buttons makes the buttons do both sprint and crouch which cuases it to do nothing. so the buttons uipdate but don't remove the previous buttons contr.ols
+sprinting and crouching not working in build. when changing controls it updates the controls but doesn't remove previous controls , so it keeps the updates and the previous controls so swaping the sprint and crouch buttons makes the buttons do both sprint and crouch which cuases it to do nothing. so the buttons uipdate but don't remove the previous buttons controls
 ml predator not moving as smoothly as the bt ai in game.
 The familiars aren't working correctly in build.
 Maybe add rocks for the player to throw, since the game is just player running away.
 
 Right now the player just runs and hides from the predators , is that a good game to show off the ML agent and BT agents?
+
+need to make map smaller right now 1000 by 1000 for terrain.
+debug the BT ai to see if it is constantly changing or just moving smoothly.
+
+can make the ml agent and the bt ai get stunted for a few seconds when player throws a rock or ball at the enemy. 
+also make the throwables come back after a few seconds so players have a cool down on when to throw the obj.
+
+the ml agent and bt ai can be sped up.
