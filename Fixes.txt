@@ -4,3 +4,5 @@ sprinting and crouching not working in build. when changing controls it updates 
 ml predator not moving as smoothly as the bt ai in game.
 The familiars aren't working correctly in build.
 Maybe add rocks for the player to throw, since the game is just player running away.
+
+Right now the player just runs and hides from the predators , is that a good game to show off the ML agent and BT agents?
