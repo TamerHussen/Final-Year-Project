@@ -3,3 +3,4 @@ loading screen small in build
 sprinting and crouching not working in build. when changing controls it updates the controls but doesn't remove previous controls , so it keeps the updates and the previous controls so swaping the sprint and crouch buttons makes the buttons do both sprint and crouch which cuases it to do nothing. so the buttons uipdate but don't remove the previous buttons contr.ols
 ml predator not moving as smoothly as the bt ai in game.
 The familiars aren't working correctly in build.
+Maybe add rocks for the player to throw, since the game is just player running away.
