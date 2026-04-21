@@ -126,8 +126,8 @@ public class MainMenuUI : MonoBehaviour
 
         if (sensitivitySlider != null)
         {
-            sensitivitySlider.minValue = 10f;
-            sensitivitySlider.maxValue = 200f;
+            sensitivitySlider.minValue = 0.1f;
+            sensitivitySlider.maxValue = 50f;
             sensitivitySlider.value = savedSens;
 
             sensitivitySlider.onValueChanged.AddListener(delegate { OnSensitivityChanged(); });
@@ -216,7 +216,6 @@ public class MainMenuUI : MonoBehaviour
     {
         // cancel rebinding
         rebindingOperation?.Cancel();
-        rebindingOperation?.Dispose();
 
         var action = inputAsset.FindAction(actionName);
         if (action == null)
@@ -228,7 +227,9 @@ public class MainMenuUI : MonoBehaviour
 
         action.Disable();
 
-        if (label != null) label.text = " Press any 🔑... ";
+        action.RemoveBindingOverride(bindingIndex);
+
+        if (label != null) label.text = " Press Key ";
 
         rebindingOperation = action
             .PerformInteractiveRebinding(bindingIndex)

@@ -10,7 +10,7 @@ public class ControlsLoader : MonoBehaviour
         if (playerInput == null) return;
 
         string json = PlayerPrefs.GetString("InputOverrides", "");
-        if (!string.IsNullOrEmpty(json)) return;
+        if (string.IsNullOrEmpty(json)) return;
 
         playerInput.actions.Disable();
         playerInput.actions.LoadBindingOverridesFromJson(json);

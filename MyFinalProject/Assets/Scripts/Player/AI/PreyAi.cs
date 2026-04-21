@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PreyAi : MonoBehaviour
@@ -32,6 +33,13 @@ public class PreyAi : MonoBehaviour
     public bool isExposed = false;
     public bool inSoftObj = false;
 
+    [Header("Defense System")]
+    public GameObject throwablePrefab;
+    public Transform throwPoint;
+    public float throwForce = 15f;
+    public float throwCooldown = 4f;
+    private float throwTimer = 0f;
+
     [Header("Audio")]
     public AudioSource audioSource;
     public AudioClip WalkSFX;
@@ -65,6 +73,8 @@ public class PreyAi : MonoBehaviour
 
     void Update()
     {
+        throwTimer -= Time.deltaTime;
+
         HandleHiddenTimer();
 
         float distToPred = predator != null ? Vector3.Distance(transform.position, predator.position) : float.MaxValue;
@@ -113,6 +123,19 @@ public class PreyAi : MonoBehaviour
         // panic mode
         if (inPanic)
         {
+            if (throwTimer <= 0f && predatorVisible)
+            {
+                Vector3 dirToPredator = (predator.position - transform.position).normalized;
+
+                GameObject rock = Instantiate(throwablePrefab, throwPoint.position, Quaternion.identity);
+                Rigidbody rb = rock.GetComponent<Rigidbody>();
+                if (rb != null)
+                {
+                    Vector3 throwDir = dirToPredator + Vector3.up * 0.2f;
+                    rb.AddForce(throwDir * throwForce, ForceMode.Impulse);
+                }
+                throwTimer = throwCooldown;
+            }
             SetScentMasked(false);
 
             Vector3 away = (transform.position - predator.position).normalized;

@@ -2211,6 +2211,7 @@ GameObject:
   - component: {fileID: 6014518577433198039}
   - component: {fileID: 4979354780772141739}
   - component: {fileID: 8929913873627377141}
+  - component: {fileID: 3557810579634053952}
   m_Layer: 7
   m_Name: PredatorBT
   m_TagString: Predator
@@ -2251,7 +2252,7 @@ MonoBehaviour:
   preyAi: {fileID: 0}
   animator: {fileID: 4979354780772141739}
   baseSpeed: 3.5
-  recognitionSpeedBoost: 1.3
+  recognitionSpeedBoost: 1.8
   rayDistance: 45
   eyeHeight: 1
   targetHeight: 1
@@ -2259,15 +2260,15 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 2880
   recognitionThreshold: 0.7
-  headstartDuration: 15
   tauntDuration: 2.5
+  headstartDuration: 15
   wanderRadius: 20
   wanderInterval: 4
   groundFamiliarPrefabs:
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 6234995073247599049, guid: 54bbeb5fb7395a74a829150ac1f03ef7, type: 3}
+  - {fileID: 6234995073247599049, guid: bb7838d1deeb9084aa17ba77fa757c55, type: 3}
   skyFamiliarPrefabs:
-  - {fileID: 0}
+  - {fileID: 8349577020677780691, guid: 98057e06b75c8ee4f9f4bfd4aba2bd3f, type: 3}
   timeBeforeSummon: 12
   losGracePeriod: 8
   familiarCooldown: 45
@@ -2295,7 +2296,7 @@ MonoBehaviour:
   recoveryRate: 10
   recoveryDelay: 2
   exhaustionThreshold: 15
-  exhaustedSpeedMultiplier: 0.55
+  exhaustedSpeedMultiplier: 0.5
 --- !u!195 &2035596579050447520
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -2458,6 +2459,27 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!65 &3557810579634053952
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8765355232582155699}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.5, y: 1.5, z: 0.5}
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!1 &8817898888258712963
 GameObject:
   m_ObjectHideFlags: 0

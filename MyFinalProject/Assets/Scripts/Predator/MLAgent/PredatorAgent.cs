@@ -63,6 +63,8 @@ public class PredatorAgent : Agent
     public AudioClip SummonFamiliarSFX;
     public AudioClip CatchPreySFX;
 
+    private float stunTimer = 0f;
+
     private float lastDistanceToPlayer;
     private float lastDistanceToScent = Mathf.Infinity;
     private float timeSinceSeen = 0f;
@@ -111,6 +113,7 @@ public class PredatorAgent : Agent
         timeSinceLastLos = losGracePeriod;
         nextSummonIsAerial = false;
         tauntTimer = 0f;
+        stunTimer = 0f;
 
         // remove familairs from previous episode
         foreach (var f in activeFamiliars)
@@ -316,11 +319,29 @@ public class PredatorAgent : Agent
         return false;
     }
 
+    // stun logic
+    public void ApplyStun(float duration)
+    {
+        stunTimer = duration;
+
+        if (!IsInferenceMode)
+        {
+            AddReward(-1.0f);
+        }
+    }
+
     // ------------------------------------------------------------
     // Movement + Full Reward System
     // ------------------------------------------------------------
     public override void OnActionReceived(ActionBuffers actions)
     {
+        if (stunTimer > 0f)
+        {
+            stunTimer -= Time.fixedDeltaTime;
+            predatorController.Move(new Vector3(0, -9.81f * Time.fixedDeltaTime, 0));
+            return;
+        }
+
         episodeTimer += Time.fixedDeltaTime;
 
         // headstart
@@ -600,7 +621,7 @@ public class PredatorAgent : Agent
     {
         float speed = baseSpeed;
         if (isCrouching) speed *= 0.5f;
-        if (preyIsRecognised) speed *= 1.5f;
+        if (preyIsRecognised) speed *= 1.8f;
         currentCCSpeed = speed * recognitionModulator;
     }
 

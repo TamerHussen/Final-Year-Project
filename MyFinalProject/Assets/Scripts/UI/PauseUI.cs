@@ -66,8 +66,8 @@ public class PauseUI : MonoBehaviour
 
         if (sensitivitySlider != null)
         {
-            sensitivitySlider.minValue = 10f;
-            sensitivitySlider.maxValue = 200f;
+            sensitivitySlider.minValue = 0.1f;
+            sensitivitySlider.maxValue = 50f;
             sensitivitySlider.value = savedSens;
 
             sensitivitySlider.onValueChanged.AddListener(delegate { OnSensitivityChanged(); });

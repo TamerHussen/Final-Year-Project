@@ -11,7 +11,7 @@ public class PredatorStamina : MonoBehaviour
     public float exhaustionThreshold = 15f;
 
     [Header("Speed Penalty")]
-    public float exhaustedSpeedMultiplier = 0.55f;
+    public float exhaustedSpeedMultiplier = 0.5f;
 
     private PredatorAgent mlAgent;
     private PredatorBT btAgent;

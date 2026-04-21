@@ -14,7 +14,7 @@ public class PredatorBT : MonoBehaviour
 
     [Header("Movement Settings")]
     public float baseSpeed = 3.5f;
-    public float recognitionSpeedBoost = 1.5f;
+    public float recognitionSpeedBoost = 1.8f;
     private bool isStalking = false;
 
     [Header("Vision Settings")]
@@ -51,6 +51,8 @@ public class PredatorBT : MonoBehaviour
     public AudioClip LostTargetSFX;
     public AudioClip SummonFamiliarSFX;
     public AudioClip CatchPreySFX;
+
+    private float stunTimer = 0f;
 
     // runtime state
     private NavMeshAgent navAgent;
@@ -106,11 +108,32 @@ public class PredatorBT : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (stunTimer > 0f)
+        {
+            stunTimer -= Time.deltaTime;
+            if (stunTimer <= 0f && navAgent != null)
+            {
+                navAgent.isStopped = false;
+            }
+            return;
+        }
+
         episodeTimer += Time.deltaTime;
 
         UpdateTimers();
         rootNode.Evalute();
         UpdateAnimator();
+    }
+
+    // stun logic
+    public void ApplyStun(float duration)
+    {
+        stunTimer = duration;
+        if (navAgent != null)
+        {
+            navAgent.isStopped = true;
+            navAgent.velocity = Vector3.zero;
+        }
     }
 
     // ==================================

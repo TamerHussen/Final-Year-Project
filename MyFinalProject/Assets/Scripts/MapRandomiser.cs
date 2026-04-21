@@ -26,9 +26,13 @@ public class MapRandomiser : MonoBehaviour
     public float wallPadding = 17.0f;
     public float minStartingDistance = 10f; // prevent instant catches during training
 
-    [Header("Scale Randomisation")]
-    public float minScale = 2f;
-    public float maxScale = 7f;
+    [Header("Scale Randomisation For SoftObj")]
+    public float minSoftScale = 2f;
+    public float maxSoftScale = 7f;
+
+    [Header("Scale Randomisation For SolidObj")]
+    public float minSolidScale = 2f;
+    public float maxSolidScale = 7f;
 
     private float minX, maxX, minZ, maxZ;
 
@@ -65,8 +69,8 @@ public class MapRandomiser : MonoBehaviour
         RecalculateBounds();
 
         // randomise obj locations
-        RandomiseObjectLocations(SolidObjects, true);
-        RandomiseObjectLocations(SoftObjects, true);
+        RandomiseObjectLocations(SolidObjects, true, minSolidScale, maxSolidScale);
+        RandomiseObjectLocations(SoftObjects, true, minSoftScale, maxSoftScale);
         RandomiseAnimals();
 
         // headstart mechanic
@@ -96,8 +100,8 @@ public class MapRandomiser : MonoBehaviour
         RecalculateBounds();
 
         // randomise obj locations
-        RandomiseObjectLocations(SolidObjects, true);
-        RandomiseObjectLocations(SoftObjects, true);
+        RandomiseObjectLocations(SolidObjects, true, minSolidScale, maxSolidScale);
+        RandomiseObjectLocations(SoftObjects, true, minSoftScale, maxSoftScale);
         RandomiseAnimals();
 
         // headstart mechanic
@@ -149,7 +153,7 @@ public class MapRandomiser : MonoBehaviour
 
     Vector3 center_flat() => new Vector3((minX + maxX) / 2f, 1f, (minZ + maxZ) / 2f);
 
-    void RandomiseObjectLocations(List<Transform> objects, bool checkOverlap)
+    void RandomiseObjectLocations(List<Transform> objects, bool checkOverlap, float minSize, float maxSize)
     {
         foreach (Transform obj in objects)
         {
@@ -157,7 +161,7 @@ public class MapRandomiser : MonoBehaviour
             obj.rotation = Quaternion.Euler(0f, Random.Range(0f, 360f), 0f);
 
             // random scale
-            float randScale = Random.Range(minScale, maxScale);
+            float randScale = Random.Range(minSize, maxSize);
             obj.localScale = new Vector3(randScale, randScale, randScale);
         }
     }

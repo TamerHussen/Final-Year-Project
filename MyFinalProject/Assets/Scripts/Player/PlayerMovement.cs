@@ -1,6 +1,4 @@
 ﻿using System.Collections;
-using System.Xml.Serialization;
-using Unity.AppUI.UI;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -12,8 +10,8 @@ public class PlayerMovement : MonoBehaviour
     public StaminaSystem staminaSystem;
 
     [Header("Movement Settings")]
-    public float walkSpeed = 2.75f;
-    public float sprintSpeed = 5.5f;
+    public float walkSpeed = 3.0f;
+    public float sprintSpeed = 6.0f;
     public float gravity = 10f;
     public float jumpForce = 5f;
 
@@ -35,6 +33,15 @@ public class PlayerMovement : MonoBehaviour
     public float hiddenTimer = 0f;
     public bool isExposed = false;
     public bool inSoftObj = false;
+
+    [Header("Throwing System")]
+    public GameObject throwablePrefab;
+    public Transform throwPoint;
+    public float throwForce = 15f;
+    public int maxAmmo = 3;
+    public float ammoRechargeRate = 5f;
+    private float currentAmmo;
+    private float rechargeTimer = 0f;
 
     [Header("Audio")]
     public AudioSource audioSource;
@@ -83,6 +90,9 @@ public class PlayerMovement : MonoBehaviour
 
         originalHeight = characterController.height;
         crouchtargetHeight = originalHeight / 2f;
+
+        currentAmmo = maxAmmo;
+        FindFirstObjectByType<GameUI>().UpdateAmmoUI((int)currentAmmo, maxAmmo);
     }
 
     public void UpdateSensitivity(float newSensitivity)
@@ -101,6 +111,14 @@ public class PlayerMovement : MonoBehaviour
         if (characterController.height < originalHeight)
             CheckObstaclesAbove();
 
+        rechargeTimer += Time.deltaTime;
+        if (rechargeTimer >= ammoRechargeRate && currentAmmo < maxAmmo)
+        {
+            currentAmmo++;
+            rechargeTimer = 0f;
+
+            FindFirstObjectByType<GameUI>().UpdateAmmoUI((int)currentAmmo, maxAmmo);
+        }
     }
 
     void LateUpdate()
@@ -195,6 +213,40 @@ public class PlayerMovement : MonoBehaviour
             else if (canStandUp)
             {
                 ToggleCrouch(false);
+            }
+        }
+    }
+
+    // throw object
+    public void OnFire(InputValue value)
+    {
+        if (value.isPressed && currentAmmo >= 1)
+        {
+            currentAmmo--;
+
+            FindFirstObjectByType<GameUI>().UpdateAmmoUI((int)currentAmmo, maxAmmo);
+
+
+            Ray ray = playerCamera.ViewportPointToRay(new Vector3(0.4f, 0.5f, 0));
+            Vector3 targetPoint;
+
+            if (Physics.Raycast(ray, out RaycastHit hit, 10f))
+            {
+                targetPoint = hit.point;
+            }
+            else
+            {
+                targetPoint = ray.GetPoint(100f);
+            }
+
+            Vector3 throwDirection = (targetPoint - throwPoint.position).normalized;
+
+            // spawn and throw
+            GameObject rock = Instantiate(throwablePrefab, throwPoint.position, Quaternion.LookRotation(throwDirection));
+            Rigidbody rb = rock.GetComponent<Rigidbody>();
+            if (rb != null)
+            {
+                rb.AddForce(throwDirection * throwForce, ForceMode.Impulse);
             }
         }
     }

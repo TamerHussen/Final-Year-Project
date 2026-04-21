@@ -50,6 +50,9 @@ public class GameUI : MonoBehaviour
     public GameObject headstartPanel;
     public Text headstartText;
 
+    [Header("Ammo UI")]
+    public Text ammoText;
+
     private Transform predatorTransform;
     private Transform playerTransform;
 
@@ -99,6 +102,14 @@ public class GameUI : MonoBehaviour
         UpdateProximityEffects();
         UpdateHeartbeat();
         UpdateNotification();
+    }
+
+    public void UpdateAmmoUI(int current, int max)
+    {
+        if (ammoText != null)
+        {
+            ammoText.text = "Rocks: " + current + " / " + max;
+        }
     }
 
     public void UpdateStamina(float value01)

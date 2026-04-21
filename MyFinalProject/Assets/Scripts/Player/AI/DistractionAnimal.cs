@@ -11,7 +11,7 @@ public class DistractionAnimal : MonoBehaviour
 
     [Header("Fleeing")]
     public float fleeRadius = 12f;
-    public float fleeSpeed = 4f;
+    public float fleeSpeed = 10f;
     public LayerMask threatMask;
 
     [Header("Sound")]
@@ -65,7 +65,6 @@ public class DistractionAnimal : MonoBehaviour
         if (isFleeing && !wasFleeingLastFrame)
         {
             PlaySound(fleeSFX);
-            if (animator != null) animator.SetTrigger("onStartle");
             SoundEmitter.Emit(transform.position, fleeEmitVolume, SoundEmitter.SoundSource.Animal);
         }
         wasFleeingLastFrame = isFleeing;

@@ -2131,7 +2131,7 @@ MonoBehaviour:
     VectorActionDescriptions: []
     VectorActionSpaceType: 1
     hasUpgradedBrainParametersWithActionSpec: 1
-  m_Model: {fileID: 5022602860645237092, guid: 5fc584fcee44e584b95838c84ebc3bf6, type: 3}
+  m_Model: {fileID: 5022602860645237092, guid: 728e43508c4a3d641816e0eee160c3b8, type: 3}
   m_InferenceDevice: 0
   m_BehaviorType: 2
   m_BehaviorName: Predator
@@ -2220,7 +2220,7 @@ MonoBehaviour:
   recoveryRate: 10
   recoveryDelay: 2
   exhaustionThreshold: 15
-  exhaustedSpeedMultiplier: 0.55
+  exhaustedSpeedMultiplier: 0.5
 --- !u!143 &5497586010889194943
 CharacterController:
   m_ObjectHideFlags: 0

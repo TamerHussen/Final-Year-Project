@@ -85,8 +85,14 @@ public class FamiliarAi : MonoBehaviour
     void Start()
     {
         controller = GetComponent<CharacterController>();
-        predatorAgentML = FindFirstObjectByType<PredatorAgent>();
-        predatorBT = FindFirstObjectByType<PredatorBT>();
+
+        GameObject activePredator = GameObject.FindGameObjectWithTag("Predator");
+
+        if (activePredator != null)
+        {
+            predatorAgentML = activePredator.GetComponent<PredatorAgent>();
+            predatorBT = activePredator.GetComponent<PredatorBT>();
+        }
 
         // find the player's trail marker in the scene
         GameObject player = GameObject.FindGameObjectWithTag("Player");

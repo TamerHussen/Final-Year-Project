@@ -59,6 +59,7 @@ MonoBehaviour:
   pauseUI: {fileID: 0}
   mapRandomiser: {fileID: 1439776014609655631}
   biomeRandomiser: {fileID: 2208354269741839038}
+  headstartDuraction: 15
 --- !u!114 &1439776014609655631
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -148,8 +149,10 @@ MonoBehaviour:
   ValidPlacementSphereRadius: 1.5
   wallPadding: 17
   minStartingDistance: 10
-  minScale: 2
-  maxScale: 7
+  minSoftScale: 1
+  maxSoftScale: 7
+  minSolidScale: 2
+  maxSolidScale: 7
 --- !u!114 &2208354269741839038
 MonoBehaviour:
   m_ObjectHideFlags: 0
