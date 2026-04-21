@@ -150,9 +150,9 @@ MonoBehaviour:
   wallPadding: 17
   minStartingDistance: 10
   minSoftScale: 1
-  maxSoftScale: 7
-  minSolidScale: 2
-  maxSolidScale: 7
+  maxSoftScale: 5
+  minSolidScale: 1
+  maxSolidScale: 1.5
 --- !u!114 &2208354269741839038
 MonoBehaviour:
   m_ObjectHideFlags: 0

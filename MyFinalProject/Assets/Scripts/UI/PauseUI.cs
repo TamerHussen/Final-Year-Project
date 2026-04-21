@@ -17,6 +17,7 @@ public class PauseUI : MonoBehaviour
     public AudioMixer mainMixer;
 
     [Header("Options")]
+    public Text sensitivityValueText;
     public Slider masterVolumeSlider;
     public Slider musicVolumeSlider;
     public Slider sfxVolumeSlider;
@@ -37,7 +38,7 @@ public class PauseUI : MonoBehaviour
         float savedMaster = PlayerPrefs.GetFloat("MasterVolume", 1f);
         float savedMusic = PlayerPrefs.GetFloat("MusicVolume", 1f);
         float savedSFX = PlayerPrefs.GetFloat("SFXVolume", 1f);
-        float savedSens = PlayerPrefs.GetFloat("MouseSensitivity", 120f);
+        float savedSens = PlayerPrefs.GetFloat("MouseSensitivity", 15f);
 
         masterVolumeSlider?.SetValueWithoutNotify(savedMaster);
         musicVolumeSlider?.SetValueWithoutNotify(savedMusic);
@@ -66,12 +67,13 @@ public class PauseUI : MonoBehaviour
 
         if (sensitivitySlider != null)
         {
-            sensitivitySlider.minValue = 0.1f;
+            sensitivitySlider.minValue = 1f;
             sensitivitySlider.maxValue = 50f;
             sensitivitySlider.value = savedSens;
 
             sensitivitySlider.onValueChanged.AddListener(delegate { OnSensitivityChanged(); });
         }
+        UpdateSensitivityLabel(savedSens);
 
         Hide();
     }
@@ -80,14 +82,17 @@ public class PauseUI : MonoBehaviour
     public void OnSensitivityChanged()
     {
         float val = sensitivitySlider.value;
-
         PlayerPrefs.SetFloat("MouseSensitivity", val);
+        UpdateSensitivityLabel(val);
 
         PlayerMovement player = FindFirstObjectByType<PlayerMovement>();
-        if (player != null)
-        {
-            player.UpdateSensitivity(val);
-        }
+        if (player != null) player.UpdateSensitivity(val);
+    }
+
+    private void UpdateSensitivityLabel(float val)
+    {
+        if (sensitivityValueText != null)
+            sensitivityValueText.text = val.ToString("F1");
     }
 
     public void Show()

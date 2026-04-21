@@ -18,15 +18,13 @@ public class MusicManager : MonoBehaviour
 
     [Header("Settings")]
     public float targetVolume = 0.3f;
-    public float fadeSpeed = 1.5f;
+    public float fadeSpeed = 2.5f;
 
     [Header("Tension Trigger")]
-    public float tensionDistance = 12f;
-
+    public float tensionDistance = 20f;
 
     private Transform playerTransform;
     private Transform predatorTransform;
-    private bool tensionActive = false;
 
     private void Awake()
     {
@@ -91,20 +89,15 @@ public class MusicManager : MonoBehaviour
         if (tensionMusic == null || predatorTransform == null || playerTransform == null) return;
 
         float dist = Vector3.Distance(playerTransform.position, predatorTransform.position);
-        bool shouldTense = dist < tensionDistance;
+        float tensionAmount = 1f - Mathf.Clamp01((dist - (tensionDistance * 0.3f)) / (tensionDistance * 0.7f));
 
-        float targetTensionVol = shouldTense ? (targetVolume * 0.8f) : 0f;
-        float targetMusicVol = shouldTense ? (targetVolume * 0.4f) : targetVolume;
+        float targetTensionVol = targetVolume * 0.85f * tensionAmount;
+        float targetMusicVol = Mathf.Lerp(targetVolume, targetVolume * 0.35f, tensionAmount);
 
-        if (Time.deltaTime == 0f)
-        {
-            targetMusicVol *= 0.3f;
-            targetTensionVol *= 0.3f;
-        }
-        float speed = (targetVolume / fadeSpeed) * Time.unscaledDeltaTime;
+        float step = (targetVolume / fadeSpeed) * Time.unscaledDeltaTime;
 
-        tensionSource.volume = Mathf.MoveTowards(tensionSource.volume, targetTensionVol, speed);
-        musicSource.volume = Mathf.MoveTowards(musicSource.volume, targetMusicVol, speed);
+        tensionSource.volume = Mathf.MoveTowards(tensionSource.volume, targetTensionVol, step);
+        musicSource.volume = Mathf.MoveTowards(musicSource.volume, targetMusicVol, step);
     }
 
     IEnumerator FadeIn(AudioSource source, float targetVol, float duration)
@@ -113,7 +106,7 @@ public class MusicManager : MonoBehaviour
         float elapsed = 0f;
         while (elapsed < duration)
         {
-            elapsed += Time.deltaTime;
+            elapsed += Time.unscaledDeltaTime;
             source.volume = Mathf.Lerp(0f, targetVol, elapsed / duration);
             yield return null;
         }
@@ -126,7 +119,7 @@ public class MusicManager : MonoBehaviour
         float elapsed = 0f;
         while (elapsed < duration)
         {
-            elapsed += Time.deltaTime;
+            elapsed += Time.unscaledDeltaTime;
             source.volume = Mathf.Lerp(startVol, targetVol, elapsed / duration);
             yield return null;
         }

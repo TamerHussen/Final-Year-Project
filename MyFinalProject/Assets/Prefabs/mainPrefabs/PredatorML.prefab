@@ -2216,7 +2216,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PredatorStamina
   maxStamina: 100
-  sprintDrainRate: 18
+  sprintDrainRate: 0
   recoveryRate: 10
   recoveryDelay: 2
   exhaustionThreshold: 15

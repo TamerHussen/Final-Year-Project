@@ -35,6 +35,7 @@ public class MainMenuUI : MonoBehaviour
 
     [Header("Options - sens")]
     public Slider sensitivitySlider;
+    public Text sensitivityValueText;
 
     [Header("Options - Controls")]
     public Button rebindMoveUpButton;
@@ -66,10 +67,10 @@ public class MainMenuUI : MonoBehaviour
 
     private InputActionRebindingExtensions.RebindingOperation rebindingOperation;
 
-    private const int MoveUpIdx = 2;
-    private const int MoveDownIdx = 3;
-    private const int MoveLeftIdx = 4;
-    private const int MoveRightIdx = 5;
+    private const int MoveUpIdx = 1;
+    private const int MoveDownIdx = 2;
+    private const int MoveLeftIdx = 3;
+    private const int MoveRightIdx = 4;
 
     private const int SprintIdx = 0;
     private const int CrouchIdx = 0;
@@ -97,7 +98,7 @@ public class MainMenuUI : MonoBehaviour
         float savedMaster = PlayerPrefs.GetFloat("MasterVolume", 1f);
         float savedMusic = PlayerPrefs.GetFloat("MusicVolume", 1f);
         float savedSFX = PlayerPrefs.GetFloat("SFXVolume", 1f);
-        float savedSens = PlayerPrefs.GetFloat("MouseSensitivity", 120f);
+        float savedSens = PlayerPrefs.GetFloat("MouseSensitivity", 15f);
 
         masterVolumeSlider?.SetValueWithoutNotify(savedMaster);
         musicVolumeSlider?.SetValueWithoutNotify(savedMusic);
@@ -126,12 +127,13 @@ public class MainMenuUI : MonoBehaviour
 
         if (sensitivitySlider != null)
         {
-            sensitivitySlider.minValue = 0.1f;
+            sensitivitySlider.minValue = 1f;
             sensitivitySlider.maxValue = 50f;
             sensitivitySlider.value = savedSens;
-
             sensitivitySlider.onValueChanged.AddListener(delegate { OnSensitivityChanged(); });
         }
+        // show sens
+        UpdateSensitivityLabel(savedSens);
 
         LoadSavedOverrides();
 
@@ -151,14 +153,17 @@ public class MainMenuUI : MonoBehaviour
     public void OnSensitivityChanged()
     {
         float val = sensitivitySlider.value;
-
         PlayerPrefs.SetFloat("MouseSensitivity", val);
+        UpdateSensitivityLabel(val);
 
         PlayerMovement player = FindFirstObjectByType<PlayerMovement>();
-        if (player != null)
-        {
-            player.UpdateSensitivity(val);
-        }
+        if (player != null) player.UpdateSensitivity(val);
+    }
+
+    private void UpdateSensitivityLabel(float val)
+    {
+        if (sensitivityValueText != null)
+            sensitivityValueText.text = val.ToString("F1");
     }
 
     void ShowPanel(GameObject panel)
@@ -173,7 +178,7 @@ public class MainMenuUI : MonoBehaviour
     {
         PlayerPrefs.SetInt("UseBTPredator", 0);
         if (modeDescriptionText != null)
-            modeDescriptionText.text = "ML Agent Predator \n Trained through reinforcement learning over 18 million steps. behaviour emerges from experience - unpredictable and adaptive.";
+            modeDescriptionText.text = "ML Agent Predator \n Trained through reinforcement learning over 20 million steps. behaviour emerges from experience - unpredictable and adaptive.";
 
         HighlightModeButton(MLPredatorButton, BTPredatorButton);
     }
@@ -205,7 +210,7 @@ public class MainMenuUI : MonoBehaviour
 
     public void LaunchGame()
     {
-        SceneManager.LoadScene(gameSceneName);
+        LoadingScreen.LoadScene(gameSceneName);
     }
 
     // =====================================

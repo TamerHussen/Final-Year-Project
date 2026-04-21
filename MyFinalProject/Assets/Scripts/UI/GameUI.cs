@@ -19,6 +19,10 @@ public class GameUI : MonoBehaviour
     public float maxHeartbeatVolume = 0.9f;
     public float heartbeatNearDistance = 8f; // loud when predator close
     public float heartbeatFarDistance = 25f; // quiet when predator far
+
+    [Header("Stress Vignette Range")]
+    public float vignetteNearDistance = 5f;
+    public float vignetteFarDistance = 45f;
     private float heartbeatTimer = 0f;
     private float currentHeartRate = 1.5f;
 
@@ -128,7 +132,7 @@ public class GameUI : MonoBehaviour
         // stress vignette darkens
         if (stressVignette != null)
         {
-            float t = 1f - Mathf.Clamp01((dist - 5f) / (heartbeatFarDistance - 5f));
+            float t = 1f - Mathf.Clamp01((dist - vignetteNearDistance) / (vignetteFarDistance - vignetteNearDistance));
             Color c = stressVignette.color;
             c.a = Mathf.Lerp(c.a, t * maxVignetteAlpha, Time.deltaTime * 2.5f);
             stressVignette.color = c;

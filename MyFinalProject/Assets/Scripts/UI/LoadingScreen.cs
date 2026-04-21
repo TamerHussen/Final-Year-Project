@@ -3,7 +3,7 @@ using UnityEngine.SceneManagement;
 
 public class LoadingScreen : MonoBehaviour
 {
-    private const string LoadingSceneName = "LoadingScreen";
+    private const string LoadingSceneName = "LoadingScene";
 
     private static string targetScene = "";
 

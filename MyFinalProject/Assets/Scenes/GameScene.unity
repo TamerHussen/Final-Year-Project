@@ -93,7 +93,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 20201, guid: 0000000000000000f000000000000000, type: 0}
+  m_LightingDataAsset: {fileID: 112000000, guid: 8e6bb00133156114e9bdbcd79b69aa3b, type: 2}
   m_LightingSettings: {fileID: 0}
 --- !u!196 &4
 NavMeshSettings:
@@ -549,6 +549,101 @@ MonoBehaviour:
   preyAvoidanceColor: {r: 1, g: 1, b: 0, a: 0.4}
   showAlways: 1
   showAITriggerZones: 0
+--- !u!1 &24607137
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 24607138}
+  - component: {fileID: 24607141}
+  - component: {fileID: 24607140}
+  - component: {fileID: 24607139}
+  m_Layer: 5
+  m_Name: SensValue
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &24607138
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 24607137}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6257031610230611226}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 226, y: -165}
+  m_SizeDelta: {x: 200, y: 50}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &24607139
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 24607137}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfabb0440166ab443bba8876756fdfa9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Shadow
+  m_EffectColor: {r: 1, g: 0.5895197, b: 0, a: 1}
+  m_EffectDistance: {x: 2, y: -2}
+  m_UseGraphicAlpha: 1
+--- !u!114 &24607140
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 24607137}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Text
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.5294118, g: 0.5294118, b: 0.5294118, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 12800000, guid: 6301e5c931363104392d9c561d452a2c, type: 3}
+    m_FontSize: 30
+    m_FontStyle: 0
+    m_BestFit: 1
+    m_MinSize: 0
+    m_MaxSize: 300
+    m_Alignment: 4
+    m_AlignByGeometry: 1
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: ??
+--- !u!222 &24607141
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 24607137}
+  m_CullTransparentMesh: 1
 --- !u!1 &24938084
 GameObject:
   m_ObjectHideFlags: 0
@@ -842,12 +937,15 @@ MonoBehaviour:
   wanderRadius: 25
   fleeRadius: 12
   fleeSpeed: 10
+  fleeCoastDuration: 4
   threatMask:
     serializedVersion: 2
     m_Bits: 192
   soundEmitInterval: 5
   fleeEmitVolume: 0.8
   idleEmitVolume: 0.2
+  audioMinDistance: 1
+  audioMaxDistance: 10
   monsterRenderer: {fileID: 150867122}
   glowLight: {fileID: 979319090}
   randomiseOnStart: 1
@@ -4786,7 +4884,7 @@ Terrain:
   m_StaticShadowCaster: 0
   m_IgnoreQualitySettings: 0
   m_ReflectionProbeUsage: 1
-  m_MaterialTemplate: {fileID: 2100000, guid: e54b509dc1c2ec64c90c95ac115c35bc, type: 2}
+  m_MaterialTemplate: {fileID: 2100000, guid: 50ef3342c36e799419903dfe989ebcaf, type: 2}
   m_BakeLightProbesForTrees: 1
   m_PreserveTreePrototypeLayers: 0
   m_DeringLightProbesForTrees: 1
@@ -5315,12 +5413,15 @@ MonoBehaviour:
   wanderRadius: 25
   fleeRadius: 12
   fleeSpeed: 10
+  fleeCoastDuration: 4
   threatMask:
     serializedVersion: 2
     m_Bits: 192
   soundEmitInterval: 5
   fleeEmitVolume: 0.8
   idleEmitVolume: 0.2
+  audioMinDistance: 1
+  audioMaxDistance: 10
   monsterRenderer: {fileID: 470659229}
   glowLight: {fileID: 1971908065}
   randomiseOnStart: 1
@@ -7139,12 +7240,15 @@ MonoBehaviour:
   wanderRadius: 25
   fleeRadius: 12
   fleeSpeed: 10
+  fleeCoastDuration: 4
   threatMask:
     serializedVersion: 2
     m_Bits: 192
   soundEmitInterval: 5
   fleeEmitVolume: 0.8
   idleEmitVolume: 0.2
+  audioMinDistance: 1
+  audioMaxDistance: 10
   monsterRenderer: {fileID: 1549190409}
   glowLight: {fileID: 2091838855}
   randomiseOnStart: 1
@@ -10813,7 +10917,7 @@ Terrain:
   m_StaticShadowCaster: 0
   m_IgnoreQualitySettings: 0
   m_ReflectionProbeUsage: 1
-  m_MaterialTemplate: {fileID: 2100000, guid: e54b509dc1c2ec64c90c95ac115c35bc, type: 2}
+  m_MaterialTemplate: {fileID: 2100000, guid: 50ef3342c36e799419903dfe989ebcaf, type: 2}
   m_BakeLightProbesForTrees: 1
   m_PreserveTreePrototypeLayers: 0
   m_DeringLightProbesForTrees: 1
@@ -11958,12 +12062,15 @@ MonoBehaviour:
   wanderRadius: 25
   fleeRadius: 12
   fleeSpeed: 10
+  fleeCoastDuration: 4
   threatMask:
     serializedVersion: 2
     m_Bits: 192
   soundEmitInterval: 5
   fleeEmitVolume: 0.8
   idleEmitVolume: 0.2
+  audioMinDistance: 1
+  audioMaxDistance: 10
   monsterRenderer: {fileID: 859450355}
   glowLight: {fileID: 13159118}
   randomiseOnStart: 1
@@ -13098,11 +13205,11 @@ MonoBehaviour:
     m_Font: {fileID: 12800000, guid: 6301e5c931363104392d9c561d452a2c, type: 3}
     m_FontSize: 50
     m_FontStyle: 0
-    m_BestFit: 0
+    m_BestFit: 1
     m_MinSize: 0
     m_MaxSize: 300
-    m_Alignment: 7
-    m_AlignByGeometry: 0
+    m_Alignment: 4
+    m_AlignByGeometry: 1
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
@@ -15050,12 +15157,15 @@ MonoBehaviour:
   wanderRadius: 25
   fleeRadius: 12
   fleeSpeed: 10
+  fleeCoastDuration: 4
   threatMask:
     serializedVersion: 2
     m_Bits: 192
   soundEmitInterval: 5
   fleeEmitVolume: 0.8
   idleEmitVolume: 0.2
+  audioMinDistance: 1
+  audioMaxDistance: 10
   monsterRenderer: {fileID: 510710587}
   glowLight: {fileID: 1085587895}
   randomiseOnStart: 1
@@ -16722,12 +16832,15 @@ MonoBehaviour:
   wanderRadius: 25
   fleeRadius: 12
   fleeSpeed: 10
+  fleeCoastDuration: 4
   threatMask:
     serializedVersion: 2
     m_Bits: 192
   soundEmitInterval: 5
   fleeEmitVolume: 0.8
   idleEmitVolume: 0.2
+  audioMinDistance: 1
+  audioMaxDistance: 10
   monsterRenderer: {fileID: 1706089234}
   glowLight: {fileID: 1925463421}
   randomiseOnStart: 1
@@ -19191,7 +19304,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 
+  m_Text: hello
 --- !u!114 &689143219
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21327,7 +21440,7 @@ Terrain:
   m_StaticShadowCaster: 0
   m_IgnoreQualitySettings: 0
   m_ReflectionProbeUsage: 1
-  m_MaterialTemplate: {fileID: 2100000, guid: e54b509dc1c2ec64c90c95ac115c35bc, type: 2}
+  m_MaterialTemplate: {fileID: 2100000, guid: 50ef3342c36e799419903dfe989ebcaf, type: 2}
   m_BakeLightProbesForTrees: 1
   m_PreserveTreePrototypeLayers: 0
   m_DeringLightProbesForTrees: 1
@@ -27931,12 +28044,15 @@ MonoBehaviour:
   wanderRadius: 25
   fleeRadius: 12
   fleeSpeed: 10
+  fleeCoastDuration: 4
   threatMask:
     serializedVersion: 2
     m_Bits: 192
   soundEmitInterval: 5
   fleeEmitVolume: 0.8
   idleEmitVolume: 0.2
+  audioMinDistance: 1
+  audioMaxDistance: 10
   monsterRenderer: {fileID: 923909989}
   glowLight: {fileID: 1790473031}
   randomiseOnStart: 1
@@ -28206,12 +28322,15 @@ MonoBehaviour:
   wanderRadius: 25
   fleeRadius: 12
   fleeSpeed: 10
+  fleeCoastDuration: 4
   threatMask:
     serializedVersion: 2
     m_Bits: 192
   soundEmitInterval: 5
   fleeEmitVolume: 0.8
   idleEmitVolume: 0.2
+  audioMinDistance: 1
+  audioMaxDistance: 10
   monsterRenderer: {fileID: 1699734203}
   glowLight: {fileID: 618864566}
   randomiseOnStart: 1
@@ -31139,12 +31258,15 @@ MonoBehaviour:
   wanderRadius: 25
   fleeRadius: 12
   fleeSpeed: 10
+  fleeCoastDuration: 4
   threatMask:
     serializedVersion: 2
     m_Bits: 192
   soundEmitInterval: 5
   fleeEmitVolume: 0.8
   idleEmitVolume: 0.2
+  audioMinDistance: 1
+  audioMaxDistance: 10
   monsterRenderer: {fileID: 1680260590}
   glowLight: {fileID: 974266885}
   randomiseOnStart: 1
@@ -32622,7 +32744,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 50, y: -145.3}
+  m_AnchoredPosition: {x: 50, y: -165}
   m_SizeDelta: {x: 160, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1173902198
@@ -33611,6 +33733,8 @@ MonoBehaviour:
   maxHeartbeatVolume: 0.9
   heartbeatNearDistance: 8
   heartbeatFarDistance: 25
+  vignetteNearDistance: 5
+  vignetteFarDistance: 45
   timerText: {fileID: 527367903}
   timerLabel: {fileID: 1353321785}
   escapeNotification: {fileID: 825529474}
@@ -33646,6 +33770,7 @@ MonoBehaviour:
   optionsButton: {fileID: 767418056}
   menuButton: {fileID: 1983040415}
   mainMixer: {fileID: 24100000, guid: d5f1deaf02ff868408a36205c2d26e82, type: 2}
+  sensitivityValueText: {fileID: 24607140}
   masterVolumeSlider: {fileID: 4888023461598801185}
   musicVolumeSlider: {fileID: 6983636751255533490}
   sfxVolumeSlider: {fileID: 4762877530851986862}
@@ -36784,12 +36909,15 @@ MonoBehaviour:
   wanderRadius: 25
   fleeRadius: 12
   fleeSpeed: 10
+  fleeCoastDuration: 4
   threatMask:
     serializedVersion: 2
     m_Bits: 192
   soundEmitInterval: 5
   fleeEmitVolume: 0.8
   idleEmitVolume: 0.2
+  audioMinDistance: 1
+  audioMaxDistance: 10
   monsterRenderer: {fileID: 1752522529}
   glowLight: {fileID: 1376888282}
   randomiseOnStart: 1
@@ -40861,10 +40989,10 @@ RectTransform:
   - {fileID: 487891197}
   m_Father: {fileID: 6515913765439380156}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -250}
-  m_SizeDelta: {x: 250, y: 100}
+  m_AnchorMin: {x: 0.33, y: 0.13}
+  m_AnchorMax: {x: 0.67, y: 0.25}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1527175981
 MonoBehaviour:
@@ -41075,7 +41203,7 @@ Terrain:
   m_StaticShadowCaster: 0
   m_IgnoreQualitySettings: 0
   m_ReflectionProbeUsage: 1
-  m_MaterialTemplate: {fileID: 2100000, guid: e54b509dc1c2ec64c90c95ac115c35bc, type: 2}
+  m_MaterialTemplate: {fileID: 2100000, guid: 50ef3342c36e799419903dfe989ebcaf, type: 2}
   m_BakeLightProbesForTrees: 1
   m_PreserveTreePrototypeLayers: 0
   m_DeringLightProbesForTrees: 1
@@ -44480,6 +44608,14 @@ PrefabInstance:
     - target: {fileID: 2952373593891394108, guid: b7e4d2c8255d465419791ba6347f7199, type: 3}
       propertyPath: fleeSpeed
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2952373593891394108, guid: b7e4d2c8255d465419791ba6347f7199, type: 3}
+      propertyPath: audioMaxDistance
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2952373593891394108, guid: b7e4d2c8255d465419791ba6347f7199, type: 3}
+      propertyPath: audioMinDistance
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7087416227764144232, guid: b7e4d2c8255d465419791ba6347f7199, type: 3}
       propertyPath: m_LocalPosition.x
@@ -48777,10 +48913,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 6257031610230611226}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -125, y: -145.3}
-  m_SizeDelta: {x: 200, y: 50}
+  m_AnchorMin: {x: 0.1, y: 0.5}
+  m_AnchorMax: {x: 0.45, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: -165}
+  m_SizeDelta: {x: 0, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1813934559
 MonoBehaviour:
@@ -48821,11 +48957,11 @@ MonoBehaviour:
     m_Font: {fileID: 12800000, guid: 6301e5c931363104392d9c561d452a2c, type: 3}
     m_FontSize: 30
     m_FontStyle: 0
-    m_BestFit: 0
+    m_BestFit: 1
     m_MinSize: 0
     m_MaxSize: 300
-    m_Alignment: 6
-    m_AlignByGeometry: 0
+    m_Alignment: 5
+    m_AlignByGeometry: 1
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
@@ -49962,12 +50098,15 @@ MonoBehaviour:
   wanderRadius: 25
   fleeRadius: 12
   fleeSpeed: 10
+  fleeCoastDuration: 4
   threatMask:
     serializedVersion: 2
     m_Bits: 192
   soundEmitInterval: 5
   fleeEmitVolume: 0.8
   idleEmitVolume: 0.2
+  audioMinDistance: 1
+  audioMaxDistance: 10
   monsterRenderer: {fileID: 209320289}
   glowLight: {fileID: 417195244}
   randomiseOnStart: 1
@@ -50861,12 +51000,15 @@ MonoBehaviour:
   wanderRadius: 25
   fleeRadius: 12
   fleeSpeed: 10
+  fleeCoastDuration: 4
   threatMask:
     serializedVersion: 2
     m_Bits: 192
   soundEmitInterval: 5
   fleeEmitVolume: 0.8
   idleEmitVolume: 0.2
+  audioMinDistance: 1
+  audioMaxDistance: 10
   monsterRenderer: {fileID: 1904102594}
   glowLight: {fileID: 1047927074}
   randomiseOnStart: 1
@@ -51797,7 +51939,7 @@ Terrain:
   m_StaticShadowCaster: 0
   m_IgnoreQualitySettings: 0
   m_ReflectionProbeUsage: 1
-  m_MaterialTemplate: {fileID: 2100000, guid: e54b509dc1c2ec64c90c95ac115c35bc, type: 2}
+  m_MaterialTemplate: {fileID: 2100000, guid: 50ef3342c36e799419903dfe989ebcaf, type: 2}
   m_BakeLightProbesForTrees: 1
   m_PreserveTreePrototypeLayers: 0
   m_DeringLightProbesForTrees: 1
@@ -53205,12 +53347,15 @@ MonoBehaviour:
   wanderRadius: 25
   fleeRadius: 12
   fleeSpeed: 10
+  fleeCoastDuration: 4
   threatMask:
     serializedVersion: 2
     m_Bits: 192
   soundEmitInterval: 5
   fleeEmitVolume: 0.8
   idleEmitVolume: 0.2
+  audioMinDistance: 1
+  audioMaxDistance: 10
   monsterRenderer: {fileID: 1965847048}
   glowLight: {fileID: 176495940}
   randomiseOnStart: 1
@@ -54611,12 +54756,15 @@ MonoBehaviour:
   wanderRadius: 25
   fleeRadius: 12
   fleeSpeed: 10
+  fleeCoastDuration: 4
   threatMask:
     serializedVersion: 2
     m_Bits: 192
   soundEmitInterval: 5
   fleeEmitVolume: 0.8
   idleEmitVolume: 0.2
+  audioMinDistance: 1
+  audioMaxDistance: 10
   monsterRenderer: {fileID: 590735549}
   glowLight: {fileID: 1933651003}
   randomiseOnStart: 1
@@ -55372,10 +55520,6 @@ PrefabInstance:
       propertyPath: gameUI
       value: 
       objectReference: {fileID: 1208329338}
-    - target: {fileID: 1497161997944079200, guid: 99d8691c7ce7a5c428c25fb75dafe8cc, type: 3}
-      propertyPath: sprintDrainRate
-      value: 5
-      objectReference: {fileID: 0}
     - target: {fileID: 2037332900386149246, guid: 99d8691c7ce7a5c428c25fb75dafe8cc, type: 3}
       propertyPath: m_Name
       value: Player
@@ -56184,7 +56328,7 @@ Terrain:
   m_StaticShadowCaster: 0
   m_IgnoreQualitySettings: 0
   m_ReflectionProbeUsage: 1
-  m_MaterialTemplate: {fileID: 2100000, guid: e54b509dc1c2ec64c90c95ac115c35bc, type: 2}
+  m_MaterialTemplate: {fileID: 2100000, guid: 50ef3342c36e799419903dfe989ebcaf, type: 2}
   m_BakeLightProbesForTrees: 1
   m_PreserveTreePrototypeLayers: 0
   m_DeringLightProbesForTrees: 1
@@ -57251,7 +57395,7 @@ Terrain:
   m_StaticShadowCaster: 0
   m_IgnoreQualitySettings: 0
   m_ReflectionProbeUsage: 1
-  m_MaterialTemplate: {fileID: 2100000, guid: e54b509dc1c2ec64c90c95ac115c35bc, type: 2}
+  m_MaterialTemplate: {fileID: 2100000, guid: 50ef3342c36e799419903dfe989ebcaf, type: 2}
   m_BakeLightProbesForTrees: 1
   m_PreserveTreePrototypeLayers: 0
   m_DeringLightProbesForTrees: 1
@@ -57518,7 +57662,7 @@ Light:
   serializedVersion: 11
   m_Type: 1
   m_Color: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
-  m_Intensity: 1
+  m_Intensity: 0.5
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -58130,7 +58274,7 @@ Terrain:
   m_StaticShadowCaster: 0
   m_IgnoreQualitySettings: 0
   m_ReflectionProbeUsage: 1
-  m_MaterialTemplate: {fileID: 2100000, guid: e54b509dc1c2ec64c90c95ac115c35bc, type: 2}
+  m_MaterialTemplate: {fileID: 2100000, guid: 50ef3342c36e799419903dfe989ebcaf, type: 2}
   m_BakeLightProbesForTrees: 1
   m_PreserveTreePrototypeLayers: 0
   m_DeringLightProbesForTrees: 1
@@ -58186,6 +58330,8 @@ MonoBehaviour:
   maxHeartbeatVolume: 0.9
   heartbeatNearDistance: 8
   heartbeatFarDistance: 25
+  vignetteNearDistance: 5
+  vignetteFarDistance: 45
   timerText: {fileID: 0}
   timerLabel: {fileID: 0}
   escapeNotification: {fileID: 0}
@@ -59985,18 +60131,6 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1439776014609655631, guid: 741c9cd2e0700e74393256125c29a178, type: 3}
-      propertyPath: maxSoftScale
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1439776014609655631, guid: 741c9cd2e0700e74393256125c29a178, type: 3}
-      propertyPath: maxSolidScale
-      value: 1.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1439776014609655631, guid: 741c9cd2e0700e74393256125c29a178, type: 3}
-      propertyPath: minSolidScale
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1439776014609655631, guid: 741c9cd2e0700e74393256125c29a178, type: 3}
       propertyPath: 'OuterWalls.Array.data[0]'
       value: 
       objectReference: {fileID: 350566837}
@@ -60344,14 +60478,6 @@ PrefabInstance:
       propertyPath: playerAnimator
       value: 
       objectReference: {fileID: 1111417064}
-    - target: {fileID: 7145499506069852963, guid: 741c9cd2e0700e74393256125c29a178, type: 3}
-      propertyPath: escapeZoneApearTime
-      value: 90
-      objectReference: {fileID: 0}
-    - target: {fileID: 7145499506069852963, guid: 741c9cd2e0700e74393256125c29a178, type: 3}
-      propertyPath: escapeZoneMinDistFromPlayer
-      value: 20
-      objectReference: {fileID: 0}
     - target: {fileID: 7217510797379185684, guid: 741c9cd2e0700e74393256125c29a178, type: 3}
       propertyPath: m_LocalPosition.x
       value: 250
@@ -60430,11 +60556,11 @@ MonoBehaviour:
     m_Font: {fileID: 12800000, guid: 6301e5c931363104392d9c561d452a2c, type: 3}
     m_FontSize: 30
     m_FontStyle: 0
-    m_BestFit: 0
+    m_BestFit: 1
     m_MinSize: 0
     m_MaxSize: 300
-    m_Alignment: 8
-    m_AlignByGeometry: 0
+    m_Alignment: 5
+    m_AlignByGeometry: 1
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
@@ -60487,11 +60613,11 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 6257031610230611226}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 150}
-  m_SizeDelta: {x: 175, y: 100}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0.37, y: 0.8}
+  m_AnchorMax: {x: 0.63, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1024932156880211792
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -60521,10 +60647,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 6257031610230611226}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -100, y: 86.20002}
-  m_SizeDelta: {x: 140, y: 50}
+  m_AnchorMin: {x: 0.1, y: 0.5}
+  m_AnchorMax: {x: 0.45, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 85}
+  m_SizeDelta: {x: 0, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1185642787234640560
 GameObject:
@@ -60659,7 +60785,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 50, y: 6.200018}
+  m_AnchoredPosition: {x: 50, y: 5}
   m_SizeDelta: {x: 160, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1977076288811435135
@@ -60825,7 +60951,7 @@ MonoBehaviour:
     m_MinSize: 3
     m_MaxSize: 300
     m_Alignment: 4
-    m_AlignByGeometry: 0
+    m_AlignByGeometry: 1
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
@@ -61074,10 +61200,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 6515913765439380156}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMin: {x: 0, y: 0.8125042}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 200}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &4670149018998398581
 MonoBehaviour:
@@ -61303,7 +61429,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 50, y: 86.20002}
+  m_AnchoredPosition: {x: 50, y: 85}
   m_SizeDelta: {x: 160, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &4762877530851986862
@@ -61495,7 +61621,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 50, y: -73.8}
+  m_AnchoredPosition: {x: 50, y: -80}
   m_SizeDelta: {x: 160, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &5120526026056091764
@@ -61560,11 +61686,11 @@ MonoBehaviour:
     m_Font: {fileID: 12800000, guid: 6301e5c931363104392d9c561d452a2c, type: 3}
     m_FontSize: 30
     m_FontStyle: 0
-    m_BestFit: 0
+    m_BestFit: 1
     m_MinSize: 0
     m_MaxSize: 300
-    m_Alignment: 8
-    m_AlignByGeometry: 0
+    m_Alignment: 5
+    m_AlignByGeometry: 1
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
@@ -61703,11 +61829,11 @@ MonoBehaviour:
     m_Font: {fileID: 12800000, guid: 6301e5c931363104392d9c561d452a2c, type: 3}
     m_FontSize: 50
     m_FontStyle: 0
-    m_BestFit: 0
+    m_BestFit: 1
     m_MinSize: 0
     m_MaxSize: 300
     m_Alignment: 4
-    m_AlignByGeometry: 0
+    m_AlignByGeometry: 1
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
@@ -61758,16 +61884,17 @@ RectTransform:
   - {fileID: 7177556852658637550}
   - {fileID: 8380372316081908739}
   - {fileID: 1813934558}
+  - {fileID: 24607138}
   - {fileID: 4758368019163249393}
   - {fileID: 1830779951526729632}
   - {fileID: 5076188025860041947}
   - {fileID: 1173902197}
   m_Father: {fileID: 6515913765439380156}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 10}
-  m_SizeDelta: {x: 0, y: -220}
+  m_AnchorMin: {x: 0, y: 0.25}
+  m_AnchorMax: {x: 1, y: 0.8125042}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &6502939797878881124
 RectTransform:
@@ -61868,11 +61995,11 @@ MonoBehaviour:
     m_Font: {fileID: 12800000, guid: 6301e5c931363104392d9c561d452a2c, type: 3}
     m_FontSize: 30
     m_FontStyle: 0
-    m_BestFit: 0
+    m_BestFit: 1
     m_MinSize: 0
     m_MaxSize: 300
-    m_Alignment: 8
-    m_AlignByGeometry: 0
+    m_Alignment: 5
+    m_AlignByGeometry: 1
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
@@ -62072,7 +62199,7 @@ Terrain:
   m_StaticShadowCaster: 0
   m_IgnoreQualitySettings: 0
   m_ReflectionProbeUsage: 1
-  m_MaterialTemplate: {fileID: 2100000, guid: 59d9a74b5b3335b4fb1906833f967ec2, type: 2}
+  m_MaterialTemplate: {fileID: 2100000, guid: 06c2cfbc39821eb4785abaace3be1137, type: 2}
   m_BakeLightProbesForTrees: 1
   m_PreserveTreePrototypeLayers: 0
   m_DeringLightProbesForTrees: 1
@@ -62099,10 +62226,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 6257031610230611226}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -100, y: 6.200018}
-  m_SizeDelta: {x: 140, y: 50}
+  m_AnchorMin: {x: 0.1, y: 0.5}
+  m_AnchorMax: {x: 0.45, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 5}
+  m_SizeDelta: {x: 0, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &7314078006020824328
 MonoBehaviour:
@@ -62280,10 +62407,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 6257031610230611226}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -100, y: -73.79998}
-  m_SizeDelta: {x: 140, y: 50}
+  m_AnchorMin: {x: 0.1, y: 0.5}
+  m_AnchorMax: {x: 0.45, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: -80}
+  m_SizeDelta: {x: 0, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &8570879662429405366
 GameObject:

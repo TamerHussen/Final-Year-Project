@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.Rendering;
 
 public class DistractionAnimal : MonoBehaviour
 {
@@ -12,12 +11,17 @@ public class DistractionAnimal : MonoBehaviour
     [Header("Fleeing")]
     public float fleeRadius = 12f;
     public float fleeSpeed = 10f;
+    public float fleeCoastDuration = 4f;
     public LayerMask threatMask;
 
     [Header("Sound")]
     public float soundEmitInterval = 5f;
     public float fleeEmitVolume = 0.8f;
     public float idleEmitVolume = 0.2f;
+
+    [Header("Audio 3D Settings")]
+    public float audioMinDistance = 3f;
+    public float audioMaxDistance = 20f;
 
     [Header("Variety Settings")]
     public Renderer monsterRenderer;
@@ -34,9 +38,11 @@ public class DistractionAnimal : MonoBehaviour
     private CharacterController controller;
     private Vector3 spawnPos;
     private Vector3 moveDir;
+    private Vector3 lastFleeDir;
     private float wanderTimer = 0f;
     private float soundTimer = 0f;
     private float velocityY = 0f;
+    private float fleeCoastTimer = 0f;
     private bool isFleeing = false;
     private bool wasFleeingLastFrame = false;
 
@@ -48,6 +54,16 @@ public class DistractionAnimal : MonoBehaviour
         PickWanderDir();
         wanderTimer = wanderInterval * Random.value;
         soundTimer = soundEmitInterval * Random.value;
+
+        if (audioSource != null)
+        {
+            audioSource.spatialBlend = 1f;
+            audioSource.minDistance = audioMinDistance;
+            audioSource.maxDistance = audioMaxDistance;
+            audioSource.rolloffMode = AudioRolloffMode.Linear;
+            audioSource.dopplerLevel = 0f;
+        }
+
         if (randomiseOnStart) ApplyRandomVariety();
     }
 
@@ -57,9 +73,27 @@ public class DistractionAnimal : MonoBehaviour
         soundTimer += Time.deltaTime;
         wanderTimer += Time.deltaTime;
 
-        // checking for anything scary
         Transform threat = FindNearbyThreat();
-        isFleeing = threat != null;
+        bool threatNearby = threat != null;
+
+        if (threatNearby)
+        {
+            // threat nearby
+            fleeCoastTimer = fleeCoastDuration;
+            lastFleeDir = (transform.position - threat.position).normalized;
+            lastFleeDir.y = 0;
+            isFleeing = true;
+        }
+        else if (fleeCoastTimer > 0f)
+        {
+            // threat gone by keep running incase
+            fleeCoastTimer -= Time.deltaTime;
+            isFleeing = true;
+        }
+        else
+        {
+            isFleeing = false;
+        }
 
         // started to fler
         if (isFleeing && !wasFleeingLastFrame)
@@ -70,11 +104,12 @@ public class DistractionAnimal : MonoBehaviour
         wasFleeingLastFrame = isFleeing;
 
         // movements
-        if (isFleeing && threat != null)
+        if (isFleeing)
         {
-            Vector3 away = (transform.position - threat.position).normalized;
-            away.y = 0;
-            moveDir = away;
+            moveDir = threatNearby
+                ? (transform.position - threat.position).normalized
+                : lastFleeDir;
+            moveDir.y = 0;
         }
         else
         {
@@ -110,7 +145,7 @@ public class DistractionAnimal : MonoBehaviour
         }
 
         // random size
-        float randomScale = Random.Range(1.5f, 7f);
+        float randomScale = Random.Range(1.5f, 5f);
         transform.localScale = Vector3.one * randomScale;
 
     }
@@ -185,29 +220,29 @@ public class DistractionAnimal : MonoBehaviour
     // sound
     void HandleSound()
     {
-        if (soundTimer >= soundEmitInterval)
+        if (soundTimer < soundEmitInterval) return;
+
+        if (isFleeing)
         {
-            if (isFleeing)
-            {
-                // fleeing animal causes loud distraction
-                SoundEmitter.Emit(transform.position, fleeEmitVolume, SoundEmitter.SoundSource.Animal);
-                PlaySound(fleeSFX);
-            }
-            else
-            {
-                // idle animal causes quieter distraction
-                SoundEmitter.Emit(transform.position, idleEmitVolume, SoundEmitter.SoundSource.Animal);
-                PlaySound(IdleSFX);
-            }
-            soundTimer = 0;
+            // fleeing animal causes loud distraction
+            SoundEmitter.Emit(transform.position, fleeEmitVolume, SoundEmitter.SoundSource.Animal);
+            PlaySound(fleeSFX);
         }
+        else
+        {
+            // idle animal causes quieter distraction
+            SoundEmitter.Emit(transform.position, idleEmitVolume, SoundEmitter.SoundSource.Animal);
+            PlaySound(IdleSFX);
+        }
+        soundTimer = 0;
     }
 
     // reset animal spawn
     public void ResetAnimal()
     {
         spawnPos = transform.position;
-
+        fleeCoastTimer = 0f;
+        isFleeing = false;
         float angle = Random.Range(0f, 360f) * Mathf.Deg2Rad;
         moveDir = new Vector3(Mathf.Cos(angle), 0f, Mathf.Sin(angle));
     }
@@ -245,5 +280,7 @@ public class DistractionAnimal : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, fleeRadius);
         Gizmos.color = new Color(0f, 1f, 1f, 0.1f);
         Gizmos.DrawWireSphere(spawnPos, wanderRadius);
+        Gizmos.color = new Color(1f, 1f, 0f, 0.08f);
+        Gizmos.DrawWireSphere(transform.position, audioMaxDistance);
     }
 }

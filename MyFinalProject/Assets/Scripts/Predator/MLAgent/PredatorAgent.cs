@@ -73,6 +73,8 @@ public class PredatorAgent : Agent
 
     private Vector3 lastKnownScentPos = Vector3.zero;
     private bool hasScentLead = false;
+    private bool wasRecognisedLastFrame = false;
+    private float smoothedForward = 0f;
 
     private BehaviorParameters behaviorParameters;
 
@@ -108,6 +110,8 @@ public class PredatorAgent : Agent
         lastSoundDistanceSq = Mathf.Infinity;
         visionRecognitionTimer = 0f;
         preyIsRecognised = false;
+        wasRecognisedLastFrame = false;
+        smoothedForward = 0f;
         smoothedTurn = 0f;
         continousLosTimer = 0f;
         timeSinceLastLos = losGracePeriod;
@@ -279,24 +283,11 @@ public class PredatorAgent : Agent
 
     void Update()
     {
-        episodeTimer += Time.deltaTime;
         if (GameManager.instance != null && GameManager.instance.gameUI != null)
         {
             float remaining = headstartDuration - episodeTimer;
-            GameManager.instance.gameUI.UpdateHeadStartUI(remaining);
+            GameManager.instance.gameUI.UpdateHeadStartUI(Mathf.Max(0f, remaining));
         }
-        UpdateAnimator();
-    }
-
-    void UpdateAnimator()
-    {
-        if (animator == null || predatorController == null) return;
-        float speed = predatorController.velocity.magnitude;
-
-        animator.SetBool("isMoving", speed > 0.1f);
-        animator.SetBool("isSprinting", speed > baseSpeed * 1f);
-        animator.SetBool("isCrouching", isCrouching);
-        animator.SetFloat("moveSpeed", speed);
     }
 
     // used for Debug ui
@@ -338,7 +329,13 @@ public class PredatorAgent : Agent
         if (stunTimer > 0f)
         {
             stunTimer -= Time.fixedDeltaTime;
-            predatorController.Move(new Vector3(0, -9.81f * Time.fixedDeltaTime, 0));
+            predatorController.Move(new Vector3(0, -2f * Time.fixedDeltaTime, 0));
+            if (animator != null)
+            {
+                animator.SetBool("isMoving", false);
+                animator.SetBool("isSprinting", false);
+                animator.SetFloat("moveSpeed", 0f);
+            }
             return;
         }
 
@@ -347,7 +344,13 @@ public class PredatorAgent : Agent
         // headstart
         if (episodeTimer < headstartDuration)
         {
-            predatorController.Move(new Vector3(0, -9.81f * Time.fixedDeltaTime, 0));
+            predatorController.Move(new Vector3(0, -2f * Time.fixedDeltaTime, 0));
+            if (animator != null)
+            {
+                animator.SetBool("isMoving", false);
+                animator.SetBool("isSprinting", false);
+                animator.SetFloat("moveSpeed", 0f);
+            }
             return;
         }
 
@@ -357,6 +360,7 @@ public class PredatorAgent : Agent
 
         // smooth turning no jittering
         smoothedTurn = Mathf.Lerp(smoothedTurn, turn, Time.fixedDeltaTime * 10f);
+        smoothedForward = Mathf.Lerp(smoothedForward, forward, Time.fixedDeltaTime * 8f);
 
         if (tauntTimer > 0f)
         {
@@ -397,7 +401,7 @@ public class PredatorAgent : Agent
             continousLosTimer = 0f;
             timeSinceLastLos += Time.fixedDeltaTime;
 
-            if (preyIsRecognised)
+            if (wasRecognisedLastFrame)
             {
                 PlaySound(LostTargetSFX);
                 if (animator != null) animator.SetTrigger("onLostTarget");
@@ -406,11 +410,15 @@ public class PredatorAgent : Agent
             preyIsRecognised = false;
         }
 
+        // track frame
+        wasRecognisedLastFrame = preyIsRecognised;
+
         // Movement
         UpdateCCSpeed(forward, recognitionModulator);
 
-        Vector3 moveCC = transform.forward * forward * currentCCSpeed;
-        moveCC.y -= 9.81f; // gravity
+        float gravityForce = predatorController.isGrounded ? -2f : -9.81f;
+        Vector3 moveCC = transform.forward * smoothedForward * currentCCSpeed;
+        moveCC.y -= gravityForce; // gravity
 
         if (predatorController != null && predatorController.enabled)
         {

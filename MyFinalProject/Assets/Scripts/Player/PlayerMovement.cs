@@ -86,7 +86,7 @@ public class PlayerMovement : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 
-        viewSensitivity = PlayerPrefs.GetFloat("MouseSensitivity", 120f);
+        viewSensitivity = PlayerPrefs.GetFloat("MouseSensitivity", 15f);
 
         originalHeight = characterController.height;
         crouchtargetHeight = originalHeight / 2f;
