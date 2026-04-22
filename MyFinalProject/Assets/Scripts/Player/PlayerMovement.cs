@@ -102,9 +102,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        HandleView();
         HandleMovement();
-        HandleHeadTilt();
         HandleHiddenTimer();
         UpdateAnimator();
 
@@ -123,9 +121,15 @@ public class PlayerMovement : MonoBehaviour
 
     void LateUpdate()
     {
+        HandleViewAndTilt();
+
         if (cameraAnchor != null)
         {
-            playerCamera.transform.position = cameraAnchor.position;
+            playerCamera.transform.position = Vector3.Lerp(
+                playerCamera.transform.position,
+                cameraAnchor.position,
+                Time.deltaTime * 20f
+            );
         }
     }
 
@@ -339,22 +343,19 @@ public class PlayerMovement : MonoBehaviour
     }
 
     // VIEW / CAMERA
-    private void HandleView()
+    private void HandleViewAndTilt()
     {
         float mouseX = lookInput.x * viewSensitivity * Time.deltaTime;
         float mouseY = lookInput.y * viewSensitivity * Time.deltaTime;
 
+        // vertical look
         xRotation -= mouseY;
         xRotation = Mathf.Clamp(xRotation, -90f, 90f);
 
-        playerCamera.transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
-
+        // horizontal body rotation
         transform.Rotate(Vector3.up * mouseX);
-    }
 
-    // HEAD TILT
-    private void HandleHeadTilt()
-    {
+        // tilt logic
         if (moveInput.x > 0.1f)
             targetZRotation = -1.5f;
         else if (moveInput.x < -0.1f)
@@ -364,9 +365,8 @@ public class PlayerMovement : MonoBehaviour
 
         currentZRotation = Mathf.Lerp(currentZRotation, targetZRotation, Time.deltaTime * tiltSpeed);
 
-        // only tilt camera not body
-        Vector3 camEuler = playerCamera.transform.localEulerAngles;
-        playerCamera.transform.localRotation = Quaternion.Euler(xRotation, camEuler.y, currentZRotation);
+        playerCamera.transform.localRotation = Quaternion.Euler(xRotation, 0f, currentZRotation);
+
     }
 
     // ANIMATOR

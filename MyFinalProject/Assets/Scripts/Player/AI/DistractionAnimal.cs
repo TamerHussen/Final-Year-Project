@@ -145,7 +145,7 @@ public class DistractionAnimal : MonoBehaviour
         }
 
         // random size
-        float randomScale = Random.Range(1.5f, 5f);
+        float randomScale = Random.Range(1.5f, 4f);
         transform.localScale = Vector3.one * randomScale;
 
     }

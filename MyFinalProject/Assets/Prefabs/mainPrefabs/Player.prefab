@@ -645,7 +645,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 512
   groundCheckDistance: 0.3
-  viewSensitivity: 120
+  viewSensitivity: 50
   cameraAnchor: {fileID: 6943723619253148418}
   crouchSpeed: 1.5
   obstacleLayer:
@@ -656,8 +656,8 @@ MonoBehaviour:
   inSoftObj: 0
   throwablePrefab: {fileID: 385024425171482642, guid: 80f4575d9934d17438f3120eeb0c900b, type: 3}
   throwPoint: {fileID: 2350330643278922506}
-  throwForce: 15
-  maxAmmo: 5
+  throwForce: 20
+  maxAmmo: 3
   ammoRechargeRate: 5
   audioSource: {fileID: 5685846730473206025}
   WalkSFX:

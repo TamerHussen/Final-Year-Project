@@ -49,6 +49,7 @@ public class PredatorAgent : Agent
     [Header("Taunt Settings")]
     public float tauntDuration = 2.5f; // how long predator stands still
     private float tauntTimer = 0f;
+    private bool hasTauntedThisEncounter = false;
 
     private float continousLosTimer = 0f; // prevent familiar summoning during chase
     private float losGracePeriod = 8f;
@@ -111,6 +112,7 @@ public class PredatorAgent : Agent
         visionRecognitionTimer = 0f;
         preyIsRecognised = false;
         wasRecognisedLastFrame = false;
+        hasTauntedThisEncounter = false;
         smoothedForward = 0f;
         smoothedTurn = 0f;
         continousLosTimer = 0f;
@@ -388,11 +390,15 @@ public class PredatorAgent : Agent
                 if (visionRecognitionTimer >= recognitionThreshold)
                 {
                     preyIsRecognised = true;
-                    tauntTimer = tauntDuration;
 
-                    PlaySound(RecogniseTargetSFX);
-                    if (animator != null) animator.SetTrigger("onRecognise");
-                    Debug.Log("Prey found - Taunt then - ATTTAAACCCCKKKKK!!");
+                    if (!hasTauntedThisEncounter)
+                    {
+                        hasTauntedThisEncounter = true;
+                        tauntTimer = tauntDuration;
+                        PlaySound(RecogniseTargetSFX);
+                        if (animator != null) animator.SetTrigger("onRecognise");
+                        Debug.Log("Prey found - Taunt then - ATTTAAACCCCKKKKK!!");
+                    }
                 }
             }
         }
@@ -408,6 +414,9 @@ public class PredatorAgent : Agent
             }
             visionRecognitionTimer = 0f;
             preyIsRecognised = false;
+
+            if (timeSinceSeen > 5f)
+                hasTauntedThisEncounter = false;
         }
 
         // track frame
@@ -418,7 +427,7 @@ public class PredatorAgent : Agent
 
         float gravityForce = predatorController.isGrounded ? -2f : -9.81f;
         Vector3 moveCC = transform.forward * smoothedForward * currentCCSpeed;
-        moveCC.y -= gravityForce; // gravity
+        moveCC.y = gravityForce; // gravity
 
         if (predatorController != null && predatorController.enabled)
         {
