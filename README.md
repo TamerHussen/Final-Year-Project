@@ -1,63 +1,53 @@
-# Final-Year-Project - Predator and Prey Arena
+### Final-Year-Project
+# The Hunt: Predator and Prey Arena
 
-A survival stealth game where the player is the prey being hunted down by a reinforcement learning predator that adapts, learns and evolves its hunting strategy over time.
+"The Hunt" is a survival-stealth game developed for an Individual Honours Project at Birmingham City University. The project focuses on evaluating whether Machine Learning (ML) can provide a more adaptive and lifelike hunting experience compared to traditional scripted Behavior Trees (BT).
 
-## Game Description
-Set inside a large forest like arena, you play as the Runner, trying to survive while collecting intel fragments. A learning-based creature called the Tracker hunts you using its sight, hearing, movement predition and ambush tactics. Each match makes the predator smarter, creating an unpredictable and replayable experience.
+## Game Overview
+Set in a dense, atmospheric forest arena, you play as the Prey. Your goal is to survive and collect intel fragments while being hunted by The Predator.
 
-## Core Features
-* RL-Driven Predator - summons familiars, learns ambushing, flanking obstacle navigation and sound tracking.
-* Procedural Arena Layerouts - Hiding spots, obstacles, foliage, terrain variation.
-* Stealth and Survival Gamplay - collect intel, avoid detection, reach extraction.
-* Player Tools - Noise makers, sprint boosts, vision aids.
-* Adaptive Difficulty: Predator improves between rounds via ML-Agents.
+## The Core Experiment: Enemy A vs. Enemy B
+### To evaluate AI performance, the game features two distinct AI architectures:
+* Enemy A (ML Agent): Driven by Reinforcement Learning (PPO). It learns through trial and error, using a reward system based on proximity, detection, and successful captures. It utilizes custom sensors for vision, hearing, and scent trail tracking.
+* Enemy B (BT Agent): A traditional Behavior Tree baseline. It uses defined states (Wander, Stalk, Chase) and relies on Unity NavMesh for navigation. It serves as the control group for the experiment.
 
-## Project Goals
-* Create a functioning predator RL agent using Unity ML-Agents.
-* Compare RL predator behaviour with a scripted basline AI.
-* Build a playable demo showing adaptive enemy behaviour.
-* Analyse learning performance using reward shaping, sensores and environment design.
+## Controls & Mechanics
+* Move - WASD
+* Sprint - Left Shift
+* Crouch - Left Ctrl
+* Jump - Space
+* Throw - Left mouse Click
 
-## What Has Been Done
-* Unity project created + GitHub repo + Kanban setup.
-* ML-Agents configured (Python 3.9, ONNX, Torch, dependencies fixed).
-* First training sessions completed (1.5M steps, 2 runs, ONNX export successful).
-* Player movement, input system, and camera implemented.
-* Initial arena prototype (terrain, meshes, assets).
-* Raycasts, observations, initial reward system for predator.
-* Simplified training map started.
-* Batch files created (run + resume).
-* Memory + training configuration tuned (YAML updated).
+## Technical Features
+* Multi-Sensory AI: Both agents utilize a vision cone, a hearing radius (12m sphere), and a Scent Trail system that tracks the player's recent path.
+* Adaptive Learning: The ML agent is trained using Unity ML-Agents (Python 3.9) with specific reward shaping for "stalking" behavior.
+* Player Stealth System: Includes "Soft Object" detection (hiding in bushes) and an exposure meter.
+* Stun Mechanics: Use throwable objects to temporarily disable the predator (3-second stun duration).
 
-## Work in Progress
-* Player & Predator 3D models.
-* Predator/Player abilities.
-* Animation setup.
-* Debug UI & detection visualisation.
-* Improved reward shaping.
-* Fixing incomplete episodes + observation issues.
-* Sensory system (vision cone, hearing, maybe trail tracking).
 
-## Next Steps
-* Refine movement logic & rewards.
-* Achieve first full successful episode.
-* Implement sensory system.
-* Add debugging interface.
-* Complete models, animations, and basic UI.
-* Continue training & adjust arena difficulty.
+## Project Status (April 2026 Update)
+### Completed
+* Full integration of ML-Agents (PPO pipeline).
+* Functional Behavior Tree baseline for comparison.
+* Sensory systems: Raycast-based vision, hearing, and multi-point scent trails.
+* Environmental balancing: Removed "Predator Stamina" to ensure a fair performance comparison.
+* Input System with custom ControlsLoader for rebindable keys.
+
+### In Progress
+* Pilot Testing: Gathering player feedback via Microsoft Forms (Comparison of Enemy A vs B).
+* Data Analysis: Comparing training success rates against player enjoyment metrics.
+* Final Report: Documenting the trade-offs between ML adaptability and BT reliability.
 
 ## Tools & Technologies
-* Unity 6.2
-* Unity ML-Agents (with AI Inference, no Barracuda)
-* Python 3.9.13
-* ProBuilder, Cinemachine, AI Navigation
-* Blender (arena + character modelling)
+* Engine: Unity 6.2 (using AI Inference & AI Navigation packages).
+* AI: Unity ML-Agents (PPO Algorithm), C# Behavior Trees.
+* Modelling: Blender (Predator and Player models).
+* Environment: ProBuilder and foliage assets.
 
-## Supervisor Notes
-* Concept confirmed as strong for RL demonstration.
-* Ensure clear reflection, documentation, and Gantt tracking.
-* Keep scope manageable (Adaptive Maze Runner optional).
-* Prepare comparison with scripted AI baseline.
+## Supervisor & Ethics
+* Supervisor: Jan Krasniewicz
+* Ethics: This project follows BCU ethical guidelines. All participant data for the "Enemy Comparison" survey is collected anonymously with informed consent.
+
 
 ## Contact
 Tamer Hussen - Tamer.Hussen@mail.bcu.ac.uk
