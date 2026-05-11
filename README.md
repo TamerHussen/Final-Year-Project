@@ -1,59 +1,76 @@
-### Final-Year-Project
 # The Hunt: Predator and Prey Arena
 
-"The Hunt" is a survival-stealth game developed for an Individual Honours Project at Birmingham City University. The project focuses on evaluating whether Machine Learning (ML) can provide a more adaptive and lifelike hunting experience compared to traditional scripted Behavior Trees (BT).
+**Individual Honours Project | Birmingham City University**
+
+"The Hunt" is a survival-stealth environment developed to evaluate the adaptability and effectiveness of Reinforcement Learning (ML-Agents) against a traditional scripted Behaviour Tree (BT) baseline.
+
+## Final Project Status (May 2026)
+
+This project is now complete. All primary research objectives, including agent training, user testing, and comparative analysis, have been fulfilled.
+
+### Project Deliverables
+
+* **Final Report:** Completed and submitted May 2026.
+* **Innovation Fest Poster:** Presented May 2026.
+* **User Study:** Successfully conducted with 11 participants.
+
+### Playable Artefacts
+
+Two distinct versions are available in the Releases section:
+
+* **Version 1.0 (Baseline):** The build used for the 11-person user testing phase. This version corresponds directly to the data presented in the Final Report and Poster.
+* **Version 1.1 (Final Viva Build):** Updated version featuring improvements based on participant feedback, including crosshair implementation, corrected object grounding, and a revised gameplay loop to facilitate longer AI observation.
+
+---
 
 ## Game Overview
-Set in a dense, atmospheric forest arena, you play as the Prey. Your goal is to survive and collect intel fragments while being hunted by The Predator.
 
-## The Core Experiment: Enemy A vs. Enemy B
-### To evaluate AI performance, the game features two distinct AI architectures:
-* Enemy A (ML Agent): Driven by Reinforcement Learning (PPO). It learns through trial and error, using a reward system based on proximity, detection, and successful captures. It utilizes custom sensors for vision, hearing, and scent trail tracking.
-* Enemy B (BT Agent): A traditional Behavior Tree baseline. It uses defined states (Wander, Stalk, Chase) and relies on Unity NavMesh for navigation. It serves as the control group for the experiment.
+Set in a dense forest arena, the player takes the role of the Prey. The objective is to survive and collect intel fragments while being pursued by a Predator. The environment is designed to test how different AI architectures handle line-of-sight breaks and complex navigation.
 
-## How to Play
-Playable builds are available in the [Release] section of this repository.
-* V1.0 is the version used for the user study data.
-* V1.1 is the updated demo build featuring post-feedback improvements.
+### The Core Experiment: Enemy A vs. Enemy B
 
-## Controls & Mechanics
-* Move - WASD
-* Sprint - Left Shift
-* Crouch - Left Ctrl
-* Jump - Space
-* Throw - Left mouse Click
-* Interact - E
+To evaluate AI performance, the game features two distinct AI architectures:
+
+* **Enemy A (ML Agent):** Driven by Reinforcement Learning (Proximal Policy Optimization). It utilizes a multi-sensory observation system to learn hunting behaviours through trial and error.
+* **Enemy B (BT Agent):** A traditional Behaviour Tree baseline utilizing A* NavMesh pathfinding. This serves as the control group to measure the RL agent's believability and efficiency.
+
+---
 
 ## Technical Features
-* Multi-Sensory AI: Both agents utilize a vision cone, a hearing radius (12m sphere), and a Scent Trail system that tracks the player's recent path.
-* Adaptive Learning: The ML agent is trained using Unity ML-Agents (Python 3.9) with specific reward shaping for "stalking" behavior.
-* Player Stealth System: Includes "Soft Object" detection (hiding in bushes) and an exposure meter.
-* Stun Mechanics: Use throwable objects to temporarily disable the predator (3-second stun duration).
 
+* **Multi-Sensory Perception:** Both agents utilize a vision cone, a 12m hearing radius, and a multi-point scent trail system that tracks the player's recent path.
+* **Adaptive Learning:** The ML agent was trained using Unity ML-Agents (Python 3.9) with specific reward shaping for stalking and capture metrics.
+* **Stealth System:** Includes soft-object detection (hiding in foliage) and a player exposure meter.
+* **Stun Mechanics:** Throwable objects provide a 3-second stun to the predator to allow for tactical retreats.
 
-## Project Status (April 2026 Update)
-### Completed
-* Full integration of ML-Agents (PPO pipeline).
-* Functional Behavior Tree baseline for comparison.
-* Sensory systems: Raycast-based vision, hearing, and multi-point scent trails.
-* Environmental balancing: Removed "Predator Stamina" to ensure a fair performance comparison.
-* Input System with custom ControlsLoader for rebindable keys.
+---
 
-### In Progress
-* Pilot Testing: Gathering player feedback via Microsoft Forms (Comparison of Enemy A vs B).
-* Data Analysis: Comparing training success rates against player enjoyment metrics.
-* Final Report: Documenting the trade-offs between ML adaptability and BT reliability.
+## Controls and Mechanics
 
-## Tools & Technologies
-* Engine: Unity 6.2 (using AI Inference & AI Navigation packages).
-* AI: Unity ML-Agents (PPO Algorithm), C# Behavior Trees.
-* Modelling: Blender (Predator and Player models).
-* Environment: ProBuilder and foliage assets.
+* **Movement:** WASD
+* **Sprint:** Left Shift
+* **Crouch:** Left Ctrl
+* **Jump:** Space
+* **Interact:** E
+* **Throw:** Left Mouse Click
 
-## Supervisor & Ethics
-* Supervisor: Jan Krasniewicz
-* Ethics: This project follows BCU ethical guidelines. All participant data for the "Enemy Comparison" survey is collected anonymously with informed consent.
+---
 
+## Tools and Technologies
+
+* **Engine:** Unity 6.2 (AI Inference and AI Navigation packages)
+* **AI:** Unity ML-Agents (PPO Algorithm), C# Behaviour Trees
+* **Modelling:** Blender (Custom Predator and Player models)
+* **Analysis:** TensorBoard, Microsoft Forms, Excel
+
+---
+
+## Supervisor and Ethics
+
+* **Supervisor:** Jan Krasniewicz
+* **Ethics Compliance:** This project follows Birmingham City University ethical guidelines. All participant data for the user study was collected anonymously with informed consent. Signed consent forms and raw data are archived via Moodle.
 
 ## Contact
+
 Tamer Hussen - Tamer.Hussen@mail.bcu.ac.uk
+Student ID: S23130437
