@@ -20,8 +20,13 @@ public class GameManager : MonoBehaviour
 
     [Header("Escape Zone")]
     public GameObject escapeZone;
-    public float escapeZoneApearTime = 90f;
+    public float escapeZoneApearTime = 90f;  // fallback timer for when collectibles are disabled
     public float escapeZoneMinDistFromPlayer = 20f;
+
+    [Header("Collectibles")]
+    public bool useCollectibleEscape = true;  // true = collect to escape, false = time to escape
+    public int totalCollectibles = 5;
+    private int collectedCount = 0;
 
     [Header("References")]
     public GameUI gameUI;
@@ -81,6 +86,7 @@ public class GameManager : MonoBehaviour
         sessionTimer = 0f;
 
         if (escapeZone != null) escapeZone.SetActive(false);
+        collectedCount = 0;
         Time.timeScale = 1f;
 
         Cursor.lockState = CursorLockMode.Locked;
@@ -113,8 +119,8 @@ public class GameManager : MonoBehaviour
             sessionTimer += Time.deltaTime;
             gameUI?.UpdateTimer(sessionTimer);
 
-            // reveal escape zone
-            if (useTimedEscape && escapeZone != null && !escapeZone.activeSelf && sessionTimer >= escapeZoneApearTime)
+            // reveal escape zone from collecting items or from timer
+            if (!useCollectibleEscape && useTimedEscape && escapeZone != null && !escapeZone.activeSelf && sessionTimer >= escapeZoneApearTime)
             {
                 PlaceEscapeZone();
                 escapeZone.SetActive(true);
@@ -144,6 +150,24 @@ public class GameManager : MonoBehaviour
         }
         if (bestSpot != Vector3.zero)
             escapeZone.transform.position = bestSpot;
+    }
+
+    public void OnCollectibleFound()
+    {
+        if (!sessionActive) return;
+
+        collectedCount++;
+
+        // updated UI counter
+        gameUI?.UpdateCollectibleUI(collectedCount, totalCollectibles);
+
+        // when all found show escape Zone
+        if (collectedCount >= totalCollectibles && escapeZone != null && !escapeZone.activeSelf)
+        {
+            PlaceEscapeZone();
+            escapeZone.SetActive(true);
+            gameUI?.ShowEscapeNotification();
+        }
     }
 
     public void OnPlayerCaught()

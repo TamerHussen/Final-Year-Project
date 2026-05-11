@@ -1,0 +1,166 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: New Terrain Material
+  m_Shader: {fileID: 4800000, guid: 2a74146fc661852469c2bb5604517a8d, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _FoamOffshoreMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _FoamOffshoreMapDetail:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _FoamShorelineMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _FoamShorelineMapDetail:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _WaterNormalMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _WaterReflectionCubemap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _texcoord:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _CATEGORY_COLORWATERLAYERS: 1
+    - _CATEGORY_FOAMOFFSHORE: 0
+    - _CATEGORY_FOAMSHORELINE: 0
+    - _CATEGORY_NORMALRIPPLE: 0
+    - _CATEGORY_OPACITY: 1
+    - _CATEGORY_REFLECTION: 0
+    - _CATEGORY_REFRACTION: 0
+    - _CATEGORY_SMOOTHNESS: 1
+    - _CATEGORY_SPECULAR: 0
+    - _CATEGORY_WAVESGERSTNER: 0
+    - _Cull: 2
+    - _FoamOffshoreDetailStrength: 1
+    - _FoamOffshoreDistance: 55
+    - _FoamOffshoreEdge: 10
+    - _FoamOffshoreEnable: 1
+    - _FoamOffshoreSpeed: 0.001
+    - _FoamOffshoreStrength: 1
+    - _FoamShorelineDetailStrength: 1
+    - _FoamShorelineDistance: 5
+    - _FoamShorelineEnable: 1
+    - _FoamShorelineSpeed: 0.001
+    - _FoamShorelineStrength: 1
+    - _GlossyReflections: 1
+    - _SPACE_COLORWATERLAYERS: 0
+    - _SPACE_FOAMOFFSHORE: 0
+    - _SPACE_FOAMSHORELINE: 0
+    - _SPACE_NORMALRIPPLE: 0
+    - _SPACE_OPACITY: 0
+    - _SPACE_REFLECTION: 0
+    - _SPACE_REFRACTION: 0
+    - _SPACE_SMOOTHNESS: 0
+    - _SPACE_SPECULAR: 0
+    - _SPACE_WAVESGERSTNER: 0
+    - _SpecularHighlights: 1
+    - _WaterDepthOffset: 2
+    - _WaterNormalEnable: 1
+    - _WaterNormalScaleW: 0.4
+    - _WaterNormalScaleX: 0.45
+    - _WaterNormalScaleY: 0.35
+    - _WaterNormalScaleZ: 0.17
+    - _WaterNormalSpeedW: -0.1
+    - _WaterNormalSpeedX: -0.12
+    - _WaterNormalSpeedY: 0.02
+    - _WaterNormalSpeedZ: -0.1
+    - _WaterNormalStrength: 0.1
+    - _WaterOpacity: 0.05
+    - _WaterOpacityShoreline: 1
+    - _WaterReflectionBumpClamp: 0.15
+    - _WaterReflectionBumpScale: 0.05
+    - _WaterReflectionBumpStrength: 0.05
+    - _WaterReflectionCloud: 1
+    - _WaterReflectionEnable: 0
+    - _WaterReflectionEnableFresnel: 0
+    - _WaterReflectionFresnelBias: 1
+    - _WaterReflectionFresnelScale: 0.5
+    - _WaterReflectionFresnelStrength: 0.15
+    - _WaterReflectionSmoothness: 2
+    - _WaterReflectionWobble: 0
+    - _WaterRefractionScale: 0.2
+    - _WaterShorelineDepth: 40
+    - _WaterShorelineOffset: 0.1
+    - _WaterSmoothnessStrength: 1
+    - _WaterSpecularEnable: 0
+    - _WaterSpecularPower: 0
+    - _WaterSpecularStrengthDielectricIOR: 1.1
+    - _WaterSpecularWrapOffset: 0
+    - _WaterSpecularWrapScale: 0.85
+    - _WaveGerstner01Enable: 1
+    - _WaveGerstner01Height: 0.075
+    - _WaveGerstner01Length: 2.5
+    - _WaveGerstner01PeakSharpness: 0.3
+    - _WaveGerstner01Speed: 0.5
+    - _WaveGerstner02Enable: 1
+    - _WaveGerstner02Height: 0.05
+    - _WaveGerstner02Length: 3
+    - _WaveGerstner02PeakSharpness: 0.3
+    - _WaveGerstner02Speed: 0.5
+    - _WaveGerstner03Enable: 1
+    - _WaveGerstner03Height: 0.04
+    - _WaveGerstner03Length: 1.8
+    - _WaveGerstner03PeakSharpness: 0.4
+    - _WaveGerstner03Speed: 0.5
+    - _WaveGerstner04Enable: 1
+    - _WaveGerstner04Height: 0.04
+    - _WaveGerstner04Length: 1.8
+    - _WaveGerstner04PeakSharpness: 0.4
+    - _WaveGerstner04Speed: 0.5
+    - _WaveGerstnerEdgeFadeEnable: 1
+    - _WaveGerstnerEdgeFadeRange: 50
+    - _WaveGerstnerEnable: 0
+    - _ZWriteMode: 1
+    - __dirty: 1
+    m_Colors:
+    - _FoamOffshoreColor: {r: 1, g: 1, b: 1, a: 0}
+    - _FoamOffshoreDetailColor: {r: 1, g: 1, b: 1, a: 0}
+    - _FoamOffshoreUVs: {r: 50, g: 50, b: 0, a: 0}
+    - _FoamOffshoreUVsDetail: {r: 0.25, g: 0.25, b: 0, a: 0}
+    - _FoamShorelineColor: {r: 1, g: 1, b: 1, a: 0}
+    - _FoamShorelineDetailColor: {r: 1, g: 1, b: 1, a: 0}
+    - _FoamShorelineUVs: {r: 50, g: 50, b: 0, a: 0}
+    - _FoamShorelineUVsDetail: {r: 0.25, g: 0.25, b: 2, a: 2}
+    - _WaterDepthTint: {r: 0.1960784, g: 0.4313726, b: 0.509804, a: 1}
+    - _WaterMidwaterTint: {r: 0.1490196, g: 0.4235294, b: 0.4705882, a: 1}
+    - _WaterShorelineTint: {r: 0.2784314, g: 0.4235294, b: 0.4431373, a: 1}
+    - _WaterSpecularColor: {r: 0.08865561, g: 0.1301365, b: 0.1946179, a: 1}
+    - _WaveGerstner01Direction: {r: -0.2, g: 0, b: -0.7, a: 0}
+    - _WaveGerstner02Direction: {r: -1, g: 0, b: 0, a: 0}
+    - _WaveGerstner03Direction: {r: -0.5, g: 0, b: 0.5, a: 0}
+    - _WaveGerstner04Direction: {r: -0.4, g: 0, b: 0.4, a: 0}
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1

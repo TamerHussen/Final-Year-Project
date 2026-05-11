@@ -55,8 +55,8 @@ MonoBehaviour:
   preyTrail: {fileID: 0}
   preyAi: {fileID: 0}
   animator: {fileID: 4979354780772141739}
-  baseSpeed: 3.75
-  recognitionSpeedBoost: 1.8
+  baseSpeed: 3
+  recognitionSpeedBoost: 1.9
   rayDistance: 45
   eyeHeight: 1
   targetHeight: 1

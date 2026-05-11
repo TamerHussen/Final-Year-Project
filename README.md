@@ -11,12 +11,18 @@ Set in a dense, atmospheric forest arena, you play as the Prey. Your goal is to 
 * Enemy A (ML Agent): Driven by Reinforcement Learning (PPO). It learns through trial and error, using a reward system based on proximity, detection, and successful captures. It utilizes custom sensors for vision, hearing, and scent trail tracking.
 * Enemy B (BT Agent): A traditional Behavior Tree baseline. It uses defined states (Wander, Stalk, Chase) and relies on Unity NavMesh for navigation. It serves as the control group for the experiment.
 
+## How to Play
+Playable builds are available in the [Release] section of this repository.
+* V1.0 is the version used for the user study data.
+* V1.1 is the updated demo build featuring post-feedback improvements.
+
 ## Controls & Mechanics
 * Move - WASD
 * Sprint - Left Shift
 * Crouch - Left Ctrl
 * Jump - Space
 * Throw - Left mouse Click
+* Interact - E
 
 ## Technical Features
 * Multi-Sensory AI: Both agents utilize a vision cone, a hearing radius (12m sphere), and a Scent Trail system that tracks the player's recent path.

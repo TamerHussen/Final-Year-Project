@@ -16,7 +16,7 @@ public class PredatorAgent : Agent
     public Animator animator;
 
     [Header("Movement Settings")]
-    public float baseSpeed = 3.5f;
+    public float baseSpeed = 3f;
     public float turnSpeed = 250f;
     private bool isCrouching = false;
     private float smoothedTurn = 0f; // stop jittering
@@ -638,7 +638,7 @@ public class PredatorAgent : Agent
     {
         float speed = baseSpeed;
         if (isCrouching) speed *= 0.5f;
-        if (preyIsRecognised) speed *= 1.8f;
+        if (preyIsRecognised) speed *= 1.9f;
         currentCCSpeed = speed * recognitionModulator;
     }
 

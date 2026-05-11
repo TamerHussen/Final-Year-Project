@@ -57,6 +57,9 @@ public class GameUI : MonoBehaviour
     [Header("Ammo UI")]
     public Text ammoText;
 
+    [Header("Collectible UI")]
+    public Text collectibleText;
+
     private Transform predatorTransform;
     private Transform playerTransform;
 
@@ -65,10 +68,6 @@ public class GameUI : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        // find predator dynamically
-        GameObject predObj = GameObject.FindGameObjectWithTag("Predator");
-        if (predObj != null) predatorTransform = predObj.transform;
-
         GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
         if (playerObj != null) playerTransform = playerObj.transform;
 
@@ -96,6 +95,9 @@ public class GameUI : MonoBehaviour
             heartbeatSource.loop = false;
             heartbeatSource.volume = 0f;
         }
+
+        if (collectibleText != null && GameManager.instance != null)
+            collectibleText.text = $"Items: 0 / {GameManager.instance.totalCollectibles}";
     }
 
     // Update is called once per frame
@@ -103,9 +105,23 @@ public class GameUI : MonoBehaviour
     {
         if (GameManager.instance == null || !GameManager.instance.SessionActive) return;
 
+        // find predator
+        if (predatorTransform == null || !predatorTransform.gameObject.activeInHierarchy)
+        {
+            GameObject predObj = GameObject.FindGameObjectWithTag("Predator");
+            if (predObj != null && predObj.activeInHierarchy)
+                predatorTransform = predObj.transform;
+        }
+
         UpdateProximityEffects();
         UpdateHeartbeat();
         UpdateNotification();
+    }
+
+    public void UpdateCollectibleUI(int current, int total)
+    {
+        if (collectibleText != null)
+            collectibleText.text = $"Items: {current} / {total}";
     }
 
     public void UpdateAmmoUI(int current, int max)

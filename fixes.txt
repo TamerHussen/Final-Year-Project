@@ -1,6 +1,0 @@
-screen viber doesn't go with the BT predator so player only see the overlay when moving to the center of the map, compared to for the ml predator which it works.
-the ml agent need more training.
-the bt predator gets stuck for too long after getting stunned.
-occasion for camera cause players to be able to see under the map.
-the terrain for the water needs to be lowered.
-the bushes and rocks spawn in the air instead of on the terrain.

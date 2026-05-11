@@ -13,8 +13,8 @@ public class PredatorBT : MonoBehaviour
     public Animator animator;
 
     [Header("Movement Settings")]
-    public float baseSpeed = 3.5f;
-    public float recognitionSpeedBoost = 1.8f;
+    public float baseSpeed = 3f;
+    public float recognitionSpeedBoost = 1.9f;
     private bool isStalking = false;
 
     [Header("Vision Settings")]
@@ -89,7 +89,6 @@ public class PredatorBT : MonoBehaviour
 
     private Vector3 EyePos => transform.position + Vector3.up * eyeHeight;
 
-
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -114,6 +113,7 @@ public class PredatorBT : MonoBehaviour
             if (stunTimer <= 0f && navAgent != null)
             {
                 navAgent.isStopped = false;
+                navAgent.speed = baseSpeed;
             }
             return;
         }
@@ -159,7 +159,7 @@ public class PredatorBT : MonoBehaviour
                 new BTAction(DoTaunt)
             }),
 
-            // Priority 3: strik
+            // Priority 3: strike
             new BTSequence(new List<BTNode>
             {
                 new BTCondition(CheckLineOfSight),

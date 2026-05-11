@@ -70,6 +70,25 @@ public class ObstacleGizmos : MonoBehaviour
                 Gizmos.DrawWireSphere(sphere.center, sphere.radius + preyAvoidanceDistance);
             }
         }
+        else if (col is MeshCollider meshCollider && meshCollider.sharedMesh != null)
+        {
+            Gizmos.matrix = Matrix4x4.TRS(transform.position, transform.rotation, transform.lossyScale);
+            Gizmos.color = gizmoColor;
+            Gizmos.DrawMesh(meshCollider.sharedMesh);
+            Gizmos.DrawWireMesh(meshCollider.sharedMesh);
+
+            if (showAITriggerZones)
+            {
+                Gizmos.matrix = Matrix4x4.identity;
+
+                Gizmos.color = predatorPenaltyColor;
+                Gizmos.DrawWireCube(meshCollider.bounds.center, meshCollider.bounds.size + Vector3.one * (predDistance * 2));
+
+                Gizmos.color = preyAvoidanceColor;
+                Gizmos.DrawWireCube(meshCollider.bounds.center, meshCollider.bounds.size + Vector3.one * (preyAvoidanceDistance * 2));
+            }
+
+        }
 
         // reset matrix to stop affecting other gizmos
         Gizmos.matrix = Matrix4x4.identity;

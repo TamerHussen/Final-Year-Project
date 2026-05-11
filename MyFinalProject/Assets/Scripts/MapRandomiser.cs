@@ -21,6 +21,11 @@ public class MapRandomiser : MonoBehaviour
     public Transform Predator;
     public Transform Prey;
 
+    [Header("Collectibles")]
+    public GameObject collectiblePrefab; // add collectible prefab
+    public int collectibelCount = 5; // how many needed to collect / match GameManager
+    private List<GameObject> spawnedCollectibles = new List<GameObject>();
+
     [Header("Randomisation Settings")]
     public float ValidPlacementSphereRadius = 1.5f;
     public float wallPadding = 17.0f;
@@ -124,6 +129,7 @@ public class MapRandomiser : MonoBehaviour
         predatorTransform.position = predSpawn;
         predatorTransform.LookAt(new Vector3(playerSpawn.x, predatorTransform.position.y, playerSpawn.z));
 
+        SpawnCollectibles();
         Physics.SyncTransforms();
     }
 
@@ -157,12 +163,22 @@ public class MapRandomiser : MonoBehaviour
     {
         foreach (Transform obj in objects)
         {
+            Vector3 terrainPos = GetTerrainPoint();
             obj.position = GetValidSpawnLocation(checkOverlap);
             obj.rotation = Quaternion.Euler(0f, Random.Range(0f, 360f), 0f);
 
             // random scale
             float randScale = Random.Range(minSize, maxSize);
             obj.localScale = new Vector3(randScale, randScale, randScale);
+
+            Physics.SyncTransforms();
+
+            Collider col = obj.GetComponent<Collider>();
+            if (col != null)
+            {
+                float pivotToBottom = obj.position.y - col.bounds.min.y;
+                obj.position = new Vector3(terrainPos.x, terrainPos.y + pivotToBottom, terrainPos.z);
+            }
         }
     }
 
@@ -194,12 +210,14 @@ public class MapRandomiser : MonoBehaviour
         bool valid = false;
         float tries = 0;
 
+        LayerMask spawnMask = terrainLayer != 0 ? terrainLayer : ~0;
+
         while (!valid && tries < 50)
         {
             randomPoint = new Vector3(Random.Range(minX, maxX), 100f, Random.Range(minZ, maxZ));
             tries++;
 
-            if (Physics.Raycast(randomPoint, Vector3.down, out RaycastHit terrainHit, 200f))
+            if (Physics.Raycast(randomPoint, Vector3.down, out RaycastHit terrainHit, 200f, spawnMask))
             {
                 randomPoint = terrainHit.point + (Vector3.up * 1.5f);
                 valid = true;
@@ -226,7 +244,8 @@ public class MapRandomiser : MonoBehaviour
 
             tries++;
 
-            if (Physics.Raycast(candidate, Vector3.down, out RaycastHit terrainHit, 200f))
+            LayerMask nearMask = terrainLayer != 0 ? terrainLayer : ~0;
+            if (Physics.Raycast(candidate, Vector3.down, out RaycastHit terrainHit, 200f, nearMask))
             {
                 Vector3 spawnPos = terrainHit.point + Vector3.up * 1.5f;
                 // checks for any obstacles already there
@@ -235,6 +254,57 @@ public class MapRandomiser : MonoBehaviour
         }
         // fallback
         return center + Vector3.up * 1.5f;
+    }
+
+    public void SpawnCollectibles()
+    {
+        // clear the previous session
+        foreach (var c in spawnedCollectibles)
+            if (c != null) Destroy(c);
+        spawnedCollectibles.Clear();
+
+        if (collectiblePrefab == null) return;
+
+        List<Vector3> placedPos = new List<Vector3>();
+        float minDistBetweenItems = 10f;
+        int maxAttempsPerItem = 30;
+
+        for (int i = 0; i < collectibelCount; i++)
+        {
+            Vector3 pos = Vector3.zero;
+            bool foundSpot = false;
+
+            for (int attempt = 0; attempt < maxAttempsPerItem; attempt++)
+            {
+                Vector3 candidate = GetValidSpawnLocation(true);
+
+                // dont spawn close to any items
+                bool tooClose = false;
+                foreach (var placed in placedPos)
+                {
+                    if (Vector3.Distance(candidate, placed) < minDistBetweenItems)
+                    {
+                        tooClose = true;
+                        break;
+                    }
+                }
+
+                if (!tooClose)
+                {
+                    pos = candidate;
+                    foundSpot = true;
+                    break;
+                }
+            }
+
+            if (!foundSpot) pos = GetValidSpawnLocation(false);
+
+            // lift items so they look like they are floating
+            pos.y += 0.5f;
+            placedPos.Add(pos);
+            GameObject c = Instantiate(collectiblePrefab, pos, Quaternion.identity);
+            spawnedCollectibles.Add(c);
+        }
     }
 
     void OnDrawGizmosSelected()

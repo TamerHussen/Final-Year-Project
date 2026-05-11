@@ -102,6 +102,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
+        HandleBodyRotation();
         HandleMovement();
         HandleHiddenTimer();
         UpdateAnimator();
@@ -342,20 +343,21 @@ public class PlayerMovement : MonoBehaviour
         return Physics.CheckSphere(transform.position, groundCheckDistance, groundLayer);
     }
 
+    // body turn
+    private void HandleBodyRotation()
+    {
+        float mouseX = lookInput.x * viewSensitivity * Time.deltaTime;
+        transform.Rotate(Vector3.up * mouseX);
+    }
+
     // VIEW / CAMERA
     private void HandleViewAndTilt()
     {
-        float mouseX = lookInput.x * viewSensitivity * Time.deltaTime;
         float mouseY = lookInput.y * viewSensitivity * Time.deltaTime;
 
-        // vertical look
         xRotation -= mouseY;
         xRotation = Mathf.Clamp(xRotation, -90f, 90f);
 
-        // horizontal body rotation
-        transform.Rotate(Vector3.up * mouseX);
-
-        // tilt logic
         if (moveInput.x > 0.1f)
             targetZRotation = -1.5f;
         else if (moveInput.x < -0.1f)
@@ -364,9 +366,7 @@ public class PlayerMovement : MonoBehaviour
             targetZRotation = 0f;
 
         currentZRotation = Mathf.Lerp(currentZRotation, targetZRotation, Time.deltaTime * tiltSpeed);
-
         playerCamera.transform.localRotation = Quaternion.Euler(xRotation, 0f, currentZRotation);
-
     }
 
     // ANIMATOR

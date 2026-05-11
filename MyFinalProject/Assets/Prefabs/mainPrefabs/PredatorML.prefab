@@ -2177,7 +2177,7 @@ MonoBehaviour:
   preyAi: {fileID: 0}
   predatorController: {fileID: 5497586010889194943}
   animator: {fileID: 1525111068763875200}
-  baseSpeed: 3.75
+  baseSpeed: 3
   turnSpeed: 250
   rayDistance: 45
   penaltyDistance: 3.5
