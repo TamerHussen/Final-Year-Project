@@ -23,10 +23,10 @@ This project is now complete. All primary research objectives, including agent t
 ### Project Deliverables
 
 * **Final Report:** Completed and submitted May 2026.
-* **Innovation Fest Poster:** Presented May 2026. *(Add the poster image to this repo - e.g. `docs/poster.png` - and it will render below once added:)*
+* **Innovation Fest Poster:** Presented May 2026.
 
   ```markdown
-  ![The Hunt - Innovation Fest Poster](docs/poster.png)
+  ![The Hunt - Innovation Fest Poster](docs/thehunt-poster.png)
   ```
 
 * **User Study:** Successfully conducted with 11 participants.
@@ -107,9 +107,11 @@ Final-Year-Project/
 ├── Models/            # Source 3D assets (Blender files / exported models)
 ├── MyFinalProject/     # [add a one-line description of what's here]
 ├── TheHuntFYP/          # Unity project - scenes, scripts, ML-Agents config
-└── README.md
+├── docs/                 # Poster
+├── .gitattributes
+├── .gitignore
+└──README.md
 ```
-*(Fill in/adjust the bracketed line above to match what's actually in `MyFinalProject` - this was written from the outside without visibility into that folder's exact contents.)*
 
 ---
 
