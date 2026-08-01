@@ -4,6 +4,18 @@
 
 "The Hunt" is a survival-stealth environment developed to evaluate the adaptability and effectiveness of Reinforcement Learning (ML-Agents) against a traditional scripted Behaviour Tree (BT) baseline.
 
+## Contents
+
+- [Final Project Status](#final-project-status-may-2026)
+- [Game Overview](#game-overview)
+- [Technical Features](#technical-features)
+- [Results](#results)
+- [Controls and Mechanics](#controls-and-mechanics)
+- [Tools and Technologies](#tools-and-technologies)
+- [Repository Structure](#repository-structure)
+- [Supervisor and Ethics](#supervisor-and-ethics)
+- [Contact](#contact)
+
 ## Final Project Status (May 2026)
 
 This project is now complete. All primary research objectives, including agent training, user testing, and comparative analysis, have been fulfilled.
@@ -11,12 +23,17 @@ This project is now complete. All primary research objectives, including agent t
 ### Project Deliverables
 
 * **Final Report:** Completed and submitted May 2026.
-* **Innovation Fest Poster:** Presented May 2026.
+* **Innovation Fest Poster:** Presented May 2026. *(Add the poster image to this repo - e.g. `docs/poster.png` - and it will render below once added:)*
+
+  ```markdown
+  ![The Hunt - Innovation Fest Poster](docs/poster.png)
+  ```
+
 * **User Study:** Successfully conducted with 11 participants.
 
 ### Playable Artefacts
 
-Two distinct versions are available in the Releases section:
+Two distinct versions are available in the Releases section. Both builds are standalone Windows executables - no installation required, just extract and run `The_Hunt.exe`.
 
 * **Version 1.0 (Baseline):** The build used for the 11-person user testing phase. This version corresponds directly to the data presented in the Final Report and Poster.
 * **Version 1.1 (Final Viva Build):** Updated version featuring improvements based on participant feedback, including crosshair implementation, corrected object grounding, and a revised gameplay loop to facilitate longer AI observation.
@@ -45,6 +62,24 @@ To evaluate AI performance, the game features two distinct AI architectures:
 
 ---
 
+## Results
+
+Both AI agents reached a 100% capture success rate in testing, but with different profiles:
+
+| Metric | Enemy A (RL / PPO) | Enemy B (Behaviour Tree) |
+|---|---|---|
+| Success Rate | 100% | 100% |
+| Avg. Capture Time | ~48s | ~32s |
+| Predictability (1-5) | 4.00 | 2.09 |
+| Behaviour Adaptability (1-5) | 1.91 | 3.00 |
+| Perceived Difficulty (1-10) | 3.00 | 6.27 |
+
+11 participants took part in a blind comparative study, facing one of the two agents without being told which was which. The Behaviour Tree was preferred overall (64% vs 36%) and rated more realistic - its immediate, consistent pressure read as more threatening within the 5-minute test window used. The PPO agent, meanwhile, demonstrated genuine unscripted adaptability (e.g. predictive interception after losing a player's scent trail) that the scripted baseline structurally cannot produce.
+
+Training itself was not a straight line: mean reward climbed steadily to a peak around the 10-million-step mark of a 20-million-step curriculum, then declined over the remaining training, indicating the agent had started overfitting to specific situations rather than continuing to generalise. Full analysis, training curves, and the reward-shaping process are in the Final Report.
+
+---
+
 ## Controls and Mechanics
 
 * **Movement:** WASD
@@ -62,6 +97,19 @@ To evaluate AI performance, the game features two distinct AI architectures:
 * **AI:** Unity ML-Agents (PPO Algorithm), C# Behaviour Trees
 * **Modelling:** Blender (Custom Predator and Player models)
 * **Analysis:** TensorBoard, Microsoft Forms, Excel
+
+---
+
+## Repository Structure
+
+```
+Final-Year-Project/
+├── Models/            # Source 3D assets (Blender files / exported models)
+├── MyFinalProject/     # [add a one-line description of what's here]
+├── TheHuntFYP/          # Unity project - scenes, scripts, ML-Agents config
+└── README.md
+```
+*(Fill in/adjust the bracketed line above to match what's actually in `MyFinalProject` - this was written from the outside without visibility into that folder's exact contents.)*
 
 ---
 
