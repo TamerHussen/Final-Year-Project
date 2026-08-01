@@ -25,9 +25,8 @@ This project is now complete. All primary research objectives, including agent t
 * **Final Report:** Completed and submitted May 2026.
 * **Innovation Fest Poster:** Presented May 2026.
 
-  ```markdown
   ![The Hunt - Innovation Fest Poster](/docs/thehunt-poster.png)
-  ```
+
 
 * **User Study:** Successfully conducted with 11 participants.
 
